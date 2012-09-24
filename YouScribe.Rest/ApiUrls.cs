@@ -33,7 +33,6 @@ namespace YouScribe.Rest
         public const string ProductEndUpdateUrl = "api/v1/products/endupdate?id={id}";
         public const string UploadUrl = "api/v1/upload/{id}";
 
-        public const string ThumbnailUrl = "api/authorize";
         public const string ThumbnailDataUrl = "api/v1/thumbnail/{id}";
         public const string ThumbnailLinkUrl = "api/v1/thumbnail/{id}?url={url}";
         public const string ThumbnailPageUrl = "api/v1/thumbnail/{id}?page={page}";

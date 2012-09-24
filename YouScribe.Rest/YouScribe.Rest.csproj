@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiUrls.cs" />
+    <Compile Include="Helpers\FileUrlModelHelpers.cs" />
     <Compile Include="IProductRequest.cs" />
     <Compile Include="IYouScribeClient.cs" />
     <Compile Include="IYouScribeRequest.cs" />
