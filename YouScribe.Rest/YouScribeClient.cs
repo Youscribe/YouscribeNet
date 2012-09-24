@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RestSharp;
+using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
 {
@@ -46,6 +47,26 @@ namespace YouScribe.Rest
         {
             var productRequest = new ProductRequest(this.client, _authorizeToken);
             return productRequest;
+        }
+        
+        public IAccountRequest CreateAccountRequest()
+        {
+            throw new NotImplementedException();
+        }
+        
+        public IAccountEventRequest CreateAccountEventRequest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAccountPublisherRequest CreateAccountPublisherRequest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAccountUsertTypeRequest CreateAccountUserTypeRequest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

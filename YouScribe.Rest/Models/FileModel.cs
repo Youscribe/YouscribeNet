@@ -22,21 +22,4 @@ namespace YouScribe.Rest.Models
             }
         }
     }
-
-    public class FileUrlModel
-    {
-        public string FileName { get; set; }
-        public string ContentType { get; set; }
-        public Uri Uri { get; set; }
-
-        public bool IsValid
-        {
-            get
-            {
-                return String.IsNullOrEmpty(this.FileName) == false &&
-                    String.IsNullOrEmpty(this.ContentType) == false &&
-                    this.Uri != null && !(this.Uri.IsFile || this.Uri.IsLoopback || this.Uri.IsUnc);
-            }
-        }
-    }
 }

@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\YouScribe.Rest.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp">
@@ -48,7 +51,10 @@
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ApiUrls.cs" />
-    <Compile Include="Helpers\FileUrlModelHelpers.cs" />
+    <Compile Include="IAccountEventRequest.cs" />
+    <Compile Include="IAccountPublisherRequest.cs" />
+    <Compile Include="IAccountRequest.cs" />
+    <Compile Include="IAccountUsertTypeRequest.cs" />
     <Compile Include="IProductRequest.cs" />
     <Compile Include="IYouScribeClient.cs" />
     <Compile Include="IYouScribeRequest.cs" />

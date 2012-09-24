@@ -7,6 +7,9 @@ namespace YouScribe.Rest
 {
     public interface IYouScribeRequest
     {
+        /// <summary>
+        /// The errors return by the server
+        /// </summary>
         IEnumerable<string> Errors { get; }
     }
 }

@@ -24,7 +24,7 @@ namespace YouScribe.Rest
         /// <param name="productInformation">All The document information needed</param>
         /// <param name="filesUri">The document urls of The publication. Each document has to have a different format (PDF / EPUB / MOBI). 3 max</param>
         /// <returns></returns>
-        ProductModel PublishDocument(ProductModel productInformation, IEnumerable<FileUrlModel> filesUri);
+        ProductModel PublishDocument(ProductModel productInformation, IEnumerable<Uri> filesUri);
 
         /// <summary>
         /// Update a document
@@ -50,7 +50,7 @@ namespace YouScribe.Rest
         /// <param name="productInformation">All The document information needed</param>
         /// <param name="filesUri">The document urls of The publication. Each document has to have a different format (PDF / EPUB / MOBI). 3 max<</param>
         /// <returns>True if success</returns>
-        bool UpdateDocument(int productId, ProductUpdateModel productInformation, IEnumerable<FileUrlModel> filesUri);
+        bool UpdateDocument(int productId, ProductUpdateModel productInformation, IEnumerable<Uri> filesUri);
 
         /// <summary>
         /// Update The document thumbnail from an url

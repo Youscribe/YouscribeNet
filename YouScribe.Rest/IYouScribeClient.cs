@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
 {
@@ -15,6 +16,34 @@ namespace YouScribe.Rest
         /// <returns>True if authorized</returns>
         bool Authorize(string userNameOrEmail, string password);
 
+        /// <summary>
+        /// Create product request to manage yours publications
+        /// </summary>
+        /// <returns></returns>
         IProductRequest CreateProductRequest();
+
+        /// <summary>
+        /// Create account request to manage and create account
+        /// </summary>
+        /// <returns></returns>
+        IAccountRequest CreateAccountRequest();
+
+        /// <summary>
+        /// Create account event request to manage the subscription and unsubscription to an event
+        /// </summary>
+        /// <returns></returns>
+        IAccountEventRequest CreateAccountEventRequest();
+
+        /// <summary>
+        /// Create account publisher request to set the current account as Paypal or transfer publisher
+        /// </summary>
+        /// <returns></returns>
+        IAccountPublisherRequest CreateAccountPublisherRequest();
+
+        /// <summary>
+        /// Create account user type request to change the profile type of the accountunsubscription
+        /// </summary>
+        /// <returns></returns>
+        IAccountUsertTypeRequest CreateAccountUserTypeRequest();
     }
 }
