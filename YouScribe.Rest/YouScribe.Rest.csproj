@@ -50,7 +50,12 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AccountEventRequest.cs" />
+    <Compile Include="AccountPublisherRequest.cs" />
+    <Compile Include="AccountRequest.cs" />
+    <Compile Include="AccountUserTypeRequest.cs" />
     <Compile Include="ApiUrls.cs" />
+    <Compile Include="Helpers\UriHelpers.cs" />
     <Compile Include="IAccountEventRequest.cs" />
     <Compile Include="IAccountPublisherRequest.cs" />
     <Compile Include="IAccountRequest.cs" />

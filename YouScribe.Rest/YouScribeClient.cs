@@ -51,22 +51,26 @@ namespace YouScribe.Rest
         
         public IAccountRequest CreateAccountRequest()
         {
-            throw new NotImplementedException();
+            var request = new AccountRequest(this.client, _authorizeToken);
+            return request;
         }
         
         public IAccountEventRequest CreateAccountEventRequest()
         {
-            throw new NotImplementedException();
+            var request = new AccountEventRequest(this.client, _authorizeToken);
+            return request;
         }
 
         public IAccountPublisherRequest CreateAccountPublisherRequest()
         {
-            throw new NotImplementedException();
+            var request = new AccountPublisherRequest(this.client, _authorizeToken);
+            return request;
         }
 
         public IAccountUsertTypeRequest CreateAccountUserTypeRequest()
         {
-            throw new NotImplementedException();
+            var request = new AccountUserTypeRequest(this.client, _authorizeToken);
+            return request;
         }
     }
 }

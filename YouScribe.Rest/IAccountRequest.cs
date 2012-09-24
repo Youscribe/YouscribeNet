@@ -46,6 +46,10 @@ namespace YouScribe.Rest
         /// <returns>True if success</returns>
         bool UploadPicture(FileModel image);
 
-
+        /// <summary>
+        /// Delete the account photo
+        /// </summary>
+        /// <returns></returns>
+        bool DeletePicture();
     }
 }

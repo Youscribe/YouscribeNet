@@ -7,6 +7,7 @@ using System.Text;
 using RestSharp;
 using YouScribe.Rest.Models;
 using YouScribe.Rest.Models.Products;
+using YouScribe.Rest.Helpers;
 
 namespace YouScribe.Rest
 {
@@ -27,7 +28,7 @@ namespace YouScribe.Rest
 
         public ProductModel PublishDocument(ProductModel productInformation, IEnumerable<Uri> filesUri)
         {
-            if (filesUri == null || filesUri.Any(c => (c.IsFile || c.IsLoopback || c.IsUnc)))
+            if (filesUri == null || filesUri.Any(c => (c.IsValid() == false)))
             {
                 this.Errors.Add("Incorrect files uri, need the FileName, ContentType and Uri");
                 return null;
@@ -39,11 +40,10 @@ namespace YouScribe.Rest
             request.AddBody(productInformation);
 
             var productReponse = this.client.Execute<ProductModel>(request);
-            if (productReponse.StatusCode != System.Net.HttpStatusCode.Created)
-            {
-                this.addErrors(productReponse);
+
+            if (this.handleResponse(productReponse, System.Net.HttpStatusCode.Created) == false)
                 return null;
-            }
+
             var product = productReponse.Data;
 
             if (this.uploadFiles(product.Id, filesUri) == false)
@@ -65,11 +65,9 @@ namespace YouScribe.Rest
             request.AddBody(productInformation);
 
             var productReponse = this.client.Execute<ProductModel>(request);
-            if (productReponse.StatusCode != System.Net.HttpStatusCode.Created)
-            {
-                this.addErrors(productReponse);
+            if (this.handleResponse(productReponse, System.Net.HttpStatusCode.Created) == false)
                 return null;
-            }
+
             var product = productReponse.Data;
 
             if (this.uploadFiles(product.Id, files) == false)
@@ -96,11 +94,8 @@ namespace YouScribe.Rest
 
 
                 var uploadResponse = this.client.Execute(request);
-                if (uploadResponse.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    this.addErrors(uploadResponse);
+                if (this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK) == false)
                     return false;
-                }
             }
 
             //finalize
@@ -110,11 +105,9 @@ namespace YouScribe.Rest
 
             var response = this.client.Execute(finalizeRequest);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
-            {
-                this.addErrors(response);
+            if (this.handleResponse(response, System.Net.HttpStatusCode.NoContent) == false)
                 return false;
-            }
+
             return true;
         }
 
@@ -129,11 +122,8 @@ namespace YouScribe.Rest
                     ;
 
                 var uploadResponse = this.client.Execute(request);
-                if (uploadResponse.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    this.addErrors(uploadResponse);
+                if (this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK) == false)
                     return false;
-                }
             }
 
             //finalize
@@ -143,11 +133,9 @@ namespace YouScribe.Rest
 
             var response = this.client.Execute(finalizeRequest);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
-            {
-                this.addErrors(response);
+            if (this.handleResponse(response, System.Net.HttpStatusCode.NoContent) == false)
                 return false;
-            }
+            
             return true;
         }
 
@@ -181,7 +169,7 @@ namespace YouScribe.Rest
 
         public bool UpdateDocument(int productId, ProductUpdateModel productInformation, IEnumerable<Uri> filesUri)
         {
-            if (filesUri != null && filesUri.Any(c => (c.IsFile || c.IsLoopback || c.IsUnc)))
+            if (filesUri != null && filesUri.Any(c => c.IsValid() == false))
             {
                 this.Errors.Add("Incorrect files uri, need the FileName, ContentType and Uri");
                 return false;
@@ -189,7 +177,7 @@ namespace YouScribe.Rest
             var ok = this.updateDocument(productId, productInformation);
             if (ok == false)
                 return false;
-            
+
             if (filesUri != null)
                 return this.uploadFiles(productId, filesUri);
 
@@ -235,7 +223,7 @@ namespace YouScribe.Rest
 
         public bool UpdateDocumentThumbnail(int productId, Uri imageUri)
         {
-            if (imageUri == null || imageUri.IsFile || imageUri.IsLoopback || imageUri.IsUnc)
+            if (imageUri == null || imageUri.IsValid() == false)
             {
                 this.Errors.Add("imageUri invalid");
                 return false;
@@ -245,12 +233,8 @@ namespace YouScribe.Rest
                 .AddUrlSegment("url", imageUri.ToString())
                 ;
             var response = client.Execute(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return false;
-            }
-            return true;
+
+            return this.handleResponse(response, System.Net.HttpStatusCode.OK);
         }
 
         public bool UpdateDocumentThumbnail(int productId, int page)
@@ -261,12 +245,7 @@ namespace YouScribe.Rest
                 ;
 
             var response = client.Execute(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return false;
-            }
-            return true;
+            return this.handleResponse(response, System.Net.HttpStatusCode.OK);
         }
 
         public bool UpdateDocumentThumbnail(int productId, FileModel image)
@@ -288,12 +267,7 @@ namespace YouScribe.Rest
             }
 
             var response = client.Execute(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return false;
-            }
-            return true;
+            return this.handleResponse(response, System.Net.HttpStatusCode.OK);
         }
 
         #endregion
