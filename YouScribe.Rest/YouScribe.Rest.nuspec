@@ -1,0 +1,15 @@
+﻿<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <authors>sebastien.balant</authors>
+        <owners>sebastien.balant</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>
+            YouScribe REST client
+            Easy way to upload / update documents and manage accounts
+        </description>
+        <copyright>Copyright 2012</copyright>
+    </metadata>
+</package>

@@ -9,12 +9,16 @@ namespace YouScribe.Rest
     public class YouScribeClient : IYouScribeClient
     {
         private readonly IRestClient client;
-        
+
         private string _authorizeToken;
 
         public YouScribeClient()
+            : this(ApiUrls.BaseUrl)
+        { }
+
+        public YouScribeClient(string baseUrl)
         {
-            this.client = new RestClient(ApiUrls.BaseUrl);
+            this.client = new RestClient(baseUrl);
         }
 
         public bool Authorize(string userNameOrEmail, string password)

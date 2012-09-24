@@ -71,12 +71,14 @@ namespace YouScribe.Rest
                 var request = this.createRequest(ApiUrls.UploadUrl, Method.POST)
                     .AddUrlSegment("id", productId.ToString())
                     ;
-                using (var stream = new StreamReader(file.Content))
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    var content = stream.ReadToEnd();
-                    var bytes = Encoding.Default.GetBytes(content);
+                    file.Content.CopyTo(ms);
+
+                    var bytes = ms.ToArray();
                     request.AddFile("file", bytes, file.FileName, file.ContentType);
                 }
+
 
                 var uploadResponse = this.client.Execute(request);
                 if (uploadResponse.StatusCode != System.Net.HttpStatusCode.OK)
@@ -218,10 +220,11 @@ namespace YouScribe.Rest
             var request = this.createRequest(ApiUrls.ThumbnailDataUrl, Method.POST)
                 .AddUrlSegment("id", productId.ToString());
 
-            using (var stream = new StreamReader(image.Content))
+            using (MemoryStream ms = new MemoryStream())
             {
-                var content = stream.ReadToEnd();
-                var bytes = Encoding.Default.GetBytes(content);
+                image.Content.CopyTo(ms);
+
+                var bytes = ms.ToArray();
                 request.AddFile("file", bytes, image.FileName, image.ContentType);
             }
 

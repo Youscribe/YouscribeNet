@@ -7,11 +7,7 @@ namespace YouScribe.Rest
 {
     static class ApiUrls
     {
-#if DEBUG
-        public const string BaseUrl = "http://services.localhost.local";
-#else
         public const string BaseUrl = "http://services.youscribe.com";
-#endif
 
         public const string AuthorizeUrl = "api/authorize";
 
