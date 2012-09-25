@@ -43,8 +43,8 @@ function Nuget-Pack {
 }
 
 Task Nuget-Push -Depends Nuget-Pack {
-	#Get-ChildItem $nuget.output -Filter "*$($build.version).nupkg" |
-	#	%{ Nuget-Push $_.FullName }
+	Get-ChildItem $nuget.output -Filter "*$($build.version).nupkg" |
+		%{ Nuget-Push $_.FullName }
 }
 
 function Nuget-Push {
