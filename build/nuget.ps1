@@ -39,7 +39,7 @@ function Nuget-Pack {
 	
 	Write-Output "Packing $file"
 	
-	exec { & $nuget.bin pack $file -Properties "Configuration=$($build.configuration)" -OutputDirectory $nuget.output -BasePath (Split-Path -Parent $file) -Version $build.version }
+	exec { & $nuget.bin pack $file -Properties "Configuration=$($build.configuration)" -OutputDirectory $nuget.output -BasePath (Split-Path -Parent $file) -Version $nuget.version }
 }
 
 Task Nuget-Push -Depends Nuget-Pack {

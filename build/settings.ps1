@@ -14,7 +14,7 @@ properties {
 
 	$build = @{}
 	$build.version = "1.0"
-	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}-beta" -f $build.version, $env:BUILD_NUMBER }
+	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}" -f $build.version, $env:BUILD_NUMBER }
 	$build.configuration = "Release"
 	
 	$nuget = @{}
@@ -27,6 +27,7 @@ properties {
 	#$nuget.key = "4e0322be-4988-4200-83a8-6f3227d12eae"
 	$nuget.output = $base.output
 	$nuget.packages = (Join-Path $source.dir "packages")
+	$nuget.version = "{0}-beta" -f $build.version
 	
 	$xunit = @{}
 	$xunit.dir = (Join-Path $base.dir (Join-Path "Librairies" "xunit-1.8"))
