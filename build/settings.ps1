@@ -21,7 +21,7 @@ properties {
 	$nuget.dir = (Join-Path $base.dir ".nuget")
 	$nuget.bin = (Join-Path $nuget.dir "nuget.exe")
 	$nuget.nuspec_pack = @("")
-	$nuget.pushsource = "http://artefacts.societe-publica.net/"
+	$nuget.pushsource = "http://go.microsoft.com/fwlink/?LinkID=206669"
 	$nuget.sources = @("http://go.microsoft.com/fwlink/?LinkID=206669")
 	$nuget.source = @($nuget.sources | ?{ $_ -ne "" -and $_ -ne $null }) -join ";"
 	#$nuget.key = "4e0322be-4988-4200-83a8-6f3227d12eae"
@@ -34,5 +34,3 @@ properties {
 	$xunit.bin = (Join-Path $xunit.dir "xunit.console.clr4.x86.exe")
 	$xunit.output = (Join-Path $base.dir "TestOut")
 }
-
-Write-Output "beta ?" $nugetKey 

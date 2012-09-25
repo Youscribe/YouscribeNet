@@ -54,5 +54,5 @@ function Nuget-Push {
 	)
 	
 	Write-Output "Pushing $file"
-	exec { & $nuget.bin push $file $nuget.key -Source $nuget.pushsource }
+	exec { & $nuget.bin push $file $nugetKey -Source $nuget.pushsource }
 }
