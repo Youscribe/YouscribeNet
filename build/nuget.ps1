@@ -53,6 +53,6 @@ function Nuget-Push {
 		[Parameter(Position=0,Mandatory=1)]$file
 	)
 	
-	Write-Output "Pushing $file"
+	Write-Output "Pushing $file key: $nugetKey"
 	exec { & $nuget.bin push $file $nugetKey -Source $nuget.pushsource }
 }

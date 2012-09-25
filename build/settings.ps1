@@ -1,5 +1,5 @@
 properties {
-	$nugetKey = "4e0322be-4988-4200-83a8-6f3227d12eae"
+	$nugetKey = ""
 	
 	$script = @{}
 	$script.dir = (Split-Path -Parent $MyInvocation.ScriptName)
@@ -21,8 +21,8 @@ properties {
 	$nuget.dir = (Join-Path $base.dir ".nuget")
 	$nuget.bin = (Join-Path $nuget.dir "nuget.exe")
 	$nuget.nuspec_pack = @("")
-	$nuget.pushsource = "http://go.microsoft.com/fwlink/?LinkID=206669"
-	$nuget.sources = @("http://go.microsoft.com/fwlink/?LinkID=206669")
+	$nuget.pushsource = "http://nuget.org/"
+	$nuget.sources = @("https://go.microsoft.com/fwlink/?LinkID=206669")
 	$nuget.source = @($nuget.sources | ?{ $_ -ne "" -and $_ -ne $null }) -join ";"
 	#$nuget.key = "4e0322be-4988-4200-83a8-6f3227d12eae"
 	$nuget.output = $base.output
