@@ -36,7 +36,7 @@ namespace YouScribe.Rest
         public const string ThumbnailPageUrl = "api/v1/thumbnail/{id}?page={page}";
 
 
-        public const string AuthorizeTokenHeaderName = "YS_AUTH";
+        public const string AuthorizeTokenHeaderName = "YS-AUTH";
 
     }
 }
