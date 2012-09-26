@@ -13,6 +13,8 @@ namespace YouScribe.Rest
 {
     class ProductRequest : YouScribeRequest, IProductRequest
     {
+        const int nbFilesByDocument = 3;
+
         public ProductRequest(IRestClient client, string authorizeToken)
             : base(client, authorizeToken)
         { }
@@ -78,6 +80,12 @@ namespace YouScribe.Rest
 
         private bool uploadFiles(int productId, IEnumerable<FileModel> files)
         {
+            //select on file by content type and limit to nbFilesByDocument
+            files = files.GroupBy(c => c.ContentType)
+                .Select(c => c.First())
+                .Take(nbFilesByDocument)
+                .ToList();
+
             //upload document files
             foreach (var file in files)
             {
@@ -92,10 +100,8 @@ namespace YouScribe.Rest
                     request.AddFile("file", bytes, file.FileName, file.ContentType);
                 }
 
-
                 var uploadResponse = this.client.Execute(request);
-                if (this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK) == false)
-                    return false;
+                this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK);
             }
 
             //finalize
@@ -114,7 +120,7 @@ namespace YouScribe.Rest
         private bool uploadFiles(int productId, IEnumerable<Uri> files)
         {
             //upload document files
-            foreach (var file in files)
+            foreach (var file in files.Take(nbFilesByDocument))
             {
                 var request = this.createRequest(ApiUrls.UploadFileUrl, Method.POST)
                     .AddUrlSegment("id", productId.ToString())
@@ -122,8 +128,7 @@ namespace YouScribe.Rest
                     ;
 
                 var uploadResponse = this.client.Execute(request);
-                if (this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK) == false)
-                    return false;
+                this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK);
             }
 
             //finalize
