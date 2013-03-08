@@ -19,9 +19,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenCreateAccount_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 var request = client.CreateAccountRequest();
 
                 // Act
@@ -37,9 +37,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateAccount_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -57,9 +57,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateAccountWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountRequest();
 
@@ -75,9 +75,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetSpokenLanguages_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -95,9 +95,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetSpokenLanguagesWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountRequest();
 
@@ -113,9 +113,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUploadPictureFromUrl_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -133,9 +133,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUploadPictureFromUrlWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountRequest();
 
@@ -152,9 +152,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUploadPictureFromLocalFile_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -172,9 +172,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUploadPictureFromLocalFileWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountRequest();
 
@@ -190,9 +190,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenDeletePicture_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -210,9 +210,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenDeletePictureWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountRequest();
 

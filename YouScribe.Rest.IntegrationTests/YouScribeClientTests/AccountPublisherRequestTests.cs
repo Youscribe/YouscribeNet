@@ -16,9 +16,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetAsPaypalPublisher_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, Publisherandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateAccountPublisherRequest();
@@ -35,9 +35,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetAsPaypalPublisherWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, Publisherandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountPublisherRequest();
 
@@ -55,9 +55,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetAsTransferPublisher_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, Publisherandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateAccountPublisherRequest();
@@ -74,9 +74,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetAsTransferPublisherWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, Publisherandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountPublisherRequest();
 

@@ -10,17 +10,15 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 {
     public class AccountEventRequestTests
     {
-        const string baseUrl = "http://localhost:8080/";
-
         const string expectedEventLists = "<ArrayOfAccountEventModel><AccountEventModel><Id>6</Id><Label>MemberHasSameInterest</Label><Name>MemberHasSameInterest</Name></AccountEventModel></ArrayOfAccountEventModel>";
 
         [Fact]
         public void WhenListAllEvents_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 var request = client.CreateAccountEventRequest();
 
                 // Act
@@ -39,9 +37,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSubscribeToEvent_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateAccountEventRequest();
@@ -58,9 +56,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSubscribeToEventWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountEventRequest();
 
@@ -78,9 +76,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUnSubscribeToEvent_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateAccountEventRequest();
@@ -97,9 +95,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUnSubscribeToEventWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountEventRequest();
 
@@ -117,9 +115,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetEventFrequency_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateAccountEventRequest();
@@ -136,9 +134,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetEventFrequencyWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, EventHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountEventRequest();
 

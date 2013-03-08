@@ -18,9 +18,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenListAllUserTypes_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountUserTypeHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountUserTypeHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 var request = client.CreateAccountUserTypeRequest();
 
                 // Act
@@ -39,9 +39,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetUserType_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountUserTypeHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountUserTypeHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -59,9 +59,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenSetUserTypeWithUnathorizedUser_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, AccountUserTypeHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountUserTypeHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateAccountUserTypeRequest();
 

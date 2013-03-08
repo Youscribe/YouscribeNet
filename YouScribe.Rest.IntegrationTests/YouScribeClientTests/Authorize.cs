@@ -17,9 +17,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenAuthorizeUser_ThenCheckToken()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, UserAuthorizedHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, UserAuthorizedHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 // Act
                 bool isAuthorized = client.Authorize("test", "password");
@@ -33,9 +33,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenAuthorizeInvalidUser_ThenCheckToken()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, UserAuthorizedHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, UserAuthorizedHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 // Act
                 bool isAuthorized = client.Authorize("test", "assword");

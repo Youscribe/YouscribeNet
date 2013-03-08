@@ -3,7 +3,7 @@ Task Init-Tests {
 }
 
 Task Run-Tests -Depends Init-Tests {
-	Get-ChildItem $source.dir -Recurse -Include *.tests |
+	Get-ChildItem $source.dir -Recurse -Include *.tests,*.integrationTests |
     ?{ ($_ -is [System.IO.DirectoryInfo]) -and !($_.FullName -match ".hg") -and (Test-Path "$($_.FullName)\bin\$($build.configuration)\$($_.Name).dll") } |
     %{
 			$base = $_.FullName

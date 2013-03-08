@@ -21,9 +21,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenGenerateEmbedIframeTag_ThenCheckCode()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, GenerateEmbledHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 var request = client.CreateEmbedRequest();
 
                 int productId = 1;
@@ -41,9 +41,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenGenerateEmbedIframeTagWithFeatures_ThenCheckCode()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, GenerateEmbledHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 var request = client.CreateEmbedRequest();
 
                 int productId = 1;
@@ -61,9 +61,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenGeneratePrivateEmbedIframeTag_ThenCheckCode()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, GenerateEmbledHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateEmbedRequest();
@@ -83,9 +83,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenGeneratePrivateEmbedIframeTagWithFeatures_ThenCheckCode()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, GenerateEmbledHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
                 client.Authorize("test", "password");
 
                 var request = client.CreateEmbedRequest();
@@ -106,9 +106,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenGeneratePrivateEmbedIframeTagWithUnauthorizedUser_ThenCheckCode()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, GenerateEmbledHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 var request = client.CreateEmbedRequest();
 

@@ -19,9 +19,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenPublishDocumentFromLocalFile_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -47,9 +47,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenPublishDocumentFromUrl_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -75,9 +75,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateDocumentFromFile_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -101,9 +101,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateDocumentFromUrl_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -127,9 +127,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateDocumentThumbnailFromUrl_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -147,9 +147,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateDocumentThumbnailFromFile_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
@@ -172,9 +172,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         public void WhenUpdateDocumentThumbnailFromPage_ThenCheckResponse()
         {
             // Arrange
-            using (SimpleServer.Create(baseUrl, ProductRequestHandler))
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
             {
-                var client = new YouScribeClient(baseUrl);
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 client.Authorize("test", "password");
 
