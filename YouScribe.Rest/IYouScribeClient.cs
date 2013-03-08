@@ -45,5 +45,10 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         IAccountUsertTypeRequest CreateAccountUserTypeRequest();
+
+        /// <summary>
+        /// Create embed request to get the embed code for a product
+        /// </summary>
+        IEmbedRequest CreateEmbedRequest();
     }
 }

@@ -35,6 +35,8 @@ namespace YouScribe.Rest
         public const string ThumbnailLinkUrl = "api/v1/thumbnail/{id}?url={url}";
         public const string ThumbnailPageUrl = "api/v1/thumbnail/{id}?page={page}";
 
+        public const string EmbedUrl = "api/v1/embed/{id}";
+        public const string PrivateEmbedUrl = "api/v1/embed/private";
 
         public const string AuthorizeTokenHeaderName = "YS-AUTH";
 

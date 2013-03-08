@@ -33,6 +33,9 @@ namespace YouScribe.Rest
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 return false;
 
+            if (response.Headers.Any(c => c.Name == ApiUrls.AuthorizeTokenHeaderName) == false)
+                return false;
+
             var token = response.Headers.Where(c => c.Name == ApiUrls.AuthorizeTokenHeaderName)
                 .First()
                 .Value
@@ -70,6 +73,12 @@ namespace YouScribe.Rest
         public IAccountUsertTypeRequest CreateAccountUserTypeRequest()
         {
             var request = new AccountUserTypeRequest(this.client, _authorizeToken);
+            return request;
+        }
+
+        public IEmbedRequest CreateEmbedRequest()
+        {
+            var request = new EmbedRequest(this.client, _authorizeToken);
             return request;
         }
     }

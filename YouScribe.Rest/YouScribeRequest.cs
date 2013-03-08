@@ -62,14 +62,15 @@ namespace YouScribe.Rest
 
         protected bool handleResponse(IRestResponse response, System.Net.HttpStatusCode expectedStatusCode)
         {
-            if (response.StatusCode != expectedStatusCode)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                this.Errors.Add("Not connected");
+                return false;
+            }
+            else if (response.StatusCode != expectedStatusCode)
             {
                 this.addErrors(response);
                 return false;
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                this.Errors.Add("Not connected");
             }
             return true;
         }
