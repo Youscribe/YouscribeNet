@@ -6,6 +6,9 @@
     <title>YouscribeNet by Youscribe</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="icon" href="http://www.youscribe.com/Content/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="http://www.youscribe.com/Content/img/ifavicon.png" />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
@@ -42,17 +45,19 @@
 
             <p>YouScribeNet is a .NET REST client to manage accounts and publications</p>
             <ul>
-                <li>pubish new documents
+                <li><a href="#publish">pubish new documents</a>
                 </li>
-                <li>update documents
+                <li><a href="#update_document">update documents</a>
                 </li>
-                <li>update document thumbnails
+                <li><a href="#update_document_thumbmnail">update document thumbnail</a>
+                </li>
+                <li><a href="#genereate_embed">Generate embed code</a>
                 </li>
             </ul>
             <ul>
-                <li>create new accounts
+                <li><a href="#register">create new accounts</a>
                 </li>
-                <li>update acount information
+                <li><a href="#update_account">update acount information</a>
                 </li>
             </ul>
 
@@ -64,17 +69,16 @@
                 
             </p>-->
             <h3>Exemples</h3>
-            <div>
+            <div id="publish">
                 <h4>Publish new document</h4>
-                <div id="publish">
-                    <p>
-                        To publish a new document, you need to be registered.
+                <p>
+                    To publish a new document, you need to be registered.
                         <br />
-                        See the <a href="#register">register</a> exemple       
+                    See the <a href="#register">register</a> exemple       
                         <br />
-                        You can publish a document with different formats
-                    </p>
-                    <pre>
+                    You can publish a document with different formats
+                </p>
+                <pre>
                     <code>
 var client = new YouScribeClient();
 //need to be authorized to publish a document
@@ -119,8 +123,7 @@ if (client.Authorize("user_name", "password") == true)
 }
                     </code>
                 </pre>
-                    <p>The PublishDocument method returns the product published</p>
-                </div>
+                <p>The PublishDocument method returns the product published</p>
             </div>
             <div id="update_document">
                 <h4>Update a document</h4>
@@ -129,7 +132,7 @@ if (client.Authorize("user_name", "password") == true)
                     You can update the documents of your publication.<br />
                     You cannot set publication as free if it's not free or not free if it's free.<br />
                 </p>
-                 <pre>
+                <pre>
                     <code>
 var client = new YouScribeClient();
 //need to be authorized to update a document
@@ -149,10 +152,123 @@ if (client.Authorize("user_name", "password") == true)
             ContentType = "application/pdf", 
             FileName = "my document2.pdf" } }
     );
-}
-                    </code>
+}</code>
                 </pre>
             </div>
+            <div id="update_document_thumbmnail">
+                <h4>Update the document thumbnail</h4>
+                <p>
+                    You can update the document thumbnail using a local image, an url image or a page in the document
+                </p>
+                <pre>
+                    <code>
+var client = new YouScribeClient();
+//need to be authorized to update the thumbnail
+if (client.Authorize("user_name", "password") == true)
+{
+    var productRequest = client.CreateProductRequest();
+    
+    // update the document thumbnail using the page 4 of the document
+    productRequest.UpdateDocumentThumbnail(123, 4);
+    // update the document thumbnail using the uri http://exemple.com/thumbnail.png
+    productRequest.UpdateDocumentThumbnail(123, new Uri("http://exemple.com/thumbnail.png"));
+    // update the document thumbnail using a local file
+    productRequest.UpdateDocumentThumbnail(123,
+        new YouScribe.Rest.Models.FileModel
+        {
+            Content = System.IO.File.OpenRead("my thumbnail"),
+            ContentType = "image/jpg",
+            FileName = "my_thumbnail.png"
+        }
+    );
+}</code>
+                </pre>
+            </div>
+
+            <div id="genereate_embed">
+                <h4>Generate the embed code for a document</h4>
+                <p>
+                    You can generate the embed code for a private or a public document.<br />
+                    To generate the embed code for a private document, you need to be connected with your account.<br />
+                    To generate an embed code you need the document id, you can find this id in the url. It's the last integer of the url :
+                    <br />
+                    <span style="color: #FFCC00;">http://en.youscribe.com/catalogue/manuals-and-practical-information-sheets/practical-life/tutorial-embed-the-youscribe-reader-in-your-blog-or-website-1016405</span><br />
+                    The document id is <b>1016405</b>
+                </p>
+                <h5>Generate the embed code for a public document:</h5>
+                <p>
+                    You can specify the width, height, start page and the display mode of the embed using the class EmbedGenerateModel.<br />
+                    There are two display mode: Embed mode using a scroll bar and Double mode using two pages.
+                </p>
+                <pre>
+                    <code>
+var client = new YouScribeClient();
+
+var embedRequest = client.CreateEmbedRequest();
+
+var embedCode = embedRequest.GenerateIframeTag(1016405);
+
+var embedCode2 = embedRequest.GenerateIframeTag(1016405,
+    new YouScribe.Rest.Models.Products.EmbedGenerateModel
+    {
+        Width = 620,
+        Height = 438,
+        DisplayMode = YouScribe.Rest.Models.Products.EmbedDisplayMode.Double
+    }
+);
+                    </code>
+                </pre>
+
+                <h5>Generate the embed code for a private document:</h5>
+                <div>
+                    If you published a private document, you can embed it. The users cannot find the document on YouScribe but it can be embed in your blog / site.<br />
+                    Like a public document, you can specify the width, height, start page and the display mode.<br />
+                    <br />
+                    You can also specify an access period, after this period, the embed will not be accessible. You can define this period using the following formats:
+                    <br />
+                    <ul>
+                        <li>minute fomart: <b>xm</b> - x represents the number of minutes</li>
+                        <li>hour fomart: <b>xh</b> - x represents the number of hours</li>
+                        <li>day fomart: <b>xd</b> - x represents the number of days</li>
+                        <li>month fomart: <b>xM</b> - x represents the number of months</li>
+                        <li>year fomart: <b>xy</b> - x represents the number of years</li>
+                        <li>units of ticks format: <b>x</b> - x represents the number of ticks</li>
+                    </ul>
+                </div>
+                <pre>
+                    <code>
+var client = new YouScribeClient();
+// need to be authorized to generate the code for a private document
+if (client.Authorize("user_name", "password") == true)
+{
+    var embedRequest = client.CreateEmbedRequest();
+    
+    int privateDocumentId = 123;
+
+    // generate the embed code for a private document
+    var embedCode = embedRequest.GeneratePrivateIframeTag(privateDocumentId);
+
+    // generate the embed code for a private document, the embed is available for 4 days
+    var embedCode2 = embedRequest.GeneratePrivateIframeTag(privateDocumentId,
+        new YouScribe.Rest.Models.Products.PrivateEmbedGenerateModel
+        {
+            AccessPeriod = "4d"
+        }
+    );
+
+    // generate the embed code for a private document, the embed is available for 90 minutes
+    var embedCode3 = embedRequest.GeneratePrivateIframeTag(privateDocumentId,
+        new YouScribe.Rest.Models.Products.PrivateEmbedGenerateModel
+        {
+            AccessPeriod = TimeSpan.FromMinutes(90).Ticks.ToString()
+        }
+    );
+);
+                    </code>
+                </pre>
+
+            </div>
+
             <div id="register">
                 <h4>Register new account</h4>
                 <p>
@@ -160,7 +276,7 @@ if (client.Authorize("user_name", "password") == true)
                     <br />
                     The user name has to be an alphanumeric string with no space.
                     <br />
-                    The characters "." and "_" are allowed.
+                    The characters '.', '_' and '-' are allowed.
                 </p>
                 <pre>
                     <code>
@@ -179,7 +295,31 @@ var account = accountRequest.Create(
                     The Create method returns the account created if successful.
                 </p>
             </div>
-   
+
+            <div id="update_account">
+                <h4>Update an account</h4>
+                <p>
+                    You can update all your information
+                </p>
+                <pre>
+                    <code>
+var client = new YouScribeClient();
+//need to be authorized to update an account
+if (client.Authorize("user_name", "password") == true)
+{
+    var accountRequest = client.CreateAccountRequest();
+
+    // Update the city, firstname and the lastname
+    accountRequest.Update(new YouScribe.Rest.Models.Accounts.AccountModel
+    {
+        City = "Paris",
+        FirstName = "firstname",
+        LastName = "lastname",
+    });
+}
+</code>
+                </pre>
+            </div>
         </section>
 
     </div>

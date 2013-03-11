@@ -542,6 +542,7 @@ body {
   background: -o-linear-gradient(#2a2a29, #1c1c1c);
   background: -ms-linear-gradient(#2a2a29, #1c1c1c);
   background: linear-gradient(#2a2a29, #1c1c1c);
+  text-align: justify;
 }
 
 h1, h2, h3, h4, h5, h6 {
