@@ -53,10 +53,6 @@ namespace YouScribe.Rest.Models.Products
 
         public Copyright CopyrightInformation { get; set; }
 
-        public int? OwnerId { get; set; }
-
-        public List<string> BrandNames { get; set; }
-
         public string LicenceName { get; set; }
     }
 
