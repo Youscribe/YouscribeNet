@@ -54,6 +54,14 @@ namespace YouScribe.Rest.Models.Products
         public Copyright CopyrightInformation { get; set; }
 
         public string LicenceName { get; set; }
+
+        public ProductModel()
+        {
+            this.AllowDownload = true;
+            this.IsFree = true;
+            this.AllowStreaming = true;
+            this.Public = true;
+        }
     }
 
     public enum Copyright
