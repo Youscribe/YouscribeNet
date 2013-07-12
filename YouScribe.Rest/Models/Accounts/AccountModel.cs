@@ -33,6 +33,11 @@ namespace YouScribe.Rest.Models.Accounts
         public string Biography { get; set; }
         public string PhoneNumber { get; set; }
         public bool EmailIsPublic { get; set; }
+
+        /// <summary>
+        /// The user domain language iso code alpha 2 in lower (ex: "fr", "en", "es")
+        /// </summary>
+        public string DomainLanguageIsoCode { get; set; }
     }
 
     public enum Gender
