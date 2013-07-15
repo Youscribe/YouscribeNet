@@ -21,7 +21,7 @@ properties {
 	$nuget.dir = (Join-Path $base.dir ".nuget")
 	$nuget.bin = (Join-Path $nuget.dir "nuget.exe")
 	$nuget.nuspec_pack = @("")
-	$nuget.pushsource = "http://nuget.org/"
+	$nuget.pushsource = "https://nuget.org/"
 	$nuget.sources = @("https://go.microsoft.com/fwlink/?LinkID=206669")
 	$nuget.source = @($nuget.sources | ?{ $_ -ne "" -and $_ -ne $null }) -join ";"
 	#$nuget.key = "4e0322be-4988-4200-83a8-6f3227d12eae"
