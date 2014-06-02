@@ -28,9 +28,7 @@ namespace YouScribe.Rest
         public const string ProductGetUrl = "api/v1/products/{id}";
         public const string ProductEndUploadUrl = "api/v1/products/endupload?id={id}";
         public const string ProductEndUpdateUrl = "api/v1/products/endupdate?id={id}";
-        public static string ProductDownloadByExtensionUrl = "api/v1/products/{id}/files/{extension}";
-        public static string ProductDownloadByFormatTypeIdUrl = "api/v1/products/{id}/files/{formatTypeId}";
-
+        
         public const string ProductRightUrl = "api/v1/productrights/{id}";
 
         public const string LibraryUrl = "api/v1/libraries";
@@ -54,5 +52,6 @@ namespace YouScribe.Rest
         public const string PrivateEmbedUrl = "api/v1/embed/private";
 
         public const string AuthorizeTokenHeaderName = "YS-AUTH";
+
     }
 }

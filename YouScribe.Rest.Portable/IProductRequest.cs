@@ -88,21 +88,5 @@ namespace YouScribe.Rest
         /// 120 - Download allowed
         /// </returns>
         int GetRight(int productId);
-
-        /// <summary>
-        /// Download a specific file for product by extension
-        /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="extension"></param>
-        /// <returns></returns>
-        Stream DownloadFile(int productId, string extension);
-
-        /// <summary>
-        /// Download a specific file for product by format type id
-        /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="extension"></param>
-        /// <returns></returns>
-        Stream DownloadFile(int productId, int formatTypeId);
     }
 }

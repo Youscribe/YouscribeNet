@@ -188,10 +188,99 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenCheckForProductRight_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.Authorize("test", "password");
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.GetRight(42);
+
+                // Assert
+                Assert.Equal(110, response);
+            }
+        }
+
+        [Fact]
+        public void WhenDownloadProductFromExtension_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.Authorize("test", "password");
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.DownloadFile(42, "pdf");
+
+                // Assert
+                Assert.NotNull(response);
+                Assert.Equal(57210, response.Length);
+            }
+        }
+
+        [Fact]
+        public void WhenDownloadProductFromFormatTypeId_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.Authorize("test", "password");
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.DownloadFile(42, 1);
+
+                // Assert
+                Assert.NotNull(response);
+                Assert.Equal(57210, response.Length);
+            }
+        }
+
         private static void ProductRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
             {
+                case "/api/v1/products/42/files/1":
+                case "/api/v1/products/42/files/pdf":
+                    if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                    {
+                        context.Response.ContentType = "application/pdf";
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        using (var file = File.OpenRead("Responses/file.pdf"))
+                        {
+                            file.CopyTo(context.Response.OutputStream);
+                        }
+                    }
+                    else
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+                case "/api/v1/productrights/42":
+                    if (context.Request.HttpMethod == "GET")
+                    {
+                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                        {
+                            context.Response.ContentType = "application/json; charset=utf-8";
+                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                            context.Response.OutputStream.Write("110");
+                        }
+                        else
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    break;
                 case "/api/v1/products":
                     if (context.Request.HttpMethod == "POST")
                     {

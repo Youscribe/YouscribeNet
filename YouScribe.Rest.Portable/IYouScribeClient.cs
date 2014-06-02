@@ -17,18 +17,6 @@ namespace YouScribe.Rest
         bool Authorize(string userNameOrEmail, string password);
 
         /// <summary>
-        /// Set token to use method that need authentification
-        /// </summary>
-        /// <param name="token"></param>
-        void SetToken(string token);
-
-        /// <summary>
-        /// Get current token
-        /// </summary>
-        /// <returns></returns>
-        string GetToken();
-
-        /// <summary>
         /// Create product request to manage yours publications
         /// </summary>
         /// <returns></returns>

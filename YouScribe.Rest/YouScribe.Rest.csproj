@@ -22,8 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,18 +60,24 @@
     <Compile Include="IAccountRequest.cs" />
     <Compile Include="IAccountUsertTypeRequest.cs" />
     <Compile Include="IEmbedRequest.cs" />
+    <Compile Include="ILibraryRequest.cs" />
     <Compile Include="IProductRequest.cs" />
     <Compile Include="IYouScribeClient.cs" />
     <Compile Include="IYouScribeRequest.cs" />
+    <Compile Include="LibraryRequest.cs" />
     <Compile Include="Models\Accounts\AccountEventModel.cs" />
     <Compile Include="Models\Accounts\AccountModel.cs" />
     <Compile Include="Models\Accounts\AccountPublisherModel.cs" />
     <Compile Include="Models\Accounts\AccountUpdateModel.cs" />
     <Compile Include="Models\Accounts\UserTypeModel.cs" />
     <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\Libraries\LibraryModel.cs" />
+    <Compile Include="Models\Libraries\LibraryProductModel.cs" />
+    <Compile Include="Models\Libraries\SimpleLibraryModel.cs" />
     <Compile Include="Models\Products\CategoryModel.cs" />
     <Compile Include="Models\Products\EmbedGenerateModel.cs" />
     <Compile Include="Models\Products\PeopleModel.cs" />
+    <Compile Include="Models\Products\ProductGetModel.cs" />
     <Compile Include="Models\Products\ProductModel.cs" />
     <Compile Include="Models\Products\ProductUpdateModel.cs" />
     <Compile Include="Models\Products\ThemeModel.cs" />

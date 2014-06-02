@@ -282,46 +282,14 @@ namespace YouScribe.Rest
             var request = this.createRequest(ApiUrls.ProductRightUrl, Method.GET)
                 .AddUrlSegment("id", productId.ToString())
                 ;
-            var response = client.Execute(request);
+            var response = client.Execute<int>(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 this.addErrors(response);
                 return -1;
             }
-            return int.Parse(response.Content);
-        }
-
-        public Stream DownloadFile(int productId, string extension)
-        {
-            var request = this.createRequest(ApiUrls.ProductDownloadByExtensionUrl, Method.GET)
-                .AddUrlSegment("id", productId.ToString())
-                .AddUrlSegment("extension", extension)
-                ;
-            var response = client.Execute(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return null;
-            }
-            return new MemoryStream(response.RawBytes);
-        }
-
-        public Stream DownloadFile(int productId, int formatTypeId)
-        {
-            var request = this.createRequest(ApiUrls.ProductDownloadByFormatTypeIdUrl, Method.GET)
-                .AddUrlSegment("id", productId.ToString())
-                .AddUrlSegment("formatTypeId", formatTypeId.ToString())
-                ;
-            var response = client.Execute(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return null;
-            }
-            return new MemoryStream(response.RawBytes);
+            return response.Data;
         }
     }
 }

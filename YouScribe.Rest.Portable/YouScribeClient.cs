@@ -20,17 +20,6 @@ namespace YouScribe.Rest
         public YouScribeClient(string baseUrl)
         {
             this.client = new RestClient(baseUrl);
-            this.client.UserAgent = "YouScribe/" + this.GetType().Assembly.GetName().Version;
-        }
-
-        public void SetToken(string token)
-        {
-            _authorizeToken = token;
-        }
-
-        public string GetToken()
-        {
-            return _authorizeToken;
         }
 
         public bool Authorize(string userNameOrEmail, string password)
@@ -61,12 +50,6 @@ namespace YouScribe.Rest
         {
             var productRequest = new ProductRequest(this.client, _authorizeToken);
             return productRequest;
-        }
-
-        public ILibraryRequest CreateLibraryRequest()
-        {
-            var libraryRequest = new LibraryRequest(this.client, _authorizeToken);
-            return libraryRequest;
         }
         
         public IAccountRequest CreateAccountRequest()
