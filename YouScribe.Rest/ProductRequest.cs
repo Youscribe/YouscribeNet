@@ -323,5 +323,31 @@ namespace YouScribe.Rest
             }
             return new MemoryStream(response.RawBytes);
         }
+
+        public void DownloadFileToPath(int productId, int formatTypeId, string path)
+        {
+            var request = this.createRequest(ApiUrls.ProductDownloadByFormatTypeIdUrl, Method.GET)
+                .AddUrlSegment("id", productId.ToString())
+                .AddUrlSegment("formatTypeId", formatTypeId.ToString())
+                ;
+            using (var writer = File.OpenWrite(path))
+            {
+                request.ResponseWriter = (responseStream) => responseStream.CopyTo(writer);
+                var response = client.Execute(request);
+            }
+        }
+
+        public void DownloadFileToPath(int productId, string extension, string path)
+        {
+            var request = this.createRequest(ApiUrls.ProductDownloadByExtensionUrl, Method.GET)
+                .AddUrlSegment("id", productId.ToString())
+                .AddUrlSegment("extension", extension)
+                ;
+            using (var writer = File.OpenWrite(path))
+            {
+                request.ResponseWriter = (responseStream) => responseStream.CopyTo(writer);
+                var response = client.Execute(request);
+            }
+        }
     }
 }

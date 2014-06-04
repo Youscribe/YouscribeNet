@@ -29,3 +29,4 @@ obj/
 *.csproj.user
 Dist/*
 TestOut/*
+*.ncrunchsolution

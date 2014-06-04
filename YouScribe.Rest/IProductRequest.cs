@@ -104,5 +104,21 @@ namespace YouScribe.Rest
         /// <param name="extension"></param>
         /// <returns></returns>
         Stream DownloadFile(int productId, int formatTypeId);
+
+        /// <summary>
+        /// Download a specific file for product by extension
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        void DownloadFileToPath(int productId, string extension, string path);
+
+        /// <summary>
+        /// Download a specific file for product by format type id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        void DownloadFileToPath(int productId, int formatTypeId, string path);
     }
 }
