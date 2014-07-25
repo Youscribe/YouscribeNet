@@ -29,6 +29,12 @@ namespace YouScribe.Rest
         string GetToken();
 
         /// <summary>
+        /// Set user agent used for every requests
+        /// </summary>
+        /// <param name="userAgent"></param>
+        void SetUserAgent(string userAgent);
+
+        /// <summary>
         /// Create product request to manage yours publications
         /// </summary>
         /// <returns></returns>

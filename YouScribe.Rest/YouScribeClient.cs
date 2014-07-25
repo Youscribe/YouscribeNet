@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     public class YouScribeClient : IYouScribeClient
     {
-        private readonly IRestClient client;
+        protected readonly IRestClient client;
 
         private string _authorizeToken;
 
@@ -31,6 +31,11 @@ namespace YouScribe.Rest
         public string GetToken()
         {
             return _authorizeToken;
+        }
+
+        public void SetUserAgent(string userAgent)
+        {
+            this.client.UserAgent = userAgent;
         }
 
         public bool Authorize(string userNameOrEmail, string password)

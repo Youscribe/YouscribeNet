@@ -18,3 +18,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("a13e896c-d388-4d5d-823c-736f5552003c")]
 
 [assembly: InternalsVisibleTo("YouScribe.Rest.IntegrationTests")]
+[assembly: InternalsVisibleTo("YouScribe.Rest.Internal")]

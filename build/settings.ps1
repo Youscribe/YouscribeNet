@@ -26,7 +26,7 @@ properties {
 	$nuget.source = @($nuget.sources | ?{ $_ -ne "" -and $_ -ne $null }) -join ";"
 	$nuget.output = $base.output
 	$nuget.packages = (Join-Path $source.dir "packages")
-	$nuget.version = "{0}-beta" -f $build.version
+	$nuget.version = "{0}" -f $build.version
 	
 	$xunit = @{}
 	$xunit.dir = (Join-Path $base.dir (Join-Path "Librairies" "xunit-1.8"))
