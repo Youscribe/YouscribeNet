@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     public class YouScribeClient : IYouScribeClient
     {
-        protected readonly IRestClient client;
+        internal readonly IRestClient client;
 
         private string _authorizeToken;
 
