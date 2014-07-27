@@ -21,7 +21,7 @@ namespace YouScribe.Rest
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 this.addErrors(response);
-                return null;
+                return Enumerable.Empty<SimpleLibraryModel>();
             }
             return response.Data;
         }
@@ -103,7 +103,7 @@ namespace YouScribe.Rest
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 this.addErrors(response);
-                return null;
+                return Enumerable.Empty<int>();
             }
             return response.Data;
         }
