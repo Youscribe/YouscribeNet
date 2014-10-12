@@ -333,28 +333,38 @@ namespace YouScribe.Rest
             WebClient client = new WebClient();
 
             client.Headers.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
-            using (var stream = await client.OpenReadTaskAsync(url))
-            {
-                byte[] buffer = new byte[4096];
-                totalBytes = Int32.Parse(client.ResponseHeaders[HttpResponseHeader.ContentLength]);
+			try
+			{
+				using (var stream = await client.OpenReadTaskAsync(url))
+	            {
+					using (var writer = File.OpenWrite(path))
+					{
+		                byte[] buffer = new byte[4096];
+		                totalBytes = Int32.Parse(client.ResponseHeaders[HttpResponseHeader.ContentLength]);
 
-                for (; ; )
-                {
-                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                    if (bytesRead == 0)
-                    {
-                        await Task.Yield();
-                        break;
-                    }
+		                for (; ; )
+		                {
+		                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+		                    if (bytesRead == 0)
+		                    {
+		                        await Task.Yield();
+		                        break;
+		                    }
 
-                    receivedBytes += bytesRead;
-                    if (progressReport != null)
-                    {
-                        DownloadBytesProgress args = new DownloadBytesProgress(url, receivedBytes, totalBytes);
-                        progressReport.Report(args);
-                    }
-                }
-            }
+							writer.Write(buffer, 0, bytesRead);
+		                    receivedBytes += bytesRead;
+		                    if (progressReport != null)
+		                    {
+		                        var args = new DownloadBytesProgress(url, receivedBytes, totalBytes);
+		                        progressReport.Report(args);
+		                    }
+		                }
+					}
+	            }
+			}
+			catch (Exception e) {
+				this.Errors.Add (e.Message);
+			}
         }
 
         public Task DownloadFileToPathAsync(int productId, int formatTypeId, string path, IProgress<DownloadBytesProgress> progressReport)
@@ -362,15 +372,15 @@ namespace YouScribe.Rest
             var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{formatTypeId}", formatTypeId.ToString());
-            return this.DownloadFileToPathAsync(urlToDownload, path, progressReport);
+			return this.DownloadFileToPathAsync(client.BaseUrl.TrimEnd('/') + "/" + urlToDownload, path, progressReport);
         }
 
         public Task DownloadFileToPathAsync(int productId, string extension, string path, IProgress<DownloadBytesProgress> progressReport)
         {
-            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
+			var urlToDownload = ApiUrls.ProductDownloadByExtensionUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{extension}", extension);
-            return this.DownloadFileToPathAsync(urlToDownload, path, progressReport);
+			return this.DownloadFileToPathAsync(client.BaseUrl.TrimEnd('/') + "/" + urlToDownload, path, progressReport);
         }
 #else
         public void DownloadFileToPath(int productId, int formatTypeId, string path)
