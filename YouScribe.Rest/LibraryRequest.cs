@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using YouScribe.Rest.Models.Libraries;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -15,29 +16,45 @@ namespace YouScribe.Rest
 
         public IEnumerable<SimpleLibraryModel> Get()
         {
-            var request = this.createRequest(ApiUrls.LibraryUrl, Method.GET);
-            var response = client.Execute<List<SimpleLibraryModel>>(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return Enumerable.Empty<SimpleLibraryModel>();
-            }
-            return response.Data;
+			return this.GetAsync().Result;
         }
+
+		public Task<IEnumerable<SimpleLibraryModel>> GetAsync()
+		{
+			var tcs = new TaskCompletionSource<IEnumerable<SimpleLibraryModel>>();
+			var request = this.createRequest(ApiUrls.LibraryUrl, Method.GET);
+			var handler = client.ExecuteAsync<List<SimpleLibraryModel>>(request, (response) =>
+				{
+					if (response.StatusCode != System.Net.HttpStatusCode.OK)
+					{
+						this.addErrors(response);
+						tcs.SetResult(null);
+					}
+					tcs.SetResult(response.Data);
+				});
+
+			return tcs.Task;
+		}
+
+		public Task<Models.Libraries.LibraryModel> GetAsync(int id)
+		{
+			var tcs = new TaskCompletionSource<Models.Libraries.LibraryModel>();
+			var request = this.createRequest(ApiUrls.LibraryGetUrl, Method.GET)
+				.AddUrlSegment("id", id.ToString());
+			client.ExecuteAsync<LibraryModel>(request, (response) => {
+				if (response.StatusCode != System.Net.HttpStatusCode.OK)
+				{
+					this.addErrors(response);
+						tcs.SetResult(null);
+				}
+				tcs.SetResult(response.Data);
+			});
+			return tcs.Task;
+		}
 
         public Models.Libraries.LibraryModel Get(int id)
         {
-            var request = this.createRequest(ApiUrls.LibraryGetUrl, Method.GET)
-                .AddUrlSegment("id", id.ToString());
-            var response = client.Execute<LibraryModel>(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.addErrors(response);
-                return null;
-            }
-            return response.Data;
+			return this.GetAsync(id).Result;
         }
 
         public Models.Libraries.LibraryModel Get(string typeName)
@@ -103,7 +120,7 @@ namespace YouScribe.Rest
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 this.addErrors(response);
-                return Enumerable.Empty<int>();
+                return null;
             }
             return response.Data;
         }

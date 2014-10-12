@@ -53,6 +53,7 @@
     <Compile Include="AccountRequest.cs" />
     <Compile Include="AccountUserTypeRequest.cs" />
     <Compile Include="ApiUrls.cs" />
+    <Compile Include="DownloadBytesProgress.cs" />
     <Compile Include="EmbedRequest.cs" />
     <Compile Include="Helpers\UriHelpers.cs" />
     <Compile Include="IAccountEventRequest.cs" />

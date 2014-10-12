@@ -8,6 +8,7 @@ using RestSharp;
 using YouScribe.Rest.Models;
 using YouScribe.Rest.Models.Products;
 using YouScribe.Rest.Helpers;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -324,6 +325,54 @@ namespace YouScribe.Rest
             return new MemoryStream(response.RawBytes);
         }
 
+#if __ANDROID__
+        protected async Task DownloadFileToPathAsync(string url, string path, IProgress<DownloadBytesProgress> progressReport)
+        {
+            int receivedBytes = 0;
+            int totalBytes = 0;
+            WebClient client = new WebClient();
+
+            client.Headers.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
+            using (var stream = await client.OpenReadTaskAsync(url))
+            {
+                byte[] buffer = new byte[4096];
+                totalBytes = Int32.Parse(client.ResponseHeaders[HttpResponseHeader.ContentLength]);
+
+                for (; ; )
+                {
+                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    if (bytesRead == 0)
+                    {
+                        await Task.Yield();
+                        break;
+                    }
+
+                    receivedBytes += bytesRead;
+                    if (progressReport != null)
+                    {
+                        DownloadBytesProgress args = new DownloadBytesProgress(url, receivedBytes, totalBytes);
+                        progressReport.Report(args);
+                    }
+                }
+            }
+        }
+
+        public Task DownloadFileToPathAsync(int productId, int formatTypeId, string path, IProgress<DownloadBytesProgress> progressReport)
+        {
+            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
+                .Replace("{id}", productId.ToString())
+                .Replace("{formatTypeId}", formatTypeId.ToString());
+            return this.DownloadFileToPathAsync(urlToDownload, path, progressReport);
+        }
+
+        public Task DownloadFileToPathAsync(int productId, string extension, string path, IProgress<DownloadBytesProgress> progressReport)
+        {
+            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
+                .Replace("{id}", productId.ToString())
+                .Replace("{extension}", extension);
+            return this.DownloadFileToPathAsync(urlToDownload, path, progressReport);
+        }
+#else
         public void DownloadFileToPath(int productId, int formatTypeId, string path)
         {
             var request = this.createRequest(ApiUrls.ProductDownloadByFormatTypeIdUrl, Method.GET)
@@ -349,5 +398,6 @@ namespace YouScribe.Rest
                 var response = client.Execute(request);
             }
         }
+#endif
     }
 }
