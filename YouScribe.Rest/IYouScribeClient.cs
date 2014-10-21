@@ -68,5 +68,11 @@ namespace YouScribe.Rest
         /// Create embed request to get the embed code for a product
         /// </summary>
         IEmbedRequest CreateEmbedRequest();
+
+        /// <summary>
+        /// create account device request
+        /// </summary>
+        /// <returns></returns>
+        IAccountDeviceRequest CreateAccountDeviceRequest();
     }
 }

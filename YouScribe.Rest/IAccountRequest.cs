@@ -8,6 +8,14 @@ using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
 {
+    public enum DeviceTypeName
+    {
+        Phone,
+        Tablet,
+        TV,
+        Computer
+    }
+
     public interface IAccountRequest : IYouScribeRequest
     {
         /// <summary>

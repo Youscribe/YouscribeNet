@@ -98,6 +98,12 @@ namespace YouScribe.Rest
             return request;
         }
 
+        public IAccountDeviceRequest CreateAccountDeviceRequest()
+        {
+            var request = new AccountDeviceRequest(this.client, _authorizeToken);
+            return request;
+        }
+
         public IEmbedRequest CreateEmbedRequest()
         {
             var request = new EmbedRequest(this.client, _authorizeToken);

@@ -13,6 +13,7 @@ namespace YouScribe.Rest
 
         public const string AccountUrl = "api/v1/accounts";
         public const string AccountEventUrl = "api/v1/accounts/events";
+        public const string AccountDeviceUrl = "api/v1/accounts/devices";
         public const string AccountUnSubscribeEventUrl = "api/v1/accounts/events?id={id}";
         public const string AccountEventFrequencyUrl = "api/v1/accounts/events?frequency={frequency}";
         public const string AccountPaypalPublisherUrl = "api/v1/accounts/paypalpublisher";
