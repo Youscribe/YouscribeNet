@@ -22,7 +22,7 @@ namespace YouScribe.Rest
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 this.addErrors(response);
-                return null;
+                return Enumerable.Empty<Models.Accounts.AccountEventModel>();
             }
             return response.Data;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using YouScribe.Rest.Models.Libraries;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -14,12 +15,25 @@ namespace YouScribe.Rest
         /// <returns>List of libraries</returns>
         IEnumerable<SimpleLibraryModel> Get();
 
+		/// <summary>
+		/// List all libraries for current user
+		/// </summary>
+		/// <returns>List of libraries</returns>
+		Task<IEnumerable<SimpleLibraryModel>> GetAsync ();
+
         /// <summary>
         /// Get library by id
         /// </summary>
         /// <param name="id">library id</param>
         /// <returns>Library</returns>
         LibraryModel Get(int id);
+
+		/// <summary>
+		/// Get library by id
+		/// </summary>
+		/// <param name="id">library id</param>
+		/// <returns>Library</returns>
+		Task<Models.Libraries.LibraryModel> GetAsync (int id);
 
         /// <summary>
         /// Get library by typeName

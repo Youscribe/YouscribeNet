@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using YouScribe.Rest.Models;
 using YouScribe.Rest.Models.Products;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -105,6 +106,23 @@ namespace YouScribe.Rest
         /// <returns></returns>
         Stream DownloadFile(int productId, int formatTypeId);
 
+#if __ANDROID__
+        /// <summary>
+        /// Download a specific file for product by extension
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task DownloadFileToPathAsync(int productId, string extension, string path, IProgress<DownloadBytesProgress> progressReport);
+
+        /// <summary>
+        /// Download a specific file for product by format type id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task DownloadFileToPathAsync(int productId, int formatTypeId, string path, IProgress<DownloadBytesProgress> progressReport);
+#else
         /// <summary>
         /// Download a specific file for product by extension
         /// </summary>
@@ -120,5 +138,6 @@ namespace YouScribe.Rest
         /// <param name="extension"></param>
         /// <returns></returns>
         void DownloadFileToPath(int productId, int formatTypeId, string path);
+#endif
     }
 }

@@ -22,7 +22,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
                 var request = client.CreateLibraryRequest();
 
-                int id = 53;
+                int id = 1;
 
                 // Act
                 var library = request.Get(id);

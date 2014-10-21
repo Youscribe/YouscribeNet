@@ -74,5 +74,10 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         IAccountDeviceRequest CreateAccountDeviceRequest();
+
+        /// Create library request
+        /// </summary>
+        /// <returns></returns>
+        ILibraryRequest CreateLibraryRequest();
     }
 }
