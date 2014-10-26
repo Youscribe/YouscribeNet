@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
-using RestSharp;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
 {
     class AccountUserTypeRequest : YouScribeRequest, IAccountUsertTypeRequest
     {
-        public AccountUserTypeRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public AccountUserTypeRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
         public IEnumerable<Models.Accounts.UserTypeModel> ListAllUserTypes()

@@ -1,15 +1,15 @@
-﻿using RestSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 
 namespace YouScribe.Rest
 {
     class EmbedRequest : YouScribeRequest, IEmbedRequest
     {
-        public EmbedRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public EmbedRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
         public string GenerateIframeTag(int id)
@@ -26,7 +26,7 @@ namespace YouScribe.Rest
 
             var response = client.Execute<YouScribe.Rest.Models.Products.EmbedResponse>(request);
 
-            this.handleResponse(response, System.Net.HttpStatusCode.OK);
+            this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
             return response.Data != null ? response.Data.Content : string.Empty;
         }
@@ -46,7 +46,7 @@ namespace YouScribe.Rest
 
             var response = client.Execute<YouScribe.Rest.Models.Products.EmbedResponse>(request);
 
-            this.handleResponse(response, System.Net.HttpStatusCode.OK);
+            this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
             return response.Data != null ? response.Data.Content : string.Empty;
         }

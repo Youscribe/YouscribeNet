@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
-using RestSharp;
 
 namespace YouScribe.Rest
 {
     class AccountPublisherRequest : YouScribeRequest, IAccountPublisherRequest
     {
-        public AccountPublisherRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public AccountPublisherRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
         public bool SetAsPaypalPublisher(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)

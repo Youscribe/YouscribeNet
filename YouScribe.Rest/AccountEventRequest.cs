@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using RestSharp;
 using YouScribe.Rest.Models.Accounts;
+using System.Net.Http;
 
 namespace YouScribe.Rest
 {
     class AccountEventRequest : YouScribeRequest, IAccountEventRequest
     {
-        public AccountEventRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public AccountEventRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
         public IEnumerable<Models.Accounts.AccountEventModel> ListAllEvents()

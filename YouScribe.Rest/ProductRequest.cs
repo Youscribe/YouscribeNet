@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using RestSharp;
 using YouScribe.Rest.Models;
 using YouScribe.Rest.Models.Products;
 using YouScribe.Rest.Helpers;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace YouScribe.Rest
 {
@@ -16,20 +16,20 @@ namespace YouScribe.Rest
     {
         const int nbFilesByDocument = 3;
 
-        public ProductRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public ProductRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
         #region PublishDocument
 
-        public ProductModel PublishDocument(ProductModel productInformation, IEnumerable<FileModel> files)
+        public Task<ProductModel> PublishDocumentAsync(ProductModel productInformation, IEnumerable<FileModel> files)
         {
             if (files == null || files.Any() == false)
                 throw new ArgumentNullException("files", "You need to select file(s) to upload");
-            return this.publishDocument(productInformation, files);
+            return this.publishDocumentAsync(productInformation, files);
         }
 
-        public ProductModel PublishDocument(ProductModel productInformation, IEnumerable<Uri> filesUri)
+        public async Task<ProductModel> PublishDocumentAsync(ProductModel productInformation, IEnumerable<Uri> filesUri)
         {
             if (filesUri == null || filesUri.Any(c => (c.IsValid() == false)))
             {
@@ -38,24 +38,23 @@ namespace YouScribe.Rest
             }
 
             //create product
-            var request = this.createRequest(ApiUrls.ProductUrl, Method.POST);
+            using (var client = this.clientFactory())
+            {
+                var productReponse = await client.PostAsync(ApiUrls.ProductUrl, productInformation);
 
-            request.AddBody(productInformation);
+                if (await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.Created) == false)
+                    return null;
 
-            var productReponse = this.client.Execute<ProductModel>(request);
+                var product = await productReponse.Content.ReadAsync<ProductModel>();
 
-            if (this.handleResponse(productReponse, System.Net.HttpStatusCode.Created) == false)
-                return null;
+                if (await this.uploadFilesAsync(product.Id, filesUri) == false)
+                    return null;
 
-            var product = productReponse.Data;
-
-            if (this.uploadFiles(product.Id, filesUri) == false)
-                return null;
-
-            return product;
+                return product;
+            }
         }
 
-        private ProductModel publishDocument(ProductModel productInformation, IEnumerable<FileModel> files)
+        private Task<ProductModel> publishDocumentAsync(ProductModel productInformation, IEnumerable<FileModel> files)
         {
             if (files.Any(f => f.IsValid == false))
             {
@@ -79,7 +78,7 @@ namespace YouScribe.Rest
             return product;
         }
 
-        private bool uploadFiles(int productId, IEnumerable<FileModel> files)
+        private async Task<bool> uploadFilesAsync(int productId, IEnumerable<FileModel> files)
         {
             //select on file by content type and limit to nbFilesByDocument
             files = files.GroupBy(c => c.ContentType)
@@ -102,7 +101,7 @@ namespace YouScribe.Rest
                 }
 
                 var uploadResponse = this.client.Execute(request);
-                this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK);
+                await this.HandleResponseAsync(uploadResponse, System.Net.HttpStatusCode.OK);
             }
 
             //finalize
@@ -112,13 +111,13 @@ namespace YouScribe.Rest
 
             var response = this.client.Execute(finalizeRequest);
 
-            if (this.handleResponse(response, System.Net.HttpStatusCode.NoContent) == false)
+            if (await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent) == false)
                 return false;
 
             return true;
         }
 
-        private bool uploadFiles(int productId, IEnumerable<Uri> files)
+        private async Task<bool> uploadFilesAsync(int productId, IEnumerable<Uri> files)
         {
             //upload document files
             foreach (var file in files.Take(nbFilesByDocument))
@@ -129,7 +128,7 @@ namespace YouScribe.Rest
                     ;
 
                 var uploadResponse = this.client.Execute(request);
-                this.handleResponse(uploadResponse, System.Net.HttpStatusCode.OK);
+                await this.HandleResponseAsync(uploadResponse, System.Net.HttpStatusCode.OK);
             }
 
             //finalize
@@ -139,7 +138,7 @@ namespace YouScribe.Rest
 
             var response = this.client.Execute(finalizeRequest);
 
-            if (this.handleResponse(response, System.Net.HttpStatusCode.NoContent) == false)
+            if (await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent) == false)
                 return false;
             
             return true;
@@ -149,48 +148,48 @@ namespace YouScribe.Rest
 
         #region Update
 
-        public bool UpdateDocument(int productId, ProductUpdateModel productInformation)
+        public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation)
         {
-            var ok = this.updateDocument(productId, productInformation);
+            var ok = await this.updateDocumentAsync(productId, productInformation);
             if (ok == false)
                 return false;
-            return this.finalizeUdate(productId);
+            return await this.finalizeUdateAsync(productId);
         }
 
-        public bool UpdateDocument(int productId, ProductUpdateModel productInformation, IEnumerable<FileModel> files)
+        public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation, IEnumerable<FileModel> files)
         {
             if (files != null && files.Any(f => f.IsValid == false))
             {
                 this.Errors.Add("Incorrect files, need the FileName, ContentType and Content");
                 return false;
             }
-            var ok = this.updateDocument(productId, productInformation);
+            var ok = await this.updateDocumentAsync(productId, productInformation);
             if (ok == false)
                 return false;
             if (files != null)
-                return this.uploadFiles(productId, files);
+                return await this.uploadFilesAsync(productId, files);
 
-            return this.finalizeUdate(productId);
+            return await this.finalizeUdateAsync(productId);
         }
 
-        public bool UpdateDocument(int productId, ProductUpdateModel productInformation, IEnumerable<Uri> filesUri)
+        public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation, IEnumerable<Uri> filesUri)
         {
             if (filesUri != null && filesUri.Any(c => c.IsValid() == false))
             {
                 this.Errors.Add("Incorrect files uri, need the FileName, ContentType and Uri");
                 return false;
             }
-            var ok = this.updateDocument(productId, productInformation);
+            var ok = await this.updateDocumentAsync(productId, productInformation);
             if (ok == false)
                 return false;
 
             if (filesUri != null)
-                return this.uploadFiles(productId, filesUri);
+                return await this.uploadFilesAsync(productId, filesUri);
 
-            return this.finalizeUdate(productId);
+            return await this.finalizeUdateAsync(productId);
         }
 
-        private bool updateDocument(int productId, ProductUpdateModel productInformation)
+        private async Task<bool> updateDocumentAsync(int productId, ProductUpdateModel productInformation)
         {
             //update the product
             var request = this.createRequest(ApiUrls.ProductUpdateUrl, Method.PUT)
@@ -201,13 +200,13 @@ namespace YouScribe.Rest
             var response = this.client.Execute(request);
             if (response.StatusCode != HttpStatusCode.NoContent)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return false;
             }
             return true;
         }
 
-        private bool finalizeUdate(int productId)
+        private async Task<bool> finalizeUdateAsync(int productId)
         {
             var request = this.createRequest(ApiUrls.ProductEndUpdateUrl, Method.PUT)
                    .AddUrlSegment("id", productId.ToString())
@@ -217,7 +216,7 @@ namespace YouScribe.Rest
 
             if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return false;
             }
             return true;
@@ -227,7 +226,7 @@ namespace YouScribe.Rest
 
         #region Thumbnail
 
-        public bool UpdateDocumentThumbnail(int productId, Uri imageUri)
+        public async Task<bool> UpdateDocumentThumbnailAsync(int productId, Uri imageUri)
         {
             if (imageUri == null || imageUri.IsValid() == false)
             {
@@ -240,10 +239,10 @@ namespace YouScribe.Rest
                 ;
             var response = client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
         }
 
-        public bool UpdateDocumentThumbnail(int productId, int page)
+        public async Task<bool> UpdateDocumentThumbnailAsync(int productId, int page)
         {
             var request = this.createRequest(ApiUrls.ThumbnailPageUrl, Method.POST)
                 .AddUrlSegment("id", productId.ToString())
@@ -251,10 +250,10 @@ namespace YouScribe.Rest
                 ;
 
             var response = client.Execute(request);
-            return this.handleResponse(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
         }
 
-        public bool UpdateDocumentThumbnail(int productId, FileModel image)
+        public async Task<bool> UpdateDocumentThumbnailAsync(int productId, FileModel image)
         {
             if (image.IsValid == false)
             {
@@ -273,12 +272,12 @@ namespace YouScribe.Rest
             }
 
             var response = client.Execute(request);
-            return this.handleResponse(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
         }
 
         #endregion
 
-        public int GetRight(int productId)
+        public async Task<int> GetRightAsync(int productId)
         {
             var request = this.createRequest(ApiUrls.ProductRightUrl, Method.GET)
                 .AddUrlSegment("id", productId.ToString())
@@ -287,13 +286,13 @@ namespace YouScribe.Rest
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return -1;
             }
             return int.Parse(response.Content);
         }
 
-        public Stream DownloadFile(int productId, string extension)
+        public async Task<Stream> DownloadFileAsync(int productId, string extension)
         {
             var request = this.createRequest(ApiUrls.ProductDownloadByExtensionUrl, Method.GET)
                 .AddUrlSegment("id", productId.ToString())
@@ -303,13 +302,13 @@ namespace YouScribe.Rest
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return null;
             }
             return new MemoryStream(response.RawBytes);
         }
 
-        public Stream DownloadFile(int productId, int formatTypeId)
+        public async Task<Stream> DownloadFileAsync(int productId, int formatTypeId)
         {
             var request = this.createRequest(ApiUrls.ProductDownloadByFormatTypeIdUrl, Method.GET)
                 .AddUrlSegment("id", productId.ToString())
@@ -319,7 +318,7 @@ namespace YouScribe.Rest
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return null;
             }
             return new MemoryStream(response.RawBytes);

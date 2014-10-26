@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RestSharp;
 using YouScribe.Rest.Models.Accounts;
 using YouScribe.Rest.Helpers;
 using System.IO;
+using System.Net.Http;
 
 namespace YouScribe.Rest
 {
     class AccountRequest : YouScribeRequest, IAccountRequest
     {
-        public AccountRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public AccountRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
         public Models.Accounts.AccountModel Create(Models.Accounts.AccountModel account)
