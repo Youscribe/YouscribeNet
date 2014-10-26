@@ -16,48 +16,51 @@ namespace YouScribe.Rest
 
         public async Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()
         {
-            var request = this.createRequest(ApiUrls.AccountEventUrl, Method.GET);
-
-            var response = client.Execute<List<AccountEventModel>>(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            using (var client = this.CreateClient())
             {
-                await this.AddErrorsAsync(response);
-                return Enumerable.Empty<Models.Accounts.AccountEventModel>();
+                var response = await client.GetAsync(ApiUrls.AccountEventUrl);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response);
+                    return Enumerable.Empty<Models.Accounts.AccountEventModel>();
+                }
+                return response.Data;
             }
-            return response.Data;
         }
 
         public async Task<bool> SubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
-            var request = this.createRequest(ApiUrls.AccountEventUrl, Method.PUT);
-            request.AddBody(@event);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(@event);
+                var response = await client.PutAsync(ApiUrls.AccountEventUrl, content);
 
-            var response = client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
         public async Task<bool> UnSubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
-            var request = this.createRequest(ApiUrls.AccountUnSubscribeEventUrl, Method.DELETE)
-                .AddUrlSegment("id", @event.Id.ToString())
-                ;
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(@event);
+                var url = ApiUrls.AccountUnSubscribeEventUrl.Replace("{id}", @event.Id.ToString());
+                var response = await client.DeleteAsync(url, content);
 
-            var response = client.Execute(request);
-
-            return this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
         public async Task<bool> SetEventFrequencyAsync(Models.Accounts.NotificationFrequency frequency)
         {
-            var request = this.createRequest(ApiUrls.AccountEventFrequencyUrl, Method.PUT)
-                .AddUrlSegment("frequency", frequency.ToString())
-                ;
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.AccountEventFrequencyUrl.Replace("{frequency}", frequency.ToString());
+                var response = await client.PutAsync(url, null);
 
-            var response = client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
     }
 }
