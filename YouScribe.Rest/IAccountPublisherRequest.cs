@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
@@ -19,7 +20,7 @@ namespace YouScribe.Rest
         /// If the publisher is professional, the CorporateName, SiretNumber and VATNumber fields are required
         /// </param>
         /// <returns></returns>
-        bool SetAsPaypalPublisher(AccountPublisherPaypalModel paypalPublisher);
+        Task<bool> SetAsPaypalPublisherAsync(AccountPublisherPaypalModel paypalPublisher);
 
         /// <summary>
         /// Set the publisher information as Transfer
@@ -29,6 +30,6 @@ namespace YouScribe.Rest
         /// If the publisher is professional, the CorporateName, SiretNumber and VATNumber fields are required
         /// </param>
         /// <returns></returns>
-        bool SetAsTransferPublisher(AccountPublisherTransferModel transferPublisher);
+        Task<bool> SetAsTransferPublisherAsync(AccountPublisherTransferModel transferPublisher);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -12,7 +13,7 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public bool SetAsPaypalPublisher(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)
+        public async Task<bool> SetAsPaypalPublisherAsync(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)
         {
             var request = this.createRequest(ApiUrls.AccountPaypalPublisherUrl, Method.PUT);
 
@@ -20,10 +21,10 @@ namespace YouScribe.Rest
 
             var response = this.client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
-        public bool SetAsTransferPublisher(Models.Accounts.AccountPublisherTransferModel transferPublisher)
+        public async Task<bool> SetAsTransferPublisherAsync(Models.Accounts.AccountPublisherTransferModel transferPublisher)
         {
             var request = this.createRequest(ApiUrls.AccountTransferPublisherUrl, Method.PUT);
 
@@ -31,7 +32,7 @@ namespace YouScribe.Rest
 
             var response = this.client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
     }
 }

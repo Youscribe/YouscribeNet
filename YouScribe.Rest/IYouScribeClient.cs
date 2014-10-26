@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
@@ -14,7 +15,7 @@ namespace YouScribe.Rest
         /// <param name="userNameOrEmail"></param>
         /// <param name="password"></param>
         /// <returns>True if authorized</returns>
-        bool Authorize(string userNameOrEmail, string password);
+        Task<bool> AuthorizeAsync(string userNameOrEmail, string password);
 
         /// <summary>
         /// Set token to use method that need authentification

@@ -25,7 +25,7 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return null;
                 }
-                model = response.Content.ReadAsAsync<List<SimpleLibraryModel>>();
+                model = response.Content.ReadAsAsync<IEnumerable<SimpleLibraryModel>>();
             }
             return model;
 		}
@@ -42,7 +42,7 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return null;
                 }
-                model = response.Content.ReadAsAsync<List<LibraryModel>>();
+                model = response.Content.ReadAsAsync<LibraryModel>();
             }
             return model;
 		}

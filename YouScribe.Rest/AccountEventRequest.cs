@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RestSharp;
 using YouScribe.Rest.Models.Accounts;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -14,7 +14,7 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public IEnumerable<Models.Accounts.AccountEventModel> ListAllEvents()
+        public async Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()
         {
             var request = this.createRequest(ApiUrls.AccountEventUrl, Method.GET);
 
@@ -22,23 +22,23 @@ namespace YouScribe.Rest
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return Enumerable.Empty<Models.Accounts.AccountEventModel>();
             }
             return response.Data;
         }
 
-        public bool SubscribeToEvent(Models.Accounts.AccountEventModel @event)
+        public async Task<bool> SubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
             var request = this.createRequest(ApiUrls.AccountEventUrl, Method.PUT);
             request.AddBody(@event);
 
             var response = client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
-        public bool UnSubscribeToEvent(Models.Accounts.AccountEventModel @event)
+        public async Task<bool> UnSubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
             var request = this.createRequest(ApiUrls.AccountUnSubscribeEventUrl, Method.DELETE)
                 .AddUrlSegment("id", @event.Id.ToString())
@@ -46,10 +46,10 @@ namespace YouScribe.Rest
 
             var response = client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+            return this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
-        public bool SetEventFrequency(Models.Accounts.NotificationFrequency frequency)
+        public async Task<bool> SetEventFrequencyAsync(Models.Accounts.NotificationFrequency frequency)
         {
             var request = this.createRequest(ApiUrls.AccountEventFrequencyUrl, Method.PUT)
                 .AddUrlSegment("frequency", frequency.ToString())
@@ -57,7 +57,7 @@ namespace YouScribe.Rest
 
             var response = client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
     }
 }

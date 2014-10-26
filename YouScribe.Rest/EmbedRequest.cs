@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
@@ -12,12 +13,12 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public string GenerateIframeTag(int id)
+        public Task<string> GenerateIframeTagAsync(int id)
         {
-            return this.GenerateIframeTag(id, null);
+            return this.GenerateIframeTagAsync(id, null);
         }
 
-        public string GenerateIframeTag(int id, Models.Products.EmbedGenerateModel features)
+        public async Task<string> GenerateIframeTagAsync(int id, Models.Products.EmbedGenerateModel features)
         {
             var request = this.createRequest(ApiUrls.EmbedUrl, Method.GET)
                 .AddUrlSegment("id", id.ToString())
@@ -26,18 +27,18 @@ namespace YouScribe.Rest
 
             var response = client.Execute<YouScribe.Rest.Models.Products.EmbedResponse>(request);
 
-            this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
             return response.Data != null ? response.Data.Content : string.Empty;
         }
-        
 
-        public string GeneratePrivateIframeTag(int id)
+
+        public Task<string> GeneratePrivateIframeTagAsync(int id)
         {
-            return this.GeneratePrivateIframeTag(id, null);
+            return this.GeneratePrivateIframeTagAsync(id, null);
         }
 
-        public string GeneratePrivateIframeTag(int id, Models.Products.PrivateEmbedGenerateModel features)
+        public async Task<string> GeneratePrivateIframeTagAsync(int id, Models.Products.PrivateEmbedGenerateModel features)
         {
             var request = this.createRequest(ApiUrls.PrivateEmbedUrl, Method.GET)
                 .AddParameter("id", id)
@@ -46,7 +47,7 @@ namespace YouScribe.Rest
 
             var response = client.Execute<YouScribe.Rest.Models.Products.EmbedResponse>(request);
 
-            this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
             return response.Data != null ? response.Data.Content : string.Empty;
         }

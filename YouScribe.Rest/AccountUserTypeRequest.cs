@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
@@ -13,7 +14,7 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public IEnumerable<Models.Accounts.UserTypeModel> ListAllUserTypes()
+        public async Task<IEnumerable<Models.Accounts.UserTypeModel>> ListAllUserTypesAsync()
         {
             var request = this.createRequest(ApiUrls.AccountUserTypesUrl, Method.GET);
 
@@ -21,13 +22,13 @@ namespace YouScribe.Rest
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return Enumerable.Empty<Models.Accounts.UserTypeModel>();
             }
             return response.Data;
         }
 
-        public bool SetUserType(Models.Accounts.UserTypeModel userType)
+        public async Task<bool> SetUserTypeAsync(Models.Accounts.UserTypeModel userType)
         {
             var request = this.createRequest(ApiUrls.AccountUserTypesUrl, Method.PUT);
 
@@ -35,7 +36,7 @@ namespace YouScribe.Rest
             
             var response = client.Execute(request);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
     }
 }
