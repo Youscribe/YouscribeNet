@@ -20,16 +20,23 @@ namespace YouScribe.Rest
 
         public async Task<string> GenerateIframeTagAsync(int id, Models.Products.EmbedGenerateModel features)
         {
-            var request = this.createRequest(ApiUrls.EmbedUrl, Method.GET)
-                .AddUrlSegment("id", id.ToString())
-                ;
-            this.generateParameters(request, features);
+            using (var client = this.CreateClient())
+            {
+                var parameters = new Dictionary<string, string>();
+                this.generateParameters(parameters, features);
 
-            var response = client.Execute<YouScribe.Rest.Models.Products.EmbedResponse>(request);
+                var queryString = parameters.ToQueryString();
+                var url = ApiUrls.EmbedUrl.Replace("{id}", id.ToString());
+                if (!string.IsNullOrEmpty(queryString))
+                    url = url + "?" + queryString;
+                var response = await client.GetAsync(url);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
-            return response.Data != null ? response.Data.Content : string.Empty;
+                if (response.IsSuccessStatusCode)
+                    return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content)).Content;
+                return string.Empty;
+            }
         }
 
 
@@ -40,41 +47,49 @@ namespace YouScribe.Rest
 
         public async Task<string> GeneratePrivateIframeTagAsync(int id, Models.Products.PrivateEmbedGenerateModel features)
         {
-            var request = this.createRequest(ApiUrls.PrivateEmbedUrl, Method.GET)
-                .AddParameter("id", id)
-                ;
-            this.generateParameters(request, features);
+            using (var client = this.CreateClient())
+            {
+                var parameters = new Dictionary<string, string>();
+                parameters.Add("id", id.ToString());
+                this.generateParameters(parameters, features);
 
-            var response = client.Execute<YouScribe.Rest.Models.Products.EmbedResponse>(request);
+                var queryString = parameters.ToQueryString();
+                var url = ApiUrls.PrivateEmbedUrl;
+                if (!string.IsNullOrEmpty(queryString))
+                    url = url + "?" + queryString;
+                var response = await client.GetAsync(url);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
-            return response.Data != null ? response.Data.Content : string.Empty;
+                if (response.IsSuccessStatusCode)
+                    return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content)).Content;
+                return string.Empty;
+            }
         }
 
-        private void generateParameters(IRestRequest request, Models.Products.EmbedGenerateModel features)
+        private void generateParameters(IDictionary<string, string> parameters, Models.Products.EmbedGenerateModel features)
         {
             if (features == null)
                 return;
             if (features.DisplayMode.HasValue)
-                request.AddParameter("displayMode", features.DisplayMode.Value);
+                parameters.Add("displayMode", features.DisplayMode.Value.ToString());
             if (features.Height.HasValue)
-                request.AddParameter("height", features.Height.Value);
+                parameters.Add("height", features.Height.Value.ToString());
             if (features.StartPage.HasValue)
-                request.AddParameter("startPage", features.StartPage.Value);
+                parameters.Add("startPage", features.StartPage.Value.ToString());
             if (features.Width.HasValue)
-                request.AddParameter("width", features.Width.Value);
+                parameters.Add("width", features.Width.Value.ToString());
 
         }
 
-        private void generateParameters(IRestRequest request, Models.Products.PrivateEmbedGenerateModel features)
+        private void generateParameters(IDictionary<string, string> parameters, Models.Products.PrivateEmbedGenerateModel features)
         {
             if (features == null)
                 return;
-            this.generateParameters(request, (Models.Products.EmbedGenerateModel)features);
+            this.generateParameters(parameters, (Models.Products.EmbedGenerateModel)features);
 
             if (string.IsNullOrEmpty(features.AccessPeriod) == false)
-                request.AddParameter("accessPeriod", features.AccessPeriod);
+                parameters.Add(new KeyValuePair<string, string>("accessPeriod", features.AccessPeriod));
         }
     }
 }

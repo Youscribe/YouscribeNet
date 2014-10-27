@@ -15,24 +15,24 @@ namespace YouScribe.Rest
 
         public async Task<bool> SetAsPaypalPublisherAsync(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)
         {
-            var request = this.createRequest(ApiUrls.AccountPaypalPublisherUrl, Method.PUT);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(paypalPublisher);
+                var response = await client.PutAsync(ApiUrls.AccountPaypalPublisherUrl, content);
 
-            request.AddBody(paypalPublisher);
-
-            var response = this.client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
         public async Task<bool> SetAsTransferPublisherAsync(Models.Accounts.AccountPublisherTransferModel transferPublisher)
         {
-            var request = this.createRequest(ApiUrls.AccountTransferPublisherUrl, Method.PUT);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(transferPublisher);
+                var response = await client.PutAsync(ApiUrls.AccountTransferPublisherUrl, content);
 
-            request.AddBody(transferPublisher);
-
-            var response = this.client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
     }
 }

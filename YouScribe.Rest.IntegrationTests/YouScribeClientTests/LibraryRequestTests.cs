@@ -25,7 +25,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 int id = 1;
 
                 // Act
-                var library = request.Get(id);
+                var library = request.GetAsync(id).Result;
 
                 // Assert
                 Assert.NotNull(library);
@@ -43,7 +43,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateLibraryRequest();
 
                 // Act
-                var libraries = request.Get();
+                var libraries = request.GetAsync().Result;
 
                 // Assert
                 Assert.NotEmpty(libraries);

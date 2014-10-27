@@ -11,6 +11,7 @@ namespace YouScribe.Rest
     {
         protected readonly Func<HttpClient> clientFactory;
         protected readonly string authorizeToken;
+        protected readonly ISerializer serializer = new JSonSerializer();
 
         public ICollection<string> Errors
         {
@@ -43,13 +44,14 @@ namespace YouScribe.Rest
 
         protected HttpContent GetContent<T>(T obj)
         {
-            return new StringContent("");
+            var str = serializer.Serialize(obj);
+            return new StringContent(str, Encoding.UTF8, "application/json");
         }
 
         protected async Task<T> GetObjectAsync<T>(HttpContent content)
         {
             var str = await content.ReadAsStringAsync();
-            return default(T);
+            return serializer.Deserialize<T>(str);
         }
 
         protected async Task AddErrorsAsync(HttpResponseMessage response)

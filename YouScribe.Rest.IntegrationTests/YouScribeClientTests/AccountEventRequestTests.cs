@@ -10,7 +10,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 {
     public class AccountEventRequestTests
     {
-        const string expectedEventLists = "<ArrayOfAccountEventModel><AccountEventModel><Id>6</Id><Label>MemberHasSameInterest</Label><Name>MemberHasSameInterest</Name></AccountEventModel></ArrayOfAccountEventModel>";
+        const string expectedEventLists = "[{\"Id\":6,\"Label\":\"MemberHasSameInterest\",\"Name\":\"MemberHasSameInterest\"}]";
 
         [Fact]
         public void WhenListAllEvents_ThenCheckResponse()
@@ -22,7 +22,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                var events = request.ListAllEvents();
+                var events = request.ListAllEventsAsync().Result;
 
                 // Assert
                 Assert.NotEmpty(events);
@@ -40,12 +40,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.SubscribeToEvent(new Models.Accounts.AccountEventModel { Id = 6 });
+                bool ok = request.SubscribeToEventAsync(new Models.Accounts.AccountEventModel { Id = 6 }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -63,7 +63,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.SubscribeToEvent(new Models.Accounts.AccountEventModel { Id = 6 });
+                bool ok = request.SubscribeToEventAsync(new Models.Accounts.AccountEventModel { Id = 6 }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -79,12 +79,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.UnSubscribeToEvent(new Models.Accounts.AccountEventModel { Id = 6 });
+                bool ok = request.UnSubscribeToEventAsync(new Models.Accounts.AccountEventModel { Id = 6 }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -102,7 +102,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.UnSubscribeToEvent(new Models.Accounts.AccountEventModel { Id = 6 });
+                bool ok = request.UnSubscribeToEventAsync(new Models.Accounts.AccountEventModel { Id = 6 }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -118,12 +118,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.SetEventFrequency(Models.Accounts.NotificationFrequency.ByWeek);
+                bool ok = request.SetEventFrequencyAsync(Models.Accounts.NotificationFrequency.ByWeek).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -141,7 +141,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.SetEventFrequency(Models.Accounts.NotificationFrequency.ByWeek);
+                bool ok = request.SetEventFrequencyAsync(Models.Accounts.NotificationFrequency.ByWeek).Result;
 
                 // Assert
                 Assert.False(ok);

@@ -18,44 +18,42 @@ namespace YouScribe.Rest
 
         public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account)
         {
-            var request = this.createRequest(ApiUrls.AccountUrl, Method.POST);
-            request.AddBody(account);
-
-            var response = client.Execute<AccountModel>(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.Created)
+            using (var client = this.CreateClient())
             {
-                await this.AddErrorsAsync(response);
-                return null;
+                var content = this.GetContent(account);
+                var response = await client.PostAsync(ApiUrls.AccountUrl, content);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.Created)
+                {
+                    await this.AddErrorsAsync(response);
+                    return null;
+                }
+                return await this.GetObjectAsync<AccountModel>(response.Content);
             }
-            return response.Data;
         }
 
         public async Task<bool> UpdateAsync(Models.Accounts.AccountModel account)
         {
-            var requesst = this.createRequest(ApiUrls.AccountUrl, Method.PUT);
-            requesst.AddBody(account);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(account);
+                var response = await client.PutAsync(ApiUrls.AccountUrl, content);
 
-            var response = client.Execute(requesst);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
         public async Task<bool> SetSpokenLanguagesAsync(IEnumerable<string> languages)
         {
-            var request = this.createRequest(ApiUrls.AccountLanguagesUrl, Method.PUT);
-
-            if (languages != null)
+            using (var client = this.CreateClient())
             {
-                foreach (var lng in languages)
-                {
-                    request.AddParameter("Languages", lng);
-                }
+                var content = new FormUrlEncodedContent(
+                    languages.Select(c => new KeyValuePair<string, string>("Languages", c))
+                );
+                var response = await client.PutAsync(ApiUrls.AccountLanguagesUrl, content);
+
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
             }
-
-            var response = client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<bool> UploadPictureAsync(Uri uri)
@@ -65,13 +63,15 @@ namespace YouScribe.Rest
                 this.Errors.Add("uri invalid");
                 return false;
             }
-            var request = this.createRequest(ApiUrls.PictureUpdateUrl, Method.POST)
-                .AddUrlSegment("url", uri.ToString())
-                ;
+            using (var client = this.CreateClient())
+            {
+                var content = new FormUrlEncodedContent(new[]{
+                    new KeyValuePair<string, string>("url", uri.ToString())
+                });
+                var response = await client.PostAsync(ApiUrls.PictureUrl, content);
 
-            var response = client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            }
         }
 
         public async Task<bool> UploadPictureAsync(Models.FileModel image)
@@ -82,28 +82,24 @@ namespace YouScribe.Rest
                 return false;
             }
 
-            var request = this.createRequest(ApiUrls.PictureUrl, Method.POST);
-
-            using (MemoryStream ms = new MemoryStream())
+            using (var client = this.CreateClient())
             {
-                image.Content.CopyTo(ms);
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(image.Content), Path.GetFileNameWithoutExtension(image.FileName), image.FileName);
+                var response = await client.PostAsync(ApiUrls.PictureUrl, content);
 
-                var bytes = ms.ToArray();
-                request.AddFile("file", bytes, image.FileName, image.ContentType);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
             }
-            
-            var response = client.Execute(request);
-
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
         }
 
         public async Task<bool> DeletePictureAsync()
         {
-            var request = this.createRequest(ApiUrls.PictureUrl, Method.DELETE);
-            
-            var response = client.Execute(request);
+            using (var client = this.CreateClient())
+            {
+                var response = await client.DeleteAsync(ApiUrls.PictureUrl);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
     }
 }

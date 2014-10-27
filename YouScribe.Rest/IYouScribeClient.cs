@@ -32,8 +32,9 @@ namespace YouScribe.Rest
         /// <summary>
         /// Set user agent used for every requests
         /// </summary>
-        /// <param name="userAgent"></param>
-        void SetUserAgent(string userAgent);
+        /// <param name="productName"></param>
+        /// <param name="version"></param>
+        void SetUserAgent(string productName, string version);
 
         /// <summary>
         /// Create product request to manage yours publications

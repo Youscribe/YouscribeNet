@@ -12,10 +12,10 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
     {
         const string baseUrl = "http://localhost:8080/";
 
-        const string expectedEmbed1 = "<EmbedModel><Content>embed1</Content></EmbedModel>";
-        const string expectedEmbed2 = "<EmbedModel><Content>embed2</Content></EmbedModel>";
-        const string expectedEmbed3 = "<EmbedModel><Content>embed3</Content></EmbedModel>";
-        const string expectedEmbed4 = "<EmbedModel><Content>embed4</Content></EmbedModel>";
+        const string expectedEmbed1 = "{\"Content\":\"embed1\"}";
+        const string expectedEmbed2 = "{\"Content\":\"embed2\"}";
+        const string expectedEmbed3 = "{\"Content\":\"embed3\"}";
+        const string expectedEmbed4 = "{\"Content\":\"embed4\"}";
 
         [Fact]
         public void WhenGenerateEmbedIframeTag_ThenCheckCode()
@@ -29,7 +29,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 int productId = 1;
 
                 // Act
-                var tag = request.GenerateIframeTag(productId);
+                var tag = request.GenerateIframeTagAsync(productId).Result;
 
                 // Assert
                 Assert.NotEmpty(tag);
@@ -49,7 +49,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 int productId = 1;
 
                 // Act
-                var tag = request.GenerateIframeTag(productId, new Models.Products.EmbedGenerateModel { Width = 600, Height = 300 });
+                var tag = request.GenerateIframeTagAsync(productId, new Models.Products.EmbedGenerateModel { Width = 600, Height = 300 }).Result;
 
                 // Assert
                 Assert.NotEmpty(tag);
@@ -64,14 +64,14 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateEmbedRequest();
 
                 int productId = 1;
 
                 // Act
-                var tag = request.GeneratePrivateIframeTag(productId);
+                var tag = request.GeneratePrivateIframeTagAsync(productId).Result;
 
                 // Assert
                 Assert.NotEmpty(tag);
@@ -86,14 +86,14 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, GenerateEmbledHandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateEmbedRequest();
 
                 int productId = 1;
 
                 // Act
-                var tag = request.GeneratePrivateIframeTag(productId, new Models.Products.PrivateEmbedGenerateModel { Width = 600, Height = 300, AccessPeriod = "1d" });
+                var tag = request.GeneratePrivateIframeTagAsync(productId, new Models.Products.PrivateEmbedGenerateModel { Width = 600, Height = 300, AccessPeriod = "1d" }).Result;
 
                 // Assert
                 Assert.NotEmpty(tag);
@@ -115,7 +115,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 int productId = 1;
 
                 // Act
-                var tag = request.GeneratePrivateIframeTag(productId);
+                var tag = request.GeneratePrivateIframeTagAsync(productId).Result;
 
                 // Assert
                 Assert.Empty(tag);

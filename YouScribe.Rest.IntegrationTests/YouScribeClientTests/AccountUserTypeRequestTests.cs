@@ -12,7 +12,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
     {
         const string baseUrl = "http://localhost:8080/";
 
-        const string expectedUserTypesResponse = "<ArrayOfUserTypeModel><UserTypeModel><Id>25</Id><Label>Traducteur</Label><Name>Traducteur</Name></UserTypeModel></ArrayOfUserTypeModel>";
+        const string expectedUserTypesResponse = "[{\"Id\":25,\"Label\":\"Traducteur\",\"Name\":\"Traducteur\"}]";
 
         [Fact]
         public void WhenListAllUserTypes_ThenCheckResponse()
@@ -24,7 +24,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountUserTypeRequest();
 
                 // Act
-                var userTypes = request.ListAllUserTypes();
+                var userTypes = request.ListAllUserTypesAsync().Result;
 
                 // Assert
                 Assert.NotNull(userTypes);
@@ -43,12 +43,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountUserTypeRequest();
 
                 // Act
-                bool ok = request.SetUserType(new Models.Accounts.UserTypeModel { Id = 25 });
+                bool ok = request.SetUserTypeAsync(new Models.Accounts.UserTypeModel { Id = 25 }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -66,7 +66,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountUserTypeRequest();
 
                 // Act
-                bool ok = request.SetUserType(new Models.Accounts.UserTypeModel { Id = 25 });
+                bool ok = request.SetUserTypeAsync(new Models.Accounts.UserTypeModel { Id = 25 }).Result;
 
                 // Assert
                 Assert.False(ok);

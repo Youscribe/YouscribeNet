@@ -15,6 +15,11 @@ namespace YouScribe.Rest
 
         private string _authorizeToken;
 
+        private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
+        {
+            new ProductInfoHeaderValue("YouScribe", typeof(YouScribeClient).Assembly.GetName().Version.ToString())
+        };
+
         public YouScribeClient()
             : this(ApiUrls.BaseUrl)
         { }
@@ -26,9 +31,8 @@ namespace YouScribe.Rest
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.UserAgent.Add(
-                    new System.Net.Http.Headers.ProductInfoHeaderValue("YouScribe", this.GetType().Assembly.GetName().Version.ToString())
-                    );
+                client.DefaultRequestHeaders.UserAgent.Clear();
+                userAgents.ForEach(c => client.DefaultRequestHeaders.UserAgent.Add(c));
                 return client;
             };
         }
@@ -43,10 +47,13 @@ namespace YouScribe.Rest
             return _authorizeToken;
         }
 
-        //public void SetUserAgent(string userAgent)
-        //{
-        //    this.client.UserAgent = userAgent;
-        //}
+        public void SetUserAgent(string productName, string version)
+        {
+            this.userAgents = new List<ProductInfoHeaderValue>()
+            {
+                new ProductInfoHeaderValue(productName, version)
+            };
+        }
 
         public async Task<bool> AuthorizeAsync(string userNameOrEmail, string password)
         {
@@ -59,12 +66,12 @@ namespace YouScribe.Rest
                 var response = await client.PostAsync(ApiUrls.AuthorizeUrl, content);
                 if (!response.IsSuccessStatusCode)
                     return false;
-                if (response.Headers.Any(c => c.Name == ApiUrls.AuthorizeTokenHeaderName) == false)
+                if (response.Headers.Any(c => c.Key == ApiUrls.AuthorizeTokenHeaderName) == false)
                     return false;
 
-                var token = response.Headers.Where(c => c.Name == ApiUrls.AuthorizeTokenHeaderName)
+                var token = response.Headers.Where(c => c.Key == ApiUrls.AuthorizeTokenHeaderName)
                 .First()
-                .Value
+                .Value.First()
                 .ToString()
                 ;
                 _authorizeToken = token;

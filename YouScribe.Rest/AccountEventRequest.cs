@@ -25,7 +25,7 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return Enumerable.Empty<Models.Accounts.AccountEventModel>();
                 }
-                return response.Data;
+                return await this.GetObjectAsync<IEnumerable<Models.Accounts.AccountEventModel>>(response.Content);
             }
         }
 
@@ -44,9 +44,8 @@ namespace YouScribe.Rest
         {
             using (var client = this.CreateClient())
             {
-                var content = this.GetContent(@event);
                 var url = ApiUrls.AccountUnSubscribeEventUrl.Replace("{id}", @event.Id.ToString());
-                var response = await client.DeleteAsync(url, content);
+                var response = await client.DeleteAsync(url);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
             }

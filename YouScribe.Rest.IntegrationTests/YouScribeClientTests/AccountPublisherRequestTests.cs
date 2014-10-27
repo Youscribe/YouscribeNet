@@ -19,12 +19,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsPaypalPublisher(new Models.Accounts.AccountPublisherPaypalModel());
+                bool ok = request.SetAsPaypalPublisherAsync(new Models.Accounts.AccountPublisherPaypalModel()).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -42,7 +42,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsPaypalPublisher(new Models.Accounts.AccountPublisherPaypalModel());
+                bool ok = request.SetAsPaypalPublisherAsync(new Models.Accounts.AccountPublisherPaypalModel()).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -58,12 +58,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsTransferPublisher(new Models.Accounts.AccountPublisherTransferModel());
+                bool ok = request.SetAsTransferPublisherAsync(new Models.Accounts.AccountPublisherTransferModel()).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -81,7 +81,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsTransferPublisher(new Models.Accounts.AccountPublisherTransferModel());
+                bool ok = request.SetAsTransferPublisherAsync(new Models.Accounts.AccountPublisherTransferModel()).Result;
 
                 // Assert
                 Assert.False(ok);

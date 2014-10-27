@@ -21,7 +21,6 @@ namespace YouScribe.Rest
         public const string AccountUserTypesUrl = "api/v1/accounts/usertypes";
 
         public const string PictureUrl = "api/v1/pictures";
-        public const string PictureUpdateUrl = "api/v1/pictures?url={url}";
 
         public const string ProductUrl = "api/v1/products";
         public const string ProductUpdateUrl = "api/v1/products/{id}";

@@ -25,14 +25,14 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return null;
                 }
-                model = response.Content.ReadAsAsync<IEnumerable<SimpleLibraryModel>>();
+                model = await this.GetObjectAsync<IEnumerable<SimpleLibraryModel>>(response.Content);
             }
             return model;
 		}
 
 		public async Task<Models.Libraries.LibraryModel> GetAsync(int id)
 		{
-            IEnumerable<LibraryModel> model;
+            LibraryModel model;
             using (var client = this.CreateClient())
             {
                 var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString());
@@ -42,7 +42,7 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return null;
                 }
-                model = response.Content.ReadAsAsync<LibraryModel>();
+                model = await this.GetObjectAsync<LibraryModel>(response.Content);
             }
             return model;
 		}
@@ -59,7 +59,7 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return null;
                 }
-                model = response.Content.ReadAsAsync<LibraryModel>();
+                model = await this.GetObjectAsync<LibraryModel>(response.Content);
             }
             return model;
         }
@@ -90,36 +90,42 @@ namespace YouScribe.Rest
 
         public async Task<bool> DeleteProductAsync(int id, int productId)
         {
-            var request = this.createRequest(ApiUrls.LibraryGetByTypeNameUrl, Method.DELETE)
-                .AddUrlSegment("id", id.ToString())
-                .AddUrlSegment("productId", productId.ToString());
-            var response = client.Execute(request);
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString())
+                    .Replace("{productId}", productId.ToString());
+                var response = await client.DeleteAsync(url);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
         public async Task<bool> DeleteProductAsync(string typeName, int productId)
         {
-            var request = this.createRequest(ApiUrls.LibraryGetByTypeNameUrl, Method.DELETE)
-                .AddUrlSegment("typeName", typeName)
-                .AddUrlSegment("productId", productId.ToString());
-            var response = client.Execute(request);
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString())
+                    .Replace("{productId}", productId.ToString());
+                var response = await client.DeleteAsync(url);
 
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
         public async Task<IEnumerable<int>> GetByProductIdAsync(int productId)
         {
-            var request = this.createRequest(ApiUrls.LibraryGetByProductIdUrl, Method.GET)
-                .AddUrlSegment("productId", productId.ToString());
-            var response = client.Execute<List<int>>(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            using (var client = this.CreateClient())
             {
-                this.addErrors(response);
-                return null;
+                var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
+                var response = await client.GetAsync(url);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response);
+                    return null;
+                }
+                return await this.GetObjectAsync<IEnumerable<int>>(response.Content);
             }
-            return response.Data;
         }
     }
 }

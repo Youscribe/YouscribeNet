@@ -25,7 +25,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                var account = request.Create(new Models.Accounts.AccountModel { UserName = "test", Password = "password" });
+                var account = request.CreateAsync(new Models.Accounts.AccountModel { UserName = "test", Password = "password" }).Result;
 
                 // Assert
                 Assert.NotNull(account);
@@ -41,12 +41,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.Update(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" });
+                bool ok = request.UpdateAsync(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -64,7 +64,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.Update(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" });
+                bool ok = request.UpdateAsync(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -79,12 +79,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.SetSpokenLanguages(new[] { "fr", "en" });
+                bool ok = request.SetSpokenLanguagesAsync(new[] { "fr", "en" }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -102,7 +102,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.SetSpokenLanguages(new[] { "fr", "en" });
+                bool ok = request.SetSpokenLanguagesAsync(new[] { "fr", "en" }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -117,12 +117,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Uri("http://exmple.com/image.jpg"));
+                bool ok = request.UploadPictureAsync(new Uri("http://exmple.com/image.jpg")).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -140,7 +140,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Uri("http://exmple.com/image.jpg"));
+                bool ok = request.UploadPictureAsync(new Uri("http://exmple.com/image.jpg")).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -156,12 +156,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" });
+                bool ok = request.UploadPictureAsync(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -179,7 +179,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" });
+                bool ok = request.UploadPictureAsync(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -194,12 +194,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.DeletePicture();
+                bool ok = request.DeletePictureAsync().Result;
 
                 // Assert
                 Assert.True(ok);
@@ -217,7 +217,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.DeletePicture();
+                bool ok = request.DeletePictureAsync().Result;
 
                 // Assert
                 Assert.False(ok);

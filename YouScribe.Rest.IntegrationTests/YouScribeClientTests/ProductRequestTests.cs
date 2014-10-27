@@ -23,18 +23,18 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                var product = request.PublishDocument(new Models.Products.ProductModel
+                var product = request.PublishDocumentAsync(new Models.Products.ProductModel
                 {
                     Title = "my document title"
                 },
                 new[] { 
                     new YouScribe.Rest.Models.FileModel { Content = new MemoryStream(), FileName ="test.pdf", ContentType = "application/pdf" }
-                });
+                }).Result;
 
                 // Assert
                 Assert.NotNull(product);
@@ -51,18 +51,18 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                var product = request.PublishDocument(new Models.Products.ProductModel
+                var product = request.PublishDocumentAsync(new Models.Products.ProductModel
                 {
                     Title = "my document title"
                 },
                 new[] { 
                     new Uri("http://exemple.com/test.pdf")
-                });
+                }).Result;
 
                 // Assert
                 Assert.NotNull(product);
@@ -79,18 +79,18 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                bool ok = request.UpdateDocument(42, new Models.Products.ProductUpdateModel
+                bool ok = request.UpdateDocumentAsync(42, new Models.Products.ProductUpdateModel
                 {
                     Description = "ok"
                 },
                 new[] { 
                     new YouScribe.Rest.Models.FileModel { Content = new MemoryStream(), FileName ="test2.pdf", ContentType = "application/pdf" }
-                });
+                }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -105,18 +105,18 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                bool ok = request.UpdateDocument(42, new Models.Products.ProductUpdateModel
+                bool ok = request.UpdateDocumentAsync(42, new Models.Products.ProductUpdateModel
                 {
                     Description = "ok"
                 },
                 new[] { 
                     new Uri("http://exemple.com/test2.pdf")
-                });
+                }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -131,12 +131,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                bool ok = request.UpdateDocumentThumbnail(42, new Uri("http://exemple.com/thumbnail.png"));
+                bool ok = request.UpdateDocumentThumbnailAsync(42, new Uri("http://exemple.com/thumbnail.png")).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -151,17 +151,17 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                bool ok = request.UpdateDocumentThumbnail(42, new YouScribe.Rest.Models.FileModel
+                bool ok = request.UpdateDocumentThumbnailAsync(42, new YouScribe.Rest.Models.FileModel
                 {
                     Content = new MemoryStream(),
                     FileName = "image.jpg",
                     ContentType = "image/jpg"
-                });
+                }).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -176,12 +176,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                bool ok = request.UpdateDocumentThumbnail(42, 2);
+                bool ok = request.UpdateDocumentThumbnailAsync(42, 2).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -196,12 +196,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                var response = request.GetRight(42);
+                var response = request.GetRightAsync(42).Result;
 
                 // Assert
                 Assert.Equal(110, response);
@@ -216,16 +216,20 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                var response = request.DownloadFile(42, "pdf");
+                var response = request.DownloadFileAsync(42, "pdf").Result;
 
                 // Assert
                 Assert.NotNull(response);
-                Assert.Equal(57210, response.Length);
+                using (var stream = new MemoryStream())
+                {
+                    response.CopyTo(stream);
+                    Assert.Equal(57210, stream.Length);
+                }
             }
         }
 
@@ -237,16 +241,20 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateProductRequest();
 
                 // Act
-                var response = request.DownloadFile(42, 1);
+                var response = request.DownloadFileAsync(42, 1).Result;
 
                 // Assert
                 Assert.NotNull(response);
-                Assert.Equal(57210, response.Length);
+                using (var stream = new MemoryStream())
+                {
+                    response.CopyTo(stream);
+                    Assert.Equal(57210, stream.Length);
+                }
             }
         }
 
@@ -318,26 +326,25 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     }
                     break;
-                case "/api/v1/thumbnail/42?url=http%3A%2F%2Fexemple.com%2Fthumbnail.png":
-                    if (context.Request.HttpMethod == "PUT")
-                    {
-                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                            context.Response.StatusCode = (int)HttpStatusCode.OK;
-                        else
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    }
-                    break;
-                case "/api/v1/thumbnail/42?page=2":
-                    if (context.Request.HttpMethod == "PUT")
-                    {
-                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                            context.Response.StatusCode = (int)HttpStatusCode.OK;
-                        else
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    }
-                    break;
                 case "/api/v1/thumbnail/42":
-                    if (context.Request.HttpMethod == "PUT")
+                    string content = null;
+                    using (var stream = new StreamReader(context.Request.InputStream))
+                        content = stream.ReadToEnd();
+                    if (context.Request.HttpMethod == "PUT" && content.Contains("url"))
+                    {
+                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        else
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    else if (context.Request.HttpMethod == "PUT" && content.Contains("page"))
+                    {
+                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        else
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    else if (context.Request.HttpMethod == "PUT")
                     {
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.OK;
