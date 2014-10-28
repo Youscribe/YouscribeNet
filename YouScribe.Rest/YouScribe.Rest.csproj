@@ -95,6 +95,7 @@
     <Compile Include="IAccountUsertTypeRequest.cs" />
     <Compile Include="IEmbedRequest.cs" />
     <Compile Include="ILibraryRequest.cs" />
+    <Compile Include="IProductCommentRequest.cs" />
     <Compile Include="IProductRequest.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="IYouScribeClient.cs" />
@@ -113,10 +114,12 @@
     <Compile Include="Models\Products\CategoryModel.cs" />
     <Compile Include="Models\Products\EmbedGenerateModel.cs" />
     <Compile Include="Models\Products\PeopleModel.cs" />
+    <Compile Include="Models\Products\ProductCommentsOutput.cs" />
     <Compile Include="Models\Products\ProductGetModel.cs" />
     <Compile Include="Models\Products\ProductModel.cs" />
     <Compile Include="Models\Products\ProductUpdateModel.cs" />
     <Compile Include="Models\Products\ThemeModel.cs" />
+    <Compile Include="ProductCommentRequest.cs" />
     <Compile Include="ProductRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryStringHelper.cs" />

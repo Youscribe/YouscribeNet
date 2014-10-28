@@ -121,5 +121,11 @@ namespace YouScribe.Rest
             var request = new EmbedRequest(this.clientFactory, _authorizeToken);
             return request;
         }
+
+        public IProductCommentRequest CreateProductCommentRequest()
+        {
+            var request = new ProductCommentRequest(this.clientFactory, _authorizeToken);
+            return request;
+        }
     }
 }
