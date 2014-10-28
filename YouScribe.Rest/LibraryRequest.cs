@@ -68,7 +68,7 @@ namespace YouScribe.Rest
         {
             using (var client = this.CreateClient())
             {
-                var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString())
+                var url = ApiUrls.LibraryAddProductUrl.Replace("{id}", id.ToString())
                     .Replace("{productId}", productId.ToString());
                 var response = await client.PutAsync(url, null);
 
@@ -80,7 +80,7 @@ namespace YouScribe.Rest
         {
             using (var client = this.CreateClient())
             {
-                var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString())
+                var url = ApiUrls.LibraryAddByTypeNameProductUrl.Replace("{typeName}", typeName.ToString())
                     .Replace("{productId}", productId.ToString());
                 var response = await client.PutAsync(url, null);
 

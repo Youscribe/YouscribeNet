@@ -15,6 +15,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
         const string expectedProductResponse = "{\"Id\":42,\"Title\":\"my document title\"}";
 
+        static string requestContent = null;
+
         [Fact]
         public void WhenPublishDocumentFromLocalFile_ThenCheckResponse()
         {
@@ -40,6 +42,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 Assert.NotNull(product);
                 Assert.Equal(42, product.Id);
                 Assert.Equal("my document title", product.Title);
+                Assert.Equal("{\"Id\":0,\"Title\":\"my document title\",\"Description\":null,\"Collection\":null,\"PublishDate\":null,\"EAN13\":null,\"Public\":true,\"IsFree\":true,\"Price\":null,\"People\":null,\"Languages\":null,\"Tags\":null,\"CategoryId\":0,\"ThemeId\":0,\"AllowPasteAndCut\":false,\"AllowPrint\":false,\"AllowPrintOnDemand\":false,\"AllowDownload\":true,\"AllowStreaming\":true,\"IsAdultContent\":false,\"PreviewNbPage\":null,\"PreviewPercentPage\":null,\"PreviewRange\":null,\"CopyrightInformation\":0,\"LicenceName\":null}", 
+                    requestContent);
             }
         }
 
@@ -68,6 +72,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 Assert.NotNull(product);
                 Assert.Equal(42, product.Id);
                 Assert.Equal("my document title", product.Title);
+                Assert.Equal("{\"Id\":0,\"Title\":\"my document title\",\"Description\":null,\"Collection\":null,\"PublishDate\":null,\"EAN13\":null,\"Public\":true,\"IsFree\":true,\"Price\":null,\"People\":null,\"Languages\":null,\"Tags\":null,\"CategoryId\":0,\"ThemeId\":0,\"AllowPasteAndCut\":false,\"AllowPrint\":false,\"AllowPrintOnDemand\":false,\"AllowDownload\":true,\"AllowStreaming\":true,\"IsAdultContent\":false,\"PreviewNbPage\":null,\"PreviewPercentPage\":null,\"PreviewRange\":null,\"CopyrightInformation\":0,\"LicenceName\":null}", 
+                    requestContent);
             }
         }
 
@@ -292,6 +298,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 case "/api/v1/products":
                     if (context.Request.HttpMethod == "POST")
                     {
+                        requestContent = context.Request.GetRequestAsString();
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                         {
                             context.Response.ContentType = "application/json; charset=utf-8";
@@ -303,6 +310,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }
                     break;
                 case "/api/v1/products/42":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                         context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                     else

@@ -15,6 +15,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
         const string expectedAccountResponse = "{\"Id\":0,\"UserName\":\"test\"}";
 
+        static string requestContent = null;
+
         [Fact]
         public void WhenCreateAccount_ThenCheckResponse()
         {
@@ -30,6 +32,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 // Assert
                 Assert.NotNull(account);
                 Assert.Equal("test", account.UserName);
+                Assert.Equal("{\"Id\":0,\"UserName\":\"test\",\"Password\":\"password\",\"Email\":null,\"FirstName\":null,\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null}", 
+                    requestContent);
             }
         }
 
@@ -50,6 +54,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("{\"Id\":42,\"UserName\":null,\"Password\":null,\"Email\":null,\"FirstName\":\"kikou\",\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null}", 
+                    requestContent);
             }
         }
 
@@ -88,6 +94,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("Languages=fr&Languages=en", requestContent);
             }
         }
 
@@ -126,6 +133,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("url=http%3A%2F%2Fexmple.com%2Fimage.jpg", requestContent);
             }
         }
 
@@ -164,6 +172,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 bool ok = request.UploadPictureAsync(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" }).Result;
 
                 // Assert
+                Assert.Contains("Content-Disposition: form-data; name=test; filename=test.png; filename*=utf-8''test.png", requestContent);
                 Assert.True(ok);
             }
         }
@@ -229,6 +238,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             switch (context.Request.RawUrl)
             {
                 case "/api/v1/accounts":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.HttpMethod == "POST")
                     {
                         context.Response.ContentType = "application/json; charset=utf-8";
@@ -237,16 +247,14 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }
                     else if (context.Request.HttpMethod == "PUT")
                     {
-                        if (context.Request.HttpMethod == "PUT")
-                        {
-                            if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                                context.Response.StatusCode = (int)HttpStatusCode.NoContent;
-                            else
-                                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        }
+                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                            context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                        else
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     }
                     break;
                 case "/api/v1/accounts/languages":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                         context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                     else
@@ -254,6 +262,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     break;
                 case "/api/v1/pictures?url=http%3A%2F%2Fexmple.com%2Fimage.jpg":
                 case "/api/v1/pictures":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                         context.Response.StatusCode = context.Request.HttpMethod == "DELETE" ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK;
                     else

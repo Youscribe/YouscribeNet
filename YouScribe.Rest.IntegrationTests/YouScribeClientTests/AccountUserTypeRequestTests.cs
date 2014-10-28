@@ -14,6 +14,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
         const string expectedUserTypesResponse = "[{\"Id\":25,\"Label\":\"Traducteur\",\"Name\":\"Traducteur\"}]";
 
+        static string requestContent = null;
+
         [Fact]
         public void WhenListAllUserTypes_ThenCheckResponse()
         {
@@ -52,6 +54,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("{\"Id\":25,\"Name\":null,\"Label\":null}", requestContent);
             }
         }
 
@@ -85,6 +88,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }
                     else if (context.Request.HttpMethod == "PUT")
                     {
+                        requestContent = context.Request.GetRequestAsString();
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                         else

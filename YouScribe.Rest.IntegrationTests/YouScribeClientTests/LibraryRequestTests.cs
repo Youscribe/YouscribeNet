@@ -12,6 +12,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
     public class LibraryRequestTests
     {
         const string baseUrl = "http://localhost:8080/";
+        static string requestContent = null;
 
         [Fact]
         public void WhenGetLibrary_ThenCheckResponse()
@@ -51,6 +52,40 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenAddProductWithLibId_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, LibraryRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateLibraryRequest();
+
+                // Act
+                var ok = request.AddProductAsync(1, 10).Result;
+
+                // Assert
+                Assert.True(ok);
+            }
+        }
+
+        [Fact]
+        public void WhenAddProductWithLibTypeName_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, LibraryRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateLibraryRequest();
+
+                // Act
+                var ok = request.AddProductAsync("MyDownloads", 10).Result;
+
+                // Assert
+                Assert.True(ok);
+            }
+        }
+
         public void LibraryRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
@@ -62,10 +97,20 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     break;
                 case "/api/v1/libraries/MyDownloads":
                 case "/api/v1/libraries/1":
-                    context.Response.ContentType = "application/json";
-                    context.Response.ContentEncoding = Encoding.UTF8;
-                    var test = context.Request.ContentEncoding;
-                    context.Response.OutputStream.Write(File.ReadAllText("Responses/Libraries_GetResponse.txt"));
+                    if (context.Request.HttpMethod == "GET")
+                    {
+                        context.Response.ContentType = "application/json";
+                        context.Response.ContentEncoding = Encoding.UTF8;
+                        var test = context.Request.ContentEncoding;
+                        context.Response.OutputStream.Write(File.ReadAllText("Responses/Libraries_GetResponse.txt"));
+                    }
+                    break;
+                case "/api/v1/libraries/1/product/10":
+                case "/api/v1/libraries/MyDownloads/product/10":
+                    if (context.Request.HttpMethod == "PUT")
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                    }
                     break;
                 case "/api/v1/libraries/1/products/2":
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))

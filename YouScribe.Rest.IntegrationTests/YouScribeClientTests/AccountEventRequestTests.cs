@@ -11,6 +11,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
     public class AccountEventRequestTests
     {
         const string expectedEventLists = "[{\"Id\":6,\"Label\":\"MemberHasSameInterest\",\"Name\":\"MemberHasSameInterest\"}]";
+        static string requestContent = null;
 
         [Fact]
         public void WhenListAllEvents_ThenCheckResponse()
@@ -49,6 +50,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("{\"Id\":6,\"Name\":null,\"Label\":null}", requestContent);
             }
         }
 
@@ -162,6 +164,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }
                     else if (context.Request.HttpMethod == "PUT")
                     {
+                        requestContent = context.Request.GetRequestAsString();
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                         else

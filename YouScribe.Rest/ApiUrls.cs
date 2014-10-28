@@ -39,7 +39,8 @@ namespace YouScribe.Rest
         public const string LibraryUpdateUrl = LibraryGetUrl;
         public const string LibraryAddProductUrl = "api/v1/libraries/{id}/product/{productId}";
         public const string LibraryDeleteProductUrl = LibraryAddProductUrl;
-        public const string LibraryDeleteByTypeNameProductUrl = "api/v1/libraries/{typeName}/product/{productId}";
+        public const string LibraryAddByTypeNameProductUrl = "api/v1/libraries/{typeName}/product/{productId}";
+        public const string LibraryDeleteByTypeNameProductUrl = LibraryAddByTypeNameProductUrl;
         public const string LibraryGetByProductIdUrl = "api/v1/libraries/products/{productId}";
 
         public const string UploadUrl = "api/v1/upload/{id}";
