@@ -65,10 +65,13 @@ namespace YouScribe.Rest
             }
             using (var client = this.CreateClient())
             {
-                var content = new FormUrlEncodedContent(new[]{
-                    new KeyValuePair<string, string>("url", uri.ToString())
-                });
-                var response = await client.PostAsync(ApiUrls.PictureUrl, content);
+                var url = ApiUrls.PictureUrl;
+                var dico = new Dictionary<string, string>(){
+                    {"url", uri.ToString()}
+                };
+                url = url + "?" + dico.ToQueryString();
+                var response = await client.PostAsync(url, null);
+
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
             }

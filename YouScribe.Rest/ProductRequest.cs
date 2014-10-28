@@ -119,11 +119,12 @@ namespace YouScribe.Rest
             {
                 using (var client = this.CreateClient())
                 {
-                    var content = new FormUrlEncodedContent(new []{
-                        new KeyValuePair<string, string>("url", file.ToString())
-                    });
+                    var dico = new Dictionary<string, string>(){
+                        {"url", file.ToString()}
+                    };
                     var url = ApiUrls.UploadFileUrl.Replace("{id}", productId.ToString());
-                    var productReponse = await client.PostAsync(url, content);
+                    url = url + "?" + dico.ToQueryString();
+                    var productReponse = await client.PostAsync(url, null);
 
                     await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.OK);
                 }
@@ -223,10 +224,11 @@ namespace YouScribe.Rest
             using (var client = this.CreateClient())
             {
                 var url = ApiUrls.ThumbnailDataUrl.Replace("{id}", productId.ToString());
-                var content = new FormUrlEncodedContent(new []{
-                    new KeyValuePair<string, string>("url", imageUri.ToString())
-                });
-                var response = await client.PostAsync(url, content);
+                var dico = new Dictionary<string, string>(){
+                    {"url", imageUri.ToString()}
+                };
+                url = url + "?" + dico.ToQueryString();
+                var response = await client.PostAsync(url, null);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
             }
@@ -237,10 +239,10 @@ namespace YouScribe.Rest
             using (var client = this.CreateClient())
             {
                 var url = ApiUrls.ThumbnailDataUrl.Replace("{id}", productId.ToString());
-                var content = new FormUrlEncodedContent(new[]{
-                    new KeyValuePair<string, string>("page", page.ToString())
-                });
-                var response = await client.PostAsync(url, content);
+                var dico = new Dictionary<string, string>(){
+                    {"url", page.ToString()}
+                };
+                var response = await client.PostAsync(url, null);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
             }

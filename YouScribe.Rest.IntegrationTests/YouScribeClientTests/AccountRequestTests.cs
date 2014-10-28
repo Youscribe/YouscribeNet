@@ -133,7 +133,6 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
-                Assert.Equal("url=http%3A%2F%2Fexmple.com%2Fimage.jpg", requestContent);
             }
         }
 

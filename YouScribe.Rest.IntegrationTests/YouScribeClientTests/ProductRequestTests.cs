@@ -334,25 +334,20 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     }
                     break;
+                case "/api/v1/thumbnail/42?url=http%3A%2F%2Fexemple.com%2Fthumbnail.png":
+                    if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                    else
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+                case "/api/v1/thumbnail/42?page=2":
+                    if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                    else
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
                 case "/api/v1/thumbnail/42":
-                    string content = null;
-                    using (var stream = new StreamReader(context.Request.InputStream))
-                        content = stream.ReadToEnd();
-                    if (context.Request.HttpMethod == "PUT" && content.Contains("url"))
-                    {
-                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                            context.Response.StatusCode = (int)HttpStatusCode.OK;
-                        else
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    }
-                    else if (context.Request.HttpMethod == "PUT" && content.Contains("page"))
-                    {
-                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                            context.Response.StatusCode = (int)HttpStatusCode.OK;
-                        else
-                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    }
-                    else if (context.Request.HttpMethod == "PUT")
+                    if (context.Request.HttpMethod == "PUT")
                     {
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.OK;
