@@ -9,7 +9,7 @@ namespace YouScribe.Rest.Helpers
     {
         public static bool IsValid(this Uri uri)
         {
-            return !uri.IsFile && !uri.IsLoopback && !uri.IsUnc;
+            return !uri.IsUnc;
         }
     }
 }

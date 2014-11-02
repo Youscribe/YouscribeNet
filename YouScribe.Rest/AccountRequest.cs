@@ -88,7 +88,7 @@ namespace YouScribe.Rest
             using (var client = this.CreateClient())
             {
                 var content = new MultipartFormDataContent();
-                content.Add(new StreamContent(image.Content), Path.GetFileNameWithoutExtension(image.FileName), image.FileName);
+                content.Add(new StreamContent(image.Content), "file", image.FileName);
                 var response = await client.PostAsync(ApiUrls.PictureUrl, content);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);

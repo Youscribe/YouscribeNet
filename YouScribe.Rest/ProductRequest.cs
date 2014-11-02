@@ -318,7 +318,7 @@ namespace YouScribe.Rest
         }
 
 
-        protected async Task DownloadFileToPathAsync(string url, string path, IProgress<DownloadBytesProgress> progressReport)
+        protected async Task DownloadFileToStreamAsync(string url, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
             int receivedBytes = 0;
             int totalBytes = 0;
@@ -333,43 +333,41 @@ namespace YouScribe.Rest
                     return;
                 }
                 var stream = await response.Content.ReadAsStreamAsync();
-                using (var writer = File.OpenWrite(path))
+
+                byte[] buffer = new byte[4096];
+                totalBytes = (int)response.Content.Headers.ContentLength.Value;
+
+                for (; ; )
                 {
-                    byte[] buffer = new byte[4096];
-                    totalBytes = (int)response.Content.Headers.ContentLength.Value;
+                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    if (bytesRead == 0)
+                        break;
 
-                    for (; ; )
+                    writer.Write(buffer, 0, bytesRead);
+                    receivedBytes += bytesRead;
+                    if (progressReport != null)
                     {
-                        int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                        if (bytesRead == 0)
-                            break;
-
-                        writer.Write(buffer, 0, bytesRead);
-                        receivedBytes += bytesRead;
-                        if (progressReport != null)
-                        {
-                            var args = new DownloadBytesProgress(url, receivedBytes, totalBytes);
-                            progressReport.Report(args);
-                        }
+                        var args = new DownloadBytesProgress(url, receivedBytes, totalBytes);
+                        progressReport.Report(args);
                     }
                 }
             }
         }
 
-        public Task DownloadFileToPathAsync(int productId, int formatTypeId, string path, IProgress<DownloadBytesProgress> progressReport)
+        public Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
             var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{formatTypeId}", formatTypeId.ToString());
-			return this.DownloadFileToPathAsync(urlToDownload, path, progressReport);
+            return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
         }
 
-        public Task DownloadFileToPathAsync(int productId, string extension, string path, IProgress<DownloadBytesProgress> progressReport)
+        public Task DownloadFileToStreamAsync(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
 			var urlToDownload = ApiUrls.ProductDownloadByExtensionUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{extension}", extension);
-			return this.DownloadFileToPathAsync(urlToDownload, path, progressReport);
+            return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
         }
     }
 }

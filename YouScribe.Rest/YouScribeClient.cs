@@ -17,7 +17,7 @@ namespace YouScribe.Rest
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
-            new ProductInfoHeaderValue("YouScribe", typeof(YouScribeClient).Assembly.GetName().Version.ToString())
+            new ProductInfoHeaderValue("YouScribe", "2.0")
         };
 
         public YouScribeClient()
@@ -32,7 +32,8 @@ namespace YouScribe.Rest
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.UserAgent.Clear();
-                userAgents.ForEach(c => client.DefaultRequestHeaders.UserAgent.Add(c));
+                foreach (var userAgent in userAgents)
+                    client.DefaultRequestHeaders.UserAgent.Add(userAgent);
                 return client;
             };
         }

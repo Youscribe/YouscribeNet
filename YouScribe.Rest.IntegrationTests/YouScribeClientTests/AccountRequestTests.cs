@@ -171,7 +171,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 bool ok = request.UploadPictureAsync(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" }).Result;
 
                 // Assert
-                Assert.Contains("Content-Disposition: form-data; name=test; filename=test.png; filename*=utf-8''test.png", requestContent);
+                Assert.Contains("Content-Disposition: form-data; name=file; filename=test.png; filename*=utf-8''test.png", requestContent);
                 Assert.True(ok);
             }
         }

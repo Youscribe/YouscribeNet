@@ -112,7 +112,7 @@ namespace YouScribe.Rest
         /// <param name="productId"></param>
         /// <param name="extension"></param>
         /// <returns></returns>
-        Task DownloadFileToPathAsync(int productId, string extension, string path, IProgress<DownloadBytesProgress> progressReport);
+        Task DownloadFileToStreamAsync(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport);
 
         /// <summary>
         /// Download a specific file for product by format type id
@@ -120,7 +120,7 @@ namespace YouScribe.Rest
         /// <param name="productId"></param>
         /// <param name="extension"></param>
         /// <returns></returns>
-        Task DownloadFileToPathAsync(int productId, int formatTypeId, string path, IProgress<DownloadBytesProgress> progressReport);
+        Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport);
 
     }
 }
