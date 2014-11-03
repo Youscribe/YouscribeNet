@@ -25,10 +25,18 @@ namespace YouScribe.Rest
         { }
 
         public YouScribeClient(string baseUrl)
+            : this(null, baseUrl)
+        { }
+
+        public YouScribeClient(HttpMessageHandler handler)
+            : this(handler, ApiUrls.BaseUrl)
+        { }
+
+        public YouScribeClient(HttpMessageHandler handler, string baseUrl)
         {
             this.clientFactory = () =>
             {
-                var client = new HttpClient();
+                var client = handler == null ? new HttpClient() : new HttpClient(handler);
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.UserAgent.Clear();

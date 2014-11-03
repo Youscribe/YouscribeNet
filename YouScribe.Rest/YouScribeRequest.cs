@@ -24,6 +24,12 @@ namespace YouScribe.Rest
             get { return this.Errors; }
         }
 
+        public string BaseUrl
+        {
+            private get;
+            set;
+        }
+
         public YouScribeRequest(Func<HttpClient> clientFactory, string authorizeToken)
         {
             this.clientFactory = clientFactory;
@@ -34,8 +40,9 @@ namespace YouScribe.Rest
         protected HttpClient CreateClient()
         {
             this.Errors.Clear();
-
             var client = clientFactory();
+            if (!string.IsNullOrEmpty(this.BaseUrl))
+                client.BaseAddress = new Uri(this.BaseUrl);
             if (string.IsNullOrEmpty(this.authorizeToken) == false)
                 client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
 
