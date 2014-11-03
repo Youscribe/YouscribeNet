@@ -11,5 +11,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © YouScribe 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("2.0.0-beta")]
-[assembly: AssemblyFileVersion("2.0.0-beta")]
+[assembly: AssemblyVersion("2.0")]
+[assembly: AssemblyFileVersion("2.0")]
