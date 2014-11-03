@@ -13,8 +13,8 @@ properties {
 	$source.solution = @(Get-ChildItem $source.dir -Filter *.sln)[0].Name # "xxx.sln"
 
 	$build = @{}
-	$build.version = "1.0"
-	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}" -f $build.version, $env:BUILD_NUMBER }
+	$build.version = "2.0"
+	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}-beta" -f $build.version, $env:BUILD_NUMBER }
 	$build.configuration = "Release"
 	
 	$nuget = @{}
