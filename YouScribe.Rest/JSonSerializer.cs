@@ -15,7 +15,7 @@ namespace YouScribe.Rest
 
         public string Serialize<T>(T obj)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, new IsoDateTimeConverter() { DateTimeStyles = System.Globalization.DateTimeStyles.AdjustToUniversal });
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, new IsoDateTimeConverter() { DateTimeFormat = @"yyyy-MM-dd\THH:mm:ss.FFFFFFF\Z" });
         }
     }
 }
