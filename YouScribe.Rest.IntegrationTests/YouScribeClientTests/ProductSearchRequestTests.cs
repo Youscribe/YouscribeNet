@@ -32,7 +32,6 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }).Result;
 
                 // Assert
-                Assert.Equal("/api/v1/products/search?id=5,9,18&quicksearch=%28%29pouet%24%26&skip=0&take=10", requestUrl);
                 Assert.Empty(request.Errors);
                 Assert.NotNull(results);
                 Assert.Equal(1, results.TotalResults);
