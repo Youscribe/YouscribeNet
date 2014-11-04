@@ -30,6 +30,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }).Result;
 
                 // Assert
+                Assert.Empty(request.Errors);
                 Assert.Equal(1, results.TotalResults);
                 Assert.NotEmpty(results.Products);
                 Assert.Equal("bouh", results.Products.First().Title);
