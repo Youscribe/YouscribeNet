@@ -28,7 +28,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     new ProductSearchInputModel()
                     {
                         id = new List<int>() { 5, 9, 18 },
-                        quicksearch = "()pouet$&"
+                        quicksearch = "pouet$&"
                     }).Result;
 
                 // Assert
@@ -46,7 +46,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             requestUrl = context.Request.RawUrl;
             switch (context.Request.RawUrl)
             {
-                case "/api/v1/products/search?id=5,9,18&quicksearch=%28%29pouet%24%26&skip=0&take=10":
+                case "/api/v1/products/search?id=5,9,18&quicksearch=pouet%24%26&skip=0&take=10":
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     context.Response.OutputStream.Write(File.ReadAllText("Responses/ProductSearch_Search.txt"));
                     break;
