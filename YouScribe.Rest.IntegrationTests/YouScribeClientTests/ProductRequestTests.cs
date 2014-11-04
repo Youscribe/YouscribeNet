@@ -264,6 +264,23 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenGettingProduct_ThenCheckResponse()
+        {
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.GetAsync(410710).Result;
+
+                Assert.NotNull(response);
+                Assert.Equal("bouh", response.Title);
+            }
+        }
+
         private static void ProductRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
@@ -353,6 +370,13 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                             context.Response.StatusCode = (int)HttpStatusCode.OK;
                         else
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    break;
+                case "/api/v1/products/410710":
+                    if (context.Request.HttpMethod == "GET")
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        context.Response.OutputStream.Write(File.ReadAllText("Responses/Product_Get.txt"));
                     }
                     break;
                 case "/api/authorize":

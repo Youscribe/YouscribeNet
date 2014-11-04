@@ -20,6 +20,39 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
+        public async Task<ProductGetModel> GetAsync(int id)
+        {
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.ProductGetUrl.Replace("{id}", id.ToString());
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await this.AddErrorsAsync(response);
+                    return null;
+                }
+                return await this.GetObjectAsync<ProductGetModel>(response.Content);
+            }
+        }
+
+        public async Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids)
+        {
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.ProductUrl;
+                url = url + "?ids=" + string.Join(",", ids.Select(c => c.ToString()));
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await this.AddErrorsAsync(response);
+                    return null;
+                }
+                return await this.GetObjectAsync<IEnumerable<ProductGetModel>>(response.Content);
+            }
+        }
+
         #region PublishDocument
 
         public Task<ProductModel> PublishDocumentAsync(ProductModel productInformation, IEnumerable<FileModel> files)

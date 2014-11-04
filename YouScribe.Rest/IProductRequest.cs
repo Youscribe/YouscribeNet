@@ -12,6 +12,20 @@ namespace YouScribe.Rest
     public interface IProductRequest : IYouScribeRequest
     {
         /// <summary>
+        /// Get product info
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<ProductGetModel> GetAsync(int id);
+
+        /// <summary>
+        /// Get products info
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids);
+
+        /// <summary>
         /// Publish a new document
         /// </summary>
         /// <param name="productInformation">All The document information needed</param>

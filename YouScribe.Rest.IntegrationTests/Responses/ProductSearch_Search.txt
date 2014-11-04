@@ -1,0 +1,36 @@
+﻿{
+    "TotalResults": 1,
+    "Products": [
+        {
+            "Id": 410710,
+            "Title": "bouh",
+            "Description": "       Paris, le 15 mars 2013    COMMUNIQUÉ DE PRESSE    Particuliers investisseurs et futurs propriétaires :  deux outils pour calculer les aides de l’État sur www.territoires.gouv.",
+            "Authors": [
+                "danielle.keroulle"
+            ],
+            "OwnerUserName": "baloo",
+            "NbPages": 2,
+            "NbReads": 630,
+            "AvgScore": 4,
+            "NbVotes": 1,
+            "PertinenceWeight": 2.8922054767608643,
+            "ThumbnailUrls": [
+                {
+                    "Url": "http://img.societe-publica.net/pth/64596ac1ea7f8a7c4cac2bcdd438d1161e34da46.png",
+                    "Width": 174,
+                    "Height": 222
+                },
+                {
+                    "Url": "http://img.societe-publica.net/pth/4b3bd172ce47e408541a04251fb5b961a78fc009.png",
+                    "Width": 83,
+                    "Height": 106
+                },
+                {
+                    "Url": "http://img.societe-publica.net/pth/c17f30b0e171d7b6231e47ab077106412fd23f6e.png",
+                    "Width": 67,
+                    "Height": 86
+                }
+            ]
+        }
+    ]
+}

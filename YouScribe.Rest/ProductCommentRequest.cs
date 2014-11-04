@@ -19,7 +19,7 @@ namespace YouScribe.Rest
         {
             using (var client = this.CreateClient())
             {
-                var url = "/api/v1/products/" + productId + "/comments";
+                var url = "api/v1/products/" + productId + "/comments";
                 var dico = new Dictionary<string, string>(){
                     { "skip", skip.ToString() },
                     { "take", take.ToString() },
@@ -27,7 +27,6 @@ namespace YouScribe.Rest
                 };
                 url = url + "?" + dico.ToQueryString();
                 var response = await client.GetAsync(url);
-
                 if (!response.IsSuccessStatusCode)
                 {
                     await this.AddErrorsAsync(response);

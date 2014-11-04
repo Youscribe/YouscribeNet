@@ -136,5 +136,11 @@ namespace YouScribe.Rest
             var request = new ProductCommentRequest(this.clientFactory, _authorizeToken);
             return request;
         }
+
+        public IProductSearchRequest CreateProductSearchRequest()
+        {
+            var request = new ProductSearchRequest(this.clientFactory, _authorizeToken);
+            return request;
+        }
     }
 }

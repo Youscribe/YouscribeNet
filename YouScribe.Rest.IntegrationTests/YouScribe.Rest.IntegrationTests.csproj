@@ -83,6 +83,7 @@
     <Compile Include="YouScribeClientTests\LibraryRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductCommentRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductRequestTests.cs" />
+    <Compile Include="YouScribeClientTests\ProductSearchRequestTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -101,6 +102,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Responses\ProductComments_GetCommentsResponse.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Responses\ProductSearch_Search.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Responses\Product_Get.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
