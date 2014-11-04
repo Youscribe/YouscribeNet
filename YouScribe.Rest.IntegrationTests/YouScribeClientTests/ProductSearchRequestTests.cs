@@ -12,6 +12,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 {
     public class ProductSearchRequestTests
     {
+        static string requestUrl;
+
         [Fact]
         public void WhenSearching_ThenOk()
         {
@@ -30,6 +32,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }).Result;
 
                 // Assert
+                Assert.Equal("/api/v1/products/search?id=5,9,18&quicksearch=%28%29pouet%24%26&skip=0&take=10", requestUrl);
                 Assert.Empty(request.Errors);
                 Assert.NotNull(results);
                 Assert.Equal(1, results.TotalResults);
@@ -40,7 +43,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
         private static void EventHandler(HttpListenerContext context)
         {
-            Console.WriteLine(context.Request.RawUrl);
+            requestUrl = context.Request.RawUrl;
             switch (context.Request.RawUrl)
             {
                 case "/api/v1/products/search?id=5,9,18&quicksearch=%28%29pouet%24%26&skip=0&take=10":
