@@ -76,5 +76,17 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         ILibraryRequest CreateLibraryRequest();
+
+        /// <summary>
+        /// Create product comment request
+        /// </summary>
+        /// <returns></returns>
+        IProductCommentRequest CreateProductCommentRequest();
+
+        /// <summary>
+        /// Create product search request
+        /// </summary>
+        /// <returns></returns>
+        IProductSearchRequest CreateProductSearchRequest();
     }
 }
