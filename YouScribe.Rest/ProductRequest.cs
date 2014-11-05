@@ -40,9 +40,9 @@ namespace YouScribe.Rest
         {
             using (var client = this.CreateClient())
             {
-                var url = ApiUrls.ProductUrl;
-                url = url + "?ids=" + string.Join(",", ids.Select(c => c.ToString()));
-                var response = await client.GetAsync(url);
+                var url = ApiUrls.ProductUrlByIds;
+                var content = this.GetContent(ids);
+                var response = await client.PostAsync(url, content);
 
                 if (!response.IsSuccessStatusCode)
                 {

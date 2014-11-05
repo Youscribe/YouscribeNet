@@ -281,6 +281,22 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenGettingProducts_ThenCheckResponse()
+        {
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.GetAsync(new List<int>(){ 410710, 410711 }).Result;
+
+                Assert.Equal("[410710,410711]", requestContent);
+            }
+        }
+
         private static void ProductRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
@@ -377,6 +393,14 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.OK;
                         context.Response.OutputStream.Write(File.ReadAllText("Responses/Product_Get.txt"));
+                    }
+                    break;
+                case "/api/v1/products/byids":
+                    if (context.Request.HttpMethod == "POST")
+                    {
+                        requestContent = context.Request.GetRequestAsString();
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        context.Response.OutputStream.Write("[" + File.ReadAllText("Responses/Product_Get.txt") + "]");
                     }
                     break;
                 case "/api/authorize":

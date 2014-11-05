@@ -23,6 +23,7 @@ namespace YouScribe.Rest
         public const string PictureUrl = "api/v1/pictures";
 
         public const string ProductUrl = "api/v1/products";
+        public const string ProductUrlByIds = "api/v1/products/byids";
         public const string ProductSearchUrl = "api/v1/products/search";
         public const string ProductUpdateUrl = "api/v1/products/{id}";
         public const string ProductGetUrl = "api/v1/products/{id}";
