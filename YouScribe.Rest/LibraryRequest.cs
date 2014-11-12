@@ -64,25 +64,27 @@ namespace YouScribe.Rest
             return model;
         }
 
-        public async Task<bool> AddProductAsync(int id, int productId)
+        public async Task<bool> AddProductAsync(int id, int productId, bool isPublic)
         {
             using (var client = this.CreateClient())
             {
                 var url = ApiUrls.LibraryAddProductUrl.Replace("{id}", id.ToString())
                     .Replace("{productId}", productId.ToString());
-                var response = await client.PutAsync(url, null);
+                var content = this.GetContent(isPublic);
+                var response = await client.PutAsync(url, content);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
             }
         }
 
-        public async Task<bool> AddProductAsync(string typeName, int productId)
+        public async Task<bool> AddProductAsync(string typeName, int productId, bool isPublic)
         {
             using (var client = this.CreateClient())
             {
                 var url = ApiUrls.LibraryAddByTypeNameProductUrl.Replace("{typeName}", typeName.ToString())
                     .Replace("{productId}", productId.ToString());
-                var response = await client.PutAsync(url, null);
+                var content = this.GetContent(isPublic);
+                var response = await client.PutAsync(url, content);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
             }

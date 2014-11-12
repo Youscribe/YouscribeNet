@@ -35,7 +35,7 @@ namespace YouScribe.Rest
         /// <param name="id"></param>
         /// <param name="productId"></param>
         /// <returns></returns>
-        Task<bool> AddProductAsync(int id, int productId);
+        Task<bool> AddProductAsync(int id, int productId, bool isPublic);
 
         /// <summary>
         /// Add product to library
@@ -43,7 +43,7 @@ namespace YouScribe.Rest
         /// <param name="id"></param>
         /// <param name="productId"></param>
         /// <returns></returns>
-        Task<bool> AddProductAsync(string typeName, int productId);
+        Task<bool> AddProductAsync(string typeName, int productId, bool isPublic);
 
 
         /// <summary>

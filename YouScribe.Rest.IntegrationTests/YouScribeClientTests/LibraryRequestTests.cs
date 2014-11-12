@@ -62,7 +62,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateLibraryRequest();
 
                 // Act
-                var ok = request.AddProductAsync(1, 10).Result;
+                var ok = request.AddProductAsync(1, 10, true).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -79,7 +79,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateLibraryRequest();
 
                 // Act
-                var ok = request.AddProductAsync("MyDownloads", 10).Result;
+                var ok = request.AddProductAsync("MyDownloads", 10, false).Result;
 
                 // Assert
                 Assert.True(ok);
