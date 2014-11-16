@@ -10,6 +10,7 @@ namespace YouScribe.Rest.Models.Products
         public ProductSearchInputModel()
         {
             this.take = 10;
+            this.sort = Enumerable.Empty<string>();
         }
 
         public IEnumerable<int> id { get; set; }
@@ -33,5 +34,7 @@ namespace YouScribe.Rest.Models.Products
         public int skip { get; set; }
 
         public int take { get; set; }
+
+        public IEnumerable<string> sort { get; set; }
     }
 }

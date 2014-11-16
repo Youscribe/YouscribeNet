@@ -22,14 +22,15 @@ namespace YouScribe.Rest
             {
                 var value = prop.GetValue(obj, null);
                 if (value == null) continue;
-                string strValue = null;
-                if (value is IEnumerable && !(value is string))
-                    strValue = string.Join(",", (value as IEnumerable).Cast<object>().Select(c => Uri.EscapeDataString(c.ToString())));
-                else
-                    strValue = Uri.EscapeDataString(value.ToString());
-                if (!first) builder.Append("&");
-                builder.Append(prop.Name).Append("=").Append(strValue);
-                first = false;
+                if (!(value is IEnumerable) || (value is string))
+                    value = new[] { value }; // transform to enumerable
+                foreach (var item in (value as IEnumerable).Cast<object>())
+                {
+                    var strValue = Uri.EscapeDataString(item.ToString());
+                    if (!first) builder.Append("&");
+                    builder.Append(prop.Name).Append("=").Append(strValue);
+                    first = false;
+                }
             }
             return builder.ToString();
         }
