@@ -15,14 +15,15 @@ namespace YouScribe.Rest
 
         }
 
-        public async Task<IEnumerable<Models.Products.ProductSearchItemOutputModel>> GetSuggestAsync(int id, string domainLanguage = "fr", int take = 3)
+        public async Task<IEnumerable<Models.Products.ProductSearchItemOutputModel>> GetSuggestAsync(int id, string offerType = null, string domainLanguage = "fr", int take = 3)
         {
             using (var client = this.CreateClient())
             {
                 var parameters = new Dictionary<string, string>();
                 var dico = new Dictionary<string, string>(){
                     { "domainLanguage", domainLanguage },
-                    { "take", take.ToString() }
+                    { "take", take.ToString() },
+                    { "offerType", offerType }
                 };
 
                 var queryString = dico.ToQueryString();

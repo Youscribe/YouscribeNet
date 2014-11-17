@@ -10,7 +10,7 @@ namespace YouScribe.Rest
     {
         public static string ToQueryString(this IDictionary<string, string> dico)
         {
-            return string.Join("&", dico.Select(c => c.Key + "=" + Uri.EscapeDataString(c.Value)));
+            return string.Join("&", dico.Where(c => !string.IsNullOrEmpty(c.Value)).Select(c => c.Key + "=" + Uri.EscapeDataString(c.Value)));
         }
 
         public static string ToQueryString(this object obj)
