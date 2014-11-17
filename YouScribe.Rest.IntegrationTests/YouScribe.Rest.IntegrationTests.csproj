@@ -84,6 +84,7 @@
     <Compile Include="YouScribeClientTests\ProductCommentRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductSearchRequestTests.cs" />
+    <Compile Include="YouScribeClientTests\ProductSuggestRequestTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -98,6 +99,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Responses\ProductSuggest_Get.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Responses\Libraries_GetResponse.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

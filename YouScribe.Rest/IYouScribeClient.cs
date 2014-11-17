@@ -88,5 +88,11 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         IProductSearchRequest CreateProductSearchRequest();
+
+        /// <summary>
+        /// Create product suggest request
+        /// </summary>
+        /// <returns></returns>
+        IProductSuggestRequest CreateProductSuggestRequest();
     }
 }

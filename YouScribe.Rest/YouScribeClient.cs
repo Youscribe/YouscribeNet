@@ -142,5 +142,11 @@ namespace YouScribe.Rest
             var request = new ProductSearchRequest(this.clientFactory, _authorizeToken);
             return request;
         }
+
+        public IProductSuggestRequest CreateProductSuggestRequest()
+        {
+            var request = new ProductSuggestRequest(this.clientFactory, _authorizeToken);
+            return request;
+        }
     }
 }

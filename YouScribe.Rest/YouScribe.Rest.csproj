@@ -88,6 +88,7 @@
     <Compile Include="IProductCommentRequest.cs" />
     <Compile Include="IProductRequest.cs" />
     <Compile Include="IProductSearchRequest.cs" />
+    <Compile Include="IProductSuggestRequest.cs" />
     <Compile Include="ISerializer.cs" />
     <Compile Include="IYouScribeClient.cs" />
     <Compile Include="IYouScribeRequest.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="ProductCommentRequest.cs" />
     <Compile Include="ProductRequest.cs" />
     <Compile Include="ProductSearchRequest.cs" />
+    <Compile Include="ProductSuggestRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryStringHelper.cs" />
     <Compile Include="YouScribeClient.cs" />
