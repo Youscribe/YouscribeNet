@@ -12,6 +12,7 @@ namespace YouScribe.Rest.Models.Products
             this.ThumbnailUrls = Enumerable.Empty<ImageUrlOutput>();
             this.OfferTypes = Enumerable.Empty<string>();
             this.Authors = Enumerable.Empty<string>();
+            this.PublicFormatExtensions = Enumerable.Empty<string>();
         }
 
         public int Id { get; set; }
@@ -35,6 +36,8 @@ namespace YouScribe.Rest.Models.Products
         public double PertinenceWeight { get; set; }
 
         public IEnumerable<string> OfferTypes { get; set; }
+
+        public IEnumerable<string> PublicFormatExtensions { get; set; }
 
         public IEnumerable<ImageUrlOutput> ThumbnailUrls { get; set; }
     }
