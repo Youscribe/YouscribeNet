@@ -35,6 +35,24 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         }
 
         [Fact]
+        public void WhenGetLibraryByTypeName_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, LibraryRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateLibraryRequest();
+
+                // Act
+                var library = request.GetAsync("MyDownloads").Result;
+
+                // Assert
+                Assert.NotNull(library);
+                Assert.Equal("MyDownloads", library.TypeName);
+            }
+        }
+
+        [Fact]
         public void WhenGetLibraries_ThenCheckResponse()
         {
             // Arrange
@@ -86,6 +104,57 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenDeleteProductById_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, LibraryRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateLibraryRequest();
+
+                // Act
+                var ok = request.DeleteProductAsync(1, 10).Result;
+                // Assert
+                Assert.True(ok);
+            }
+        }
+
+        [Fact]
+        public void WhenDeleteProductByTypeName_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, LibraryRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateLibraryRequest();
+
+                // Act
+                var ok = request.DeleteProductAsync("MyDownloads", 10).Result;
+                // Assert
+                Assert.True(ok);
+            }
+        }
+
+        [Fact]
+        public void WhenGetByProductId_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, LibraryRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateLibraryRequest();
+
+                // Act
+                var data = request.GetByProductIdAsync(1).Result;
+
+                // Assert
+                Assert.NotEmpty(data);
+                Assert.Equal(123, data.FirstOrDefault());
+                Assert.Equal(456, data.LastOrDefault());
+            }
+        }
+
         public void LibraryRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
@@ -104,6 +173,10 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                         var test = context.Request.ContentEncoding;
                         context.Response.OutputStream.Write(File.ReadAllText("Responses/Libraries_GetResponse.txt"));
                     }
+                    else if (context.Request.HttpMethod == "DELETE")
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                    }
                     break;
                 case "/api/v1/libraries/1/product/10":
                 case "/api/v1/libraries/MyDownloads/product/10":
@@ -112,11 +185,10 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                         context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                     }
                     break;
-                case "/api/v1/libraries/1/products/2":
-                    if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                        context.Response.StatusCode = (int)HttpStatusCode.NoContent;
-                    else
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                case "/api/v1/libraries/product/1":
+                    context.Response.ContentType = "application/json";
+                    context.Response.ContentEncoding = Encoding.UTF8;
+                    context.Response.OutputStream.Write("[123, 456]");
                     break;
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;

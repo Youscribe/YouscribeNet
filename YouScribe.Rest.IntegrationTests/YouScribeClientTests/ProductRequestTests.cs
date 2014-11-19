@@ -17,6 +17,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
         static string requestContent = null;
 
+        #region PublishDocument        
         [Fact]
         public void WhenPublishDocumentFromLocalFile_ThenCheckResponse()
         {
@@ -76,7 +77,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     requestContent);
             }
         }
+        #endregion
 
+        #region Update
         [Fact]
         public void WhenUpdateDocumentFromFile_ThenCheckResponse()
         {
@@ -128,7 +131,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 Assert.True(ok);
             }
         }
+        #endregion
 
+        #region Thumbnail        
         [Fact]
         public void WhenUpdateDocumentThumbnailFromUrl_ThenCheckResponse()
         {
@@ -193,6 +198,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 Assert.True(ok);
             }
         }
+        #endregion
 
         [Fact]
         public void WhenCheckForProductRight_ThenCheckResponse()
@@ -265,6 +271,50 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         }
 
         [Fact]
+        public void WhenDownloadProductToStreamFromFormatTypeId_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act                
+                // Assert
+                using (var stream = new MemoryStream())
+                {
+                    request.DownloadFileToStreamAsync(42, "pdf", stream, new Progress<DownloadBytesProgress>()).Wait();
+                    Assert.Equal(57210, stream.Length);
+                }
+            }
+        }
+
+        [Fact]
+        public void WhenDownloadProductToStreamFromExtension_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act                
+                // Assert
+                using (var stream = new MemoryStream())
+                {
+                    request.DownloadFileToStreamAsync(42, 1, stream, new Progress<DownloadBytesProgress>()).Wait();
+                    Assert.Equal(57210, stream.Length);
+                }
+            }
+        }
+
+        [Fact]
         public void WhenGettingProduct_ThenCheckResponse()
         {
             using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
@@ -309,8 +359,9 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                         context.Response.StatusCode = (int)HttpStatusCode.OK;
                         using (var file = File.OpenRead("Responses/file.pdf"))
                         {
-                            file.CopyTo(context.Response.OutputStream);
-                        }
+                            context.Response.ContentLength64 = file.Length;
+                            file.CopyTo(context.Response.OutputStream);                            
+                        }                        
                     }
                     else
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
