@@ -13,7 +13,7 @@ properties {
 	$source.solution = @(Get-ChildItem $source.dir -Filter *.sln)[0].Name # "xxx.sln"
 
 	$build = @{}
-	$build.version = "1.0"
+	$build.version = "2.0"
 	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}" -f $build.version, $env:BUILD_NUMBER }
 	$build.configuration = "Release"
 	
@@ -26,7 +26,7 @@ properties {
 	$nuget.source = @($nuget.sources | ?{ $_ -ne "" -and $_ -ne $null }) -join ";"
 	$nuget.output = $base.output
 	$nuget.packages = (Join-Path $source.dir "packages")
-	$nuget.version = "{0}" -f $build.version
+	$nuget.version = "{0}-beta" -f $build.version
 	
 	$xunit = @{}
 	$xunit.dir = (Join-Path $base.dir (Join-Path "Librairies" "xunit-1.8"))

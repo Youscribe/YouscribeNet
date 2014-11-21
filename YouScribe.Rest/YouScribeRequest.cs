@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RestSharp;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
     class YouScribeRequest : IYouScribeRequest
     {
-        protected readonly IRestClient client;
+        protected readonly Func<HttpClient> clientFactory;
         protected readonly string authorizeToken;
+        protected readonly ISerializer serializer = new JSonSerializer();
 
         public ICollection<string> Errors
         {
@@ -22,28 +24,46 @@ namespace YouScribe.Rest
             get { return this.Errors; }
         }
 
-        public YouScribeRequest(IRestClient client, string authorizeToken)
+        public string BaseUrl
         {
-            this.client = client;
+            private get;
+            set;
+        }
+
+        public YouScribeRequest(Func<HttpClient> clientFactory, string authorizeToken)
+        {
+            this.clientFactory = clientFactory;
             this.authorizeToken = authorizeToken;
             this.Errors = new List<string>();
         }
 
-        protected IRestRequest createRequest(string url, Method method)
+        protected HttpClient CreateClient()
         {
             this.Errors.Clear();
-
-            var request = new RestRequest(url, method);
-            request.RequestFormat = DataFormat.Json;
+            var client = clientFactory();
+            if (!string.IsNullOrEmpty(this.BaseUrl))
+                client.BaseAddress = new Uri(this.BaseUrl);
             if (string.IsNullOrEmpty(this.authorizeToken) == false)
-                request.AddHeader(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
+                client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
 
-            return request;
+            return client;
         }
 
-        protected void addErrors(IRestResponse response)
+        protected HttpContent GetContent<T>(T obj)
         {
-            var error = response.Content;
+            var str = serializer.Serialize(obj);
+            return new StringContent(str, Encoding.UTF8, "application/json");
+        }
+
+        protected async Task<T> GetObjectAsync<T>(HttpContent content)
+        {
+            var str = await content.ReadAsStringAsync();
+            return serializer.Deserialize<T>(str);
+        }
+
+        protected async Task AddErrorsAsync(HttpResponseMessage response)
+        {
+            var error = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrEmpty(error) == false)
             {
                 if (error.StartsWith("[") && error.EndsWith("]"))
@@ -60,7 +80,7 @@ namespace YouScribe.Rest
             }
         }
 
-        protected bool handleResponse(IRestResponse response, System.Net.HttpStatusCode expectedStatusCode)
+        protected async Task<bool> HandleResponseAsync(HttpResponseMessage response, System.Net.HttpStatusCode expectedStatusCode)
         {
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
@@ -69,7 +89,7 @@ namespace YouScribe.Rest
             }
             else if (response.StatusCode != expectedStatusCode)
             {
-                this.addErrors(response);
+                await this.AddErrorsAsync(response);
                 return false;
             }
             return true;

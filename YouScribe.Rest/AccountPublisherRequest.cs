@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
-using RestSharp;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
     class AccountPublisherRequest : YouScribeRequest, IAccountPublisherRequest
     {
-        public AccountPublisherRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public AccountPublisherRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
-        public bool SetAsPaypalPublisher(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)
+        public async Task<bool> SetAsPaypalPublisherAsync(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)
         {
-            var request = this.createRequest(ApiUrls.AccountPaypalPublisherUrl, Method.PUT);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(paypalPublisher);
+                var response = await client.PutAsync(ApiUrls.AccountPaypalPublisherUrl, content);
 
-            request.AddBody(paypalPublisher);
-
-            var response = this.client.Execute(request);
-
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
-        public bool SetAsTransferPublisher(Models.Accounts.AccountPublisherTransferModel transferPublisher)
+        public async Task<bool> SetAsTransferPublisherAsync(Models.Accounts.AccountPublisherTransferModel transferPublisher)
         {
-            var request = this.createRequest(ApiUrls.AccountTransferPublisherUrl, Method.PUT);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(transferPublisher);
+                var response = await client.PutAsync(ApiUrls.AccountTransferPublisherUrl, content);
 
-            request.AddBody(transferPublisher);
-
-            var response = this.client.Execute(request);
-
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
     }
 }

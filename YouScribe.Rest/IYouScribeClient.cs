@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
@@ -14,7 +15,7 @@ namespace YouScribe.Rest
         /// <param name="userNameOrEmail"></param>
         /// <param name="password"></param>
         /// <returns>True if authorized</returns>
-        bool Authorize(string userNameOrEmail, string password);
+        Task<bool> AuthorizeAsync(string userNameOrEmail, string password);
 
         /// <summary>
         /// Set token to use method that need authentification
@@ -31,8 +32,9 @@ namespace YouScribe.Rest
         /// <summary>
         /// Set user agent used for every requests
         /// </summary>
-        /// <param name="userAgent"></param>
-        void SetUserAgent(string userAgent);
+        /// <param name="productName"></param>
+        /// <param name="version"></param>
+        void SetUserAgent(string productName, string version);
 
         /// <summary>
         /// Create product request to manage yours publications
@@ -79,5 +81,23 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         ILibraryRequest CreateLibraryRequest();
+
+        /// <summary>
+        /// Create product comment request
+        /// </summary>
+        /// <returns></returns>
+        IProductCommentRequest CreateProductCommentRequest();
+
+        /// <summary>
+        /// Create product search request
+        /// </summary>
+        /// <returns></returns>
+        IProductSearchRequest CreateProductSearchRequest();
+
+        /// <summary>
+        /// Create product suggest request
+        /// </summary>
+        /// <returns></returns>
+        IProductSuggestRequest CreateProductSuggestRequest();
     }
 }

@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("YouScribe")]
 [assembly: AssemblyProduct("YouScribe")]
-[assembly: AssemblyCopyright("Copyright © YouScribe 2012")]
+[assembly: AssemblyCopyright("Copyright © YouScribe 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.0")]
-[assembly: AssemblyFileVersion("1.0")]
+[assembly: AssemblyVersion("2.0")]
+[assembly: AssemblyFileVersion("2.0")]

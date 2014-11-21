@@ -22,7 +22,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 // Act
-                bool isAuthorized = client.Authorize("test", "password");
+                bool isAuthorized = client.AuthorizeAsync("test", "password").Result;
 
                 // Assert
                 Assert.True(isAuthorized);
@@ -38,7 +38,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
                 // Act
-                bool isAuthorized = client.Authorize("test", "assword");
+                bool isAuthorized = client.AuthorizeAsync("test", "assword").Result;
 
                 // Assert
                 Assert.False(isAuthorized);

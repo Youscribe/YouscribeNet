@@ -22,9 +22,10 @@ namespace YouScribe.Rest
         public const string AccountUserTypesUrl = "api/v1/accounts/usertypes";
 
         public const string PictureUrl = "api/v1/pictures";
-        public const string PictureUpdateUrl = "api/v1/pictures?url={url}";
 
         public const string ProductUrl = "api/v1/products";
+        public const string ProductUrlByIds = "api/v1/products/byids";
+        public const string ProductSearchUrl = "api/v1/products/search";
         public const string ProductUpdateUrl = "api/v1/products/{id}";
         public const string ProductGetUrl = "api/v1/products/{id}";
         public const string ProductEndUploadUrl = "api/v1/products/endupload?id={id}";
@@ -41,8 +42,9 @@ namespace YouScribe.Rest
         public const string LibraryUpdateUrl = LibraryGetUrl;
         public const string LibraryAddProductUrl = "api/v1/libraries/{id}/product/{productId}";
         public const string LibraryDeleteProductUrl = LibraryAddProductUrl;
-        public const string LibraryDeleteByTypeNameProductUrl = "api/v1/libraries/{typeName}/product/{productId}";
-        public const string LibraryGetByProductIdUrl = "api/v1/libraries/products/{productId}";
+        public const string LibraryAddByTypeNameProductUrl = "api/v1/libraries/{typeName}/product/{productId}";
+        public const string LibraryDeleteByTypeNameProductUrl = LibraryAddByTypeNameProductUrl;
+        public const string LibraryGetByProductIdUrl = "api/v1/libraries/product/{productId}";
 
         public const string UploadUrl = "api/v1/upload/{id}";
         public const string UploadFileUrl = "api/v1/upload/{id}?url={url}";

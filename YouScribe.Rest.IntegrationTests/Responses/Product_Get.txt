@@ -1,0 +1,79 @@
+﻿{
+    "Id": 410710,
+    "Title": "bouh",
+    "Author": "danielle.keroulle",
+    "Description": "       Paris, le 15 mars 2013    COMMUNIQUÉ DE PRESSE    Particuliers investisseurs et futurs propriétaires :  deux outils pour calculer les aides de l’État sur www.territoires.gouv.",
+    "OwnerId": 7,
+    "OwnerUserName": "baloo",
+    "ThemeId": null,
+    "CategoryId": null,
+    "State": "Online",
+    "EAN13": null,
+    "DefaultRight": 120,
+    "LanguagesIsoCode": [
+        "FRA"
+    ],
+    "Tags": [
+        {
+            "Id": 0,
+            "Value": "TestYann"
+        }
+    ],
+    "ThumbnailUrls": [
+        {
+            "Url": "http://img.societe-publica.net/pth/64596ac1ea7f8a7c4cac2bcdd438d1161e34da46.png",
+            "Width": 174,
+            "Height": 222
+        },
+        {
+            "Url": "http://img.societe-publica.net/pth/4b3bd172ce47e408541a04251fb5b961a78fc009.png",
+            "Width": 83,
+            "Height": 106
+        },
+        {
+            "Url": "http://img.societe-publica.net/pth/c17f30b0e171d7b6231e47ab077106412fd23f6e.png",
+            "Width": 67,
+            "Height": 86
+        }
+    ],
+    "Offers": [
+        {
+            "Id": 0,
+            "OfferTypeName": "Free",
+            "AllowStreaming": true,
+            "AllowDownload": true,
+            "Price": 0,
+            "Currency": null,
+            "PriceTaxIncluded": false,
+            "TaxRate": 0,
+            "MaxDeviceUse": null,
+            "MaxDayUse": null,
+            "MaxTimeUse": null
+        }
+    ],
+    "DistributionInfo": {
+        "AllowComment": true,
+        "IsAdultContent": false,
+        "PreviewNbPage": null,
+        "PreviewPercentPage": null,
+        "PreviewPage": null,
+        "DisplayMode": null
+    },
+    "Document": {
+        "Id": 374359,
+        "DocumentProtectionTypeName": "DigitalWatermark",
+        "NbPages": 2,
+        "PageWidthPoints": 0,
+        "PageHeightPoints": 0,
+        "Formats": [
+            {
+                "Id": 388872,
+                "MimeType": "application/pdf",
+                "Extension": "pdf",
+                "FormatTypeId": 1,
+                "EAN13": null,
+                "Size": 194425
+            }
+        ]
+    }
+}

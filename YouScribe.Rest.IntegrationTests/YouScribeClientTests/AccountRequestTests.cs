@@ -15,6 +15,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
         const string expectedAccountResponse = "{\"Id\":0,\"UserName\":\"test\"}";
 
+        static string requestContent = null;
+
         [Fact]
         public void WhenCreateAccount_ThenCheckResponse()
         {
@@ -25,11 +27,13 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                var account = request.Create(new Models.Accounts.AccountModel { UserName = "test", Password = "password" });
+                var account = request.CreateAsync(new Models.Accounts.AccountModel { UserName = "test", Password = "password" }).Result;
 
                 // Assert
                 Assert.NotNull(account);
                 Assert.Equal("test", account.UserName);
+                Assert.Equal("{\"Id\":0,\"UserName\":\"test\",\"Password\":\"password\",\"Email\":null,\"FirstName\":null,\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null}", 
+                    requestContent);
             }
         }
 
@@ -41,15 +45,17 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.Update(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" });
+                bool ok = request.UpdateAsync(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" }).Result;
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("{\"Id\":42,\"UserName\":null,\"Password\":null,\"Email\":null,\"FirstName\":\"kikou\",\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null}", 
+                    requestContent);
             }
         }
 
@@ -64,7 +70,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.Update(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" });
+                bool ok = request.UpdateAsync(new Models.Accounts.AccountModel { Id = 42, FirstName = "kikou" }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -79,15 +85,16 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.SetSpokenLanguages(new[] { "fr", "en" });
+                bool ok = request.SetSpokenLanguagesAsync(new[] { "fr", "en" }).Result;
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("Languages=fr&Languages=en", requestContent);
             }
         }
 
@@ -102,7 +109,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.SetSpokenLanguages(new[] { "fr", "en" });
+                bool ok = request.SetSpokenLanguagesAsync(new[] { "fr", "en" }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -117,12 +124,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Uri("http://exmple.com/image.jpg"));
+                bool ok = request.UploadPictureAsync(new Uri("http://exmple.com/image.jpg")).Result;
 
                 // Assert
                 Assert.True(ok);
@@ -140,7 +147,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Uri("http://exmple.com/image.jpg"));
+                bool ok = request.UploadPictureAsync(new Uri("http://exmple.com/image.jpg")).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -156,14 +163,15 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" });
+                bool ok = request.UploadPictureAsync(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" }).Result;
 
                 // Assert
+                Assert.Contains("Content-Disposition: form-data; name=file; filename=test.png; filename*=utf-8''test.png", requestContent);
                 Assert.True(ok);
             }
         }
@@ -179,7 +187,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.UploadPicture(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" });
+                bool ok = request.UploadPictureAsync(new Models.FileModel { Content = new MemoryStream(), ContentType = "image/png", FileName = "test.png" }).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -194,12 +202,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.DeletePicture();
+                bool ok = request.DeletePictureAsync().Result;
 
                 // Assert
                 Assert.True(ok);
@@ -217,7 +225,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountRequest();
 
                 // Act
-                bool ok = request.DeletePicture();
+                bool ok = request.DeletePictureAsync().Result;
 
                 // Assert
                 Assert.False(ok);
@@ -229,6 +237,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             switch (context.Request.RawUrl)
             {
                 case "/api/v1/accounts":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.HttpMethod == "POST")
                     {
                         context.Response.ContentType = "application/json; charset=utf-8";
@@ -237,16 +246,14 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }
                     else if (context.Request.HttpMethod == "PUT")
                     {
-                        if (context.Request.HttpMethod == "PUT")
-                        {
-                            if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
-                                context.Response.StatusCode = (int)HttpStatusCode.NoContent;
-                            else
-                                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        }
+                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                            context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                        else
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     }
                     break;
                 case "/api/v1/accounts/languages":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                         context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                     else
@@ -254,6 +261,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     break;
                 case "/api/v1/pictures?url=http%3A%2F%2Fexmple.com%2Fimage.jpg":
                 case "/api/v1/pictures":
+                    requestContent = context.Request.GetRequestAsString();
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                         context.Response.StatusCode = context.Request.HttpMethod == "DELETE" ? (int)HttpStatusCode.NoContent : (int)HttpStatusCode.OK;
                     else

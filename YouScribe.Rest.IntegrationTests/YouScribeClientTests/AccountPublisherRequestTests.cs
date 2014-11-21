@@ -11,6 +11,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
     public class AccountPublisherRequestTests
     {
         const string baseUrl = "http://localhost:8080/";
+        static string requestContent = null;
 
         [Fact]
         public void WhenSetAsPaypalPublisher_ThenCheckResponse()
@@ -19,15 +20,16 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsPaypalPublisher(new Models.Accounts.AccountPublisherPaypalModel());
+                bool ok = request.SetAsPaypalPublisherAsync(new Models.Accounts.AccountPublisherPaypalModel()).Result;
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("{\"PaypalEmail\":null,\"IsProfessional\":false,\"CorporateName\":null,\"SiretNumber\":null,\"VATNumber\":null,\"Street\":null,\"Street2\":null,\"ZipCode\":null,\"State\":null,\"City\":null,\"CountryCode\":null,\"Civility\":0,\"FirstName\":null,\"LastName\":null,\"PhoneNumber\":null}", requestContent);
             }
         }
 
@@ -42,7 +44,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsPaypalPublisher(new Models.Accounts.AccountPublisherPaypalModel());
+                bool ok = request.SetAsPaypalPublisherAsync(new Models.Accounts.AccountPublisherPaypalModel()).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -58,15 +60,17 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             using (SimpleServer.Create(TestHelpers.BaseUrl, Publisherandler))
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
-                client.Authorize("test", "password");
+                client.AuthorizeAsync("test", "password").Wait();
 
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsTransferPublisher(new Models.Accounts.AccountPublisherTransferModel());
+                bool ok = request.SetAsTransferPublisherAsync(new Models.Accounts.AccountPublisherTransferModel()).Result;
 
                 // Assert
                 Assert.True(ok);
+                Assert.Equal("{\"BankName\":null,\"IBAN\":null,\"BIC\":null,\"IsProfessional\":false,\"CorporateName\":null,\"SiretNumber\":null,\"VATNumber\":null,\"Street\":null,\"Street2\":null,\"ZipCode\":null,\"State\":null,\"City\":null,\"CountryCode\":null,\"Civility\":0,\"FirstName\":null,\"LastName\":null,\"PhoneNumber\":null}", 
+                    requestContent);
             }
         }
 
@@ -81,7 +85,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountPublisherRequest();
 
                 // Act
-                bool ok = request.SetAsTransferPublisher(new Models.Accounts.AccountPublisherTransferModel());
+                bool ok = request.SetAsTransferPublisherAsync(new Models.Accounts.AccountPublisherTransferModel()).Result;
 
                 // Assert
                 Assert.False(ok);
@@ -97,6 +101,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 case "/api/v1/accounts/paypalpublisher":
                     if (context.Request.HttpMethod == "PUT")
                     {
+                        requestContent = context.Request.GetRequestAsString();
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                         else
@@ -106,6 +111,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 case "/api/v1/accounts/transferpublisher":
                     if (context.Request.HttpMethod == "PUT")
                     {
+                        requestContent = context.Request.GetRequestAsString();
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                         else

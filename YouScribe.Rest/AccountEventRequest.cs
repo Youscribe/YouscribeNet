@@ -2,61 +2,64 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RestSharp;
 using YouScribe.Rest.Models.Accounts;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
     class AccountEventRequest : YouScribeRequest, IAccountEventRequest
     {
-        public AccountEventRequest(IRestClient client, string authorizeToken)
-            : base(client, authorizeToken)
+        public AccountEventRequest(Func<HttpClient> clientFactory, string authorizeToken)
+            : base(clientFactory, authorizeToken)
         { }
 
-        public IEnumerable<Models.Accounts.AccountEventModel> ListAllEvents()
+        public async Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()
         {
-            var request = this.createRequest(ApiUrls.AccountEventUrl, Method.GET);
-
-            var response = client.Execute<List<AccountEventModel>>(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            using (var client = this.CreateClient())
             {
-                this.addErrors(response);
-                return Enumerable.Empty<Models.Accounts.AccountEventModel>();
+                var response = await client.GetAsync(ApiUrls.AccountEventUrl);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response);
+                    return Enumerable.Empty<Models.Accounts.AccountEventModel>();
+                }
+                return await this.GetObjectAsync<IEnumerable<Models.Accounts.AccountEventModel>>(response.Content);
             }
-            return response.Data;
         }
 
-        public bool SubscribeToEvent(Models.Accounts.AccountEventModel @event)
+        public async Task<bool> SubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
-            var request = this.createRequest(ApiUrls.AccountEventUrl, Method.PUT);
-            request.AddBody(@event);
+            using (var client = this.CreateClient())
+            {
+                var content = this.GetContent(@event);
+                var response = await client.PutAsync(ApiUrls.AccountEventUrl, content);
 
-            var response = client.Execute(request);
-
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
-        public bool UnSubscribeToEvent(Models.Accounts.AccountEventModel @event)
+        public async Task<bool> UnSubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
-            var request = this.createRequest(ApiUrls.AccountUnSubscribeEventUrl, Method.DELETE)
-                .AddUrlSegment("id", @event.Id.ToString())
-                ;
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.AccountUnSubscribeEventUrl.Replace("{id}", @event.Id.ToString());
+                var response = await client.DeleteAsync(url);
 
-            var response = client.Execute(request);
-
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
 
-        public bool SetEventFrequency(Models.Accounts.NotificationFrequency frequency)
+        public async Task<bool> SetEventFrequencyAsync(Models.Accounts.NotificationFrequency frequency)
         {
-            var request = this.createRequest(ApiUrls.AccountEventFrequencyUrl, Method.PUT)
-                .AddUrlSegment("frequency", frequency.ToString())
-                ;
+            using (var client = this.CreateClient())
+            {
+                var url = ApiUrls.AccountEventFrequencyUrl.Replace("{frequency}", frequency.ToString());
+                var response = await client.PutAsync(url, null);
 
-            var response = client.Execute(request);
-
-            return this.handleResponse(response, System.Net.HttpStatusCode.NoContent);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            }
         }
     }
 }

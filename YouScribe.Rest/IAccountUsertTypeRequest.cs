@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
@@ -15,13 +16,13 @@ namespace YouScribe.Rest
         /// List all the user types
         /// </summary>
         /// <returns></returns>
-        IEnumerable<UserTypeModel> ListAllUserTypes();
+        Task<IEnumerable<UserTypeModel>> ListAllUserTypesAsync();
 
         /// <summary>
         /// Set the user type
         /// </summary>
         /// <param name="userType">user type</param>
         /// <returns></returns>
-        bool SetUserType(UserTypeModel userType);
+        Task<bool> SetUserTypeAsync(UserTypeModel userType);
     }
 }
