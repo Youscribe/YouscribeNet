@@ -107,6 +107,12 @@ namespace YouScribe.Rest
             return request;
         }
         
+        public IAccountDeviceRequest CreateAccountDeviceRequest()
+        {
+            var request = new AccountDeviceRequest(this.clientFactory, _authorizeToken);
+            return request;
+        }
+
         public IAccountEventRequest CreateAccountEventRequest()
         {
             var request = new AccountEventRequest(this.clientFactory, _authorizeToken);

@@ -101,6 +101,7 @@
     <Compile Include="Models\Accounts\AccountPublisherModel.cs" />
     <Compile Include="Models\Accounts\AccountUpdateModel.cs" />
     <Compile Include="Models\Accounts\DeviceInformation.cs" />
+    <Compile Include="Models\Accounts\DeviceInputModel.cs" />
     <Compile Include="Models\Accounts\UserTypeModel.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Libraries\LibraryModel.cs" />

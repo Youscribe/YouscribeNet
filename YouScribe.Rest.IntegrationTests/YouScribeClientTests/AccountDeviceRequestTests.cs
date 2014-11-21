@@ -11,7 +11,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 {
     public class AccountDeviceRequestTests
     {
-        const string expectedDeviceList = "<ArrayOfDeviceInformation xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Publica.Accounts.WebServices.v1\"><DeviceInformation><DeviceId>slkgjuziegegsjgksjdgksdg5</DeviceId><DeviceTypeName>Tablet</DeviceTypeName><Id>1</Id><LastSeen>2014-10-21T14:09:03</LastSeen><Os>Windows</Os><OsVersion>8.1</OsVersion></DeviceInformation></ArrayOfDeviceInformation>";
+        const string expectedDeviceList = "[{\"Id\":1,\"DeviceId\":\"slkgjuziegegsjgksjdgksdg5\",\"DeviceTypeName\":\"Tablet\",\"Os\":\"Windows\",\"OsVersion\":\"8.1\",\"LastSeen\":\"2014-10-21T14:09:03\"}]";
 
         static string expectedDataSent = null;
 
@@ -23,15 +23,15 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "test");
+                client.AuthorizeAsync("test", "test").Wait();
                 var request = client.CreateAccountDeviceRequest();
 
                 // Act
-                bool ok = request.AddDevice(DeviceTypeName.Tablet, "Windows", "8.1", "sg48e4s54gesgzeezeg");
+                bool ok = request.AddDevice(DeviceTypeName.Tablet, "Windows", "8.1", "sg48e4s54gesgzeezeg").Result;
 
                 // Assert
                 Assert.True(ok);
-                Assert.Equal(expectedDataSent, "{\"DeviceTypeName\":\"Tablet\",\"Os\":\"Windows\",\"OsVersion\":\"8.1\",\"DeviceId\":\"sg48e4s54gesgzeezeg\"}");
+                Assert.Equal(expectedDataSent, "{\"Os\":\"Windows\",\"OsVersion\":\"8.1\",\"DeviceTypeName\":\"Tablet\",\"DeviceId\":\"sg48e4s54gesgzeezeg\"}");
             }
         }
 
@@ -43,11 +43,11 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             {
                 var client = new YouScribeClient(TestHelpers.BaseUrl);
 
-                client.Authorize("test", "test");
+                client.AuthorizeAsync("test", "test").Wait();
                 var request = client.CreateAccountDeviceRequest();
 
                 // Act
-                var devices = request.GetDevices();
+                var devices = request.GetDevices().Result;
 
                 // Assert
                 Assert.NotEmpty(devices);

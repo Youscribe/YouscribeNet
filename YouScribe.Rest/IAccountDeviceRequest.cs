@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
@@ -16,12 +17,12 @@ namespace YouScribe.Rest
         /// <param name="osVersion">Os version</param>
         /// <param name="deviceId">unique identifier for the device</param>
         /// <returns></returns>
-        bool AddDevice(DeviceTypeName deviceTypeName, string os, string osVersion, string deviceId);
+        Task<bool> AddDevice(DeviceTypeName deviceTypeName, string os, string osVersion, string deviceId);
 
         /// <summary>
         /// Get user devices
         /// </summary>
         /// <returns>List of user device</returns>
-        IEnumerable<DeviceInformation> GetDevices();
+        Task<IEnumerable<DeviceInformation>> GetDevices();
     }
 }
