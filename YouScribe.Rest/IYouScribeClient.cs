@@ -71,12 +71,6 @@ namespace YouScribe.Rest
         /// </summary>
         IEmbedRequest CreateEmbedRequest();
 
-        /// <summary>
-        /// create account device request
-        /// </summary>
-        /// <returns></returns>
-        IAccountDeviceRequest CreateAccountDeviceRequest();
-
         /// Create library request
         /// </summary>
         /// <returns></returns>

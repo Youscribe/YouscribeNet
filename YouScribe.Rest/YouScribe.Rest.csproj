@@ -71,7 +71,6 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AccountDeviceRequest.cs" />
     <Compile Include="AccountEventRequest.cs" />
     <Compile Include="AccountPublisherRequest.cs" />
     <Compile Include="AccountRequest.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="DownloadBytesProgress.cs" />
     <Compile Include="EmbedRequest.cs" />
     <Compile Include="Helpers\UriHelpers.cs" />
-    <Compile Include="IAccountDeviceRequest.cs" />
     <Compile Include="IAccountEventRequest.cs" />
     <Compile Include="IAccountPublisherRequest.cs" />
     <Compile Include="IAccountRequest.cs" />
