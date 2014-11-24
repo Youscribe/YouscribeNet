@@ -16,7 +16,7 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public async Task<Models.Accounts.AccountModel> GetCurrentAccountAsync()
+        public async Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
         {
             using (var client = this.CreateClient())
             {
@@ -27,7 +27,7 @@ namespace YouScribe.Rest
                     await this.AddErrorsAsync(response);
                     return null;
                 }
-                return await this.GetObjectAsync<AccountModel>(response.Content);
+                return await this.GetObjectAsync<AccountGetModel>(response.Content);
             }
         }
 

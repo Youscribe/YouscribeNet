@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using YouScribe.Rest.Models.Products;
 
 namespace YouScribe.Rest.Models.Accounts
 {
+    public class AccountGetModel : AccountModel
+    {
+        public IEnumerable<ImageUrlOutput> AvatarUrls { get; set; }
+    }
+
     public class AccountModel
     {
         public int Id { get; set; }

@@ -23,7 +23,7 @@ namespace YouScribe.Rest
         /// Get current account async
         /// </summary>
         /// <returns>The current account</returns>
-        Task<Models.Accounts.AccountModel> GetCurrentAccountAsync();
+        Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync();
 
         /// <summary>
         /// Register a new account
