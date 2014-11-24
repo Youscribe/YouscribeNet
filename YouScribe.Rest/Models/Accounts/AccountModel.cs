@@ -38,6 +38,8 @@ namespace YouScribe.Rest.Models.Accounts
         /// The user domain language iso code alpha 2 in lower (ex: "fr", "en", "es")
         /// </summary>
         public string DomainLanguageIsoCode { get; set; }
+
+        public Guid TrackingId { get; set; }
     }
 
     public enum Gender
