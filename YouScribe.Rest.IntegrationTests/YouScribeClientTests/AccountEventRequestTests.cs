@@ -46,11 +46,10 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.SubscribeToEventAsync(new Models.Accounts.AccountEventModel { Id = 6 }).Result;
+                bool ok = request.SubscribeToEventAsync("PublicaFeatured").Result;
 
                 // Assert
                 Assert.True(ok);
-                Assert.Equal("{\"Id\":6,\"Name\":null,\"Label\":null}", requestContent);
             }
         }
 
@@ -65,7 +64,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountEventRequest();
 
                 // Act
-                bool ok = request.SubscribeToEventAsync(new Models.Accounts.AccountEventModel { Id = 6 }).Result;
+                bool ok = request.SubscribeToEventAsync("PublicaFeatured").Result;
 
                 // Assert
                 Assert.False(ok);
@@ -156,19 +155,21 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         {
             switch (context.Request.RawUrl)
             {
-                case "/api/v1/accounts/events":
-                    if (context.Request.HttpMethod == "GET")
-                    {
-                        context.Response.OutputStream.Write(expectedEventLists);
-                        context.Response.StatusCode = (int)HttpStatusCode.OK;
-                    }
-                    else if (context.Request.HttpMethod == "PUT")
+                case "/api/v1/accounts/events/PublicaFeatured":
+                    if (context.Request.HttpMethod == "PUT")
                     {
                         requestContent = context.Request.GetRequestAsString();
                         if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                             context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                         else
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    break;
+                case "/api/v1/accounts/events":
+                    if (context.Request.HttpMethod == "GET")
+                    {
+                        context.Response.OutputStream.Write(expectedEventLists);
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
                     }
                     break;
                 case "/api/v1/accounts/events?id=6":

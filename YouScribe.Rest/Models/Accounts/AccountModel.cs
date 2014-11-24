@@ -8,6 +8,11 @@ namespace YouScribe.Rest.Models.Accounts
 {
     public class AccountGetModel : AccountModel
     {
+        public AccountGetModel()
+        {
+            this.AvatarUrls = Enumerable.Empty<ImageUrlOutput>();
+        }
+
         public IEnumerable<ImageUrlOutput> AvatarUrls { get; set; }
     }
 

@@ -29,12 +29,13 @@ namespace YouScribe.Rest
             }
         }
 
-        public async Task<bool> SubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
+        public async Task<bool> SubscribeToEventAsync(string name)
         {
             using (var client = this.CreateClient())
             {
-                var content = this.GetContent(@event);
-                var response = await client.PutAsync(ApiUrls.AccountEventUrl, content);
+                var url = ApiUrls.AccountSubscribeEventUrl;
+                url = url.Replace("{name}", name);
+                var response = await client.PutAsync(url, null);
 
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
             }

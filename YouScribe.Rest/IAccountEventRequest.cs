@@ -23,7 +23,7 @@ namespace YouScribe.Rest
         /// </summary>
         /// <param name="event">The event information</param>
         /// <returns>True if success</returns>
-        Task<bool> SubscribeToEventAsync(AccountEventModel @event);
+        Task<bool> SubscribeToEventAsync(string name);
         
         /// <summary>
         /// UnSubscribe the account to an event
