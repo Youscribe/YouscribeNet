@@ -18,6 +18,24 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         static string requestContent = null;
 
         [Fact]
+        public void WhenGetAccount_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, AccountHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateAccountRequest();
+
+                // Act
+                var account = request.GetCurrentAccountAsync().Result;
+
+                // Assert
+                Assert.NotNull(account);
+                Assert.Equal("test", account.UserName);
+            }
+        }
+
+        [Fact]
         public void WhenCreateAccount_ThenCheckResponse()
         {
             // Arrange
@@ -250,6 +268,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                             context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                         else
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    else if (context.Request.HttpMethod == "GET")
+                    {
+                        context.Response.ContentType = "application/json; charset=utf-8";
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        context.Response.OutputStream.Write(expectedAccountResponse);
                     }
                     break;
                 case "/api/v1/accounts/languages":

@@ -20,6 +20,12 @@ namespace YouScribe.Rest
     public interface IAccountRequest : IYouScribeRequest
     {
         /// <summary>
+        /// Get current account async
+        /// </summary>
+        /// <returns>The current account</returns>
+        Task<Models.Accounts.AccountModel> GetCurrentAccountAsync();
+
+        /// <summary>
         /// Register a new account
         /// The UserName, Email and Password fields are required
         /// </summary>

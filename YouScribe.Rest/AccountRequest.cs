@@ -16,6 +16,21 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
+        public async Task<Models.Accounts.AccountModel> GetCurrentAccountAsync()
+        {
+            using (var client = this.CreateClient())
+            {
+                var response = await client.GetAsync(ApiUrls.AccountUrl);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response);
+                    return null;
+                }
+                return await this.GetObjectAsync<AccountModel>(response.Content);
+            }
+        }
+
         public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account)
         {
             using (var client = this.CreateClient())
