@@ -15,7 +15,7 @@ namespace YouScribe.Rest
         /// <param name="userNameOrEmail"></param>
         /// <param name="password"></param>
         /// <returns>True if authorized</returns>
-        Task<bool> AuthorizeAsync(string userNameOrEmail, string password);
+        Task<bool> AuthorizeAsync(string userNameOrEmail, string password, int? validityInHours = null);
 
         /// <summary>
         /// Set token to use method that need authentification

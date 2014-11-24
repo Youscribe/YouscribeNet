@@ -64,14 +64,17 @@ namespace YouScribe.Rest
             };
         }
 
-        public async Task<bool> AuthorizeAsync(string userNameOrEmail, string password)
+        public async Task<bool> AuthorizeAsync(string userNameOrEmail, string password, int? validityInHours = null)
         {
             using (var client = this.clientFactory())
             {
-                var content = new System.Net.Http.FormUrlEncodedContent(new []{ 
+                var keyValues = new List<KeyValuePair<string, string>> { 
                     new KeyValuePair<string, string>("UserName", userNameOrEmail),
                     new KeyValuePair<string, string>("Password", password)
-                });
+                };
+                if (validityInHours.HasValue)
+                    keyValues.Add(new KeyValuePair<string, string>("ValidityInHours", validityInHours.Value.ToString()));
+                var content = new System.Net.Http.FormUrlEncodedContent(keyValues);
                 var response = await client.PostAsync(ApiUrls.AuthorizeUrl, content);
                 if (!response.IsSuccessStatusCode)
                     return false;
