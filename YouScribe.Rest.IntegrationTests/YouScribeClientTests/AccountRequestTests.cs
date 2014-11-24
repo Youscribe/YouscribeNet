@@ -50,7 +50,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 // Assert
                 Assert.NotNull(account);
                 Assert.Equal("test", account.UserName);
-                Assert.Equal("{\"Id\":0,\"UserName\":\"test\",\"Password\":\"password\",\"Email\":null,\"FirstName\":null,\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null}", 
+                Assert.Equal("{\"Id\":0,\"UserName\":\"test\",\"Password\":\"password\",\"Email\":null,\"FirstName\":null,\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null,\"TrackingId\":\"00000000-0000-0000-0000-000000000000\"}", 
                     requestContent);
             }
         }
@@ -72,7 +72,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
-                Assert.Equal("{\"Id\":42,\"UserName\":null,\"Password\":null,\"Email\":null,\"FirstName\":\"kikou\",\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null}", 
+                Assert.Equal("{\"Id\":42,\"UserName\":null,\"Password\":null,\"Email\":null,\"FirstName\":\"kikou\",\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null,\"TrackingId\":\"00000000-0000-0000-0000-000000000000\"}", 
                     requestContent);
             }
         }
