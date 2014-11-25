@@ -128,6 +128,12 @@ namespace YouScribe.Rest
             return request;
         }
 
+        public IAccountUtilRequest CreateAccountUtilRequest()
+        {
+            var request = new AccountUtilRequest(this.clientFactory, _authorizeToken);
+            return request;
+        }
+
         public IEmbedRequest CreateEmbedRequest()
         {
             var request = new EmbedRequest(this.clientFactory, _authorizeToken);

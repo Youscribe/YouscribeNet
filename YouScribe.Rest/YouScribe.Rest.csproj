@@ -75,6 +75,7 @@
     <Compile Include="AccountPublisherRequest.cs" />
     <Compile Include="AccountRequest.cs" />
     <Compile Include="AccountUserTypeRequest.cs" />
+    <Compile Include="AccountUtilRequest.cs" />
     <Compile Include="ApiUrls.cs" />
     <Compile Include="DownloadBytesProgress.cs" />
     <Compile Include="EmbedRequest.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="IAccountPublisherRequest.cs" />
     <Compile Include="IAccountRequest.cs" />
     <Compile Include="IAccountUsertTypeRequest.cs" />
+    <Compile Include="IAccountUtilRequest.cs" />
     <Compile Include="IEmbedRequest.cs" />
     <Compile Include="ILibraryRequest.cs" />
     <Compile Include="IProductCommentRequest.cs" />

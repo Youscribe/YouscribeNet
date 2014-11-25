@@ -84,6 +84,7 @@
     <Compile Include="YouScribeClientTests\AccountPublisherRequestTests.cs" />
     <Compile Include="YouScribeClientTests\AccountRequestTests.cs" />
     <Compile Include="YouScribeClientTests\AccountUserTypeRequestTests.cs" />
+    <Compile Include="YouScribeClientTests\AccountUtilRequestTests.cs" />
     <Compile Include="YouScribeClientTests\Authorize.cs" />
     <Compile Include="YouScribeClientTests\EmbedRequestTests.cs" />
     <Compile Include="YouScribeClientTests\LibraryRequestTests.cs" />
