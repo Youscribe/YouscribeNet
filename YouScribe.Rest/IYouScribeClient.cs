@@ -93,5 +93,11 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         IProductSuggestRequest CreateProductSuggestRequest();
+
+        /// <summary>
+        /// Create account util request
+        /// </summary>
+        /// <returns></returns>
+        IAccountUtilRequest CreateAccountUtilRequest();
     }
 }
