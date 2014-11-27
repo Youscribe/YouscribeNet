@@ -25,7 +25,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var password = request.GeneratePasswordAsync(8, 10).Result;
 
                 // Assert
-                Assert.Empty(request.Errors);
+                Assert.Empty(request.Error.Messages);
                 Assert.Equal("toto", password);
             }
         }
@@ -44,7 +44,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var userName = request.GetUserNameFromEmailAsync("me.show@gmail.com").Result;
 
                 // Assert
-                Assert.Empty(request.Errors);
+                Assert.Empty(request.Error.Messages);
                 Assert.Equal("me.show", userName);
             }
         }

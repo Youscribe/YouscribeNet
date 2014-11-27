@@ -32,7 +32,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     }).Result;
 
                 // Assert
-                Assert.Empty(request.Errors);
+                Assert.Empty(request.Error.Messages);
                 Assert.NotNull(results);
                 Assert.Equal(1, results.TotalResults);
                 Assert.NotEmpty(results.Products);

@@ -119,8 +119,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.Empty(tag);
-                Assert.NotEmpty(request.Errors);
-                Assert.Equal("Not connected", request.Errors.First());
+                Assert.NotEmpty(request.Error.Messages);
+                Assert.Equal("Not connected", request.Error.Messages.First());
             }
         }
 

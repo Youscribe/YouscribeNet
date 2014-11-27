@@ -26,7 +26,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var results = request.GetSuggestAsync(1470).Result;
 
                 // Assert
-                Assert.Empty(request.Errors);
+                Assert.Empty(request.Error.Messages);
                 Assert.NotNull(results);
                 Assert.NotEmpty(results);
                 Assert.Equal("bouh", results.First().Title);

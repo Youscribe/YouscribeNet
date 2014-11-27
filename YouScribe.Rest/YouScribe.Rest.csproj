@@ -117,6 +117,7 @@
     <Compile Include="Models\Products\ProductSearchOutputModel.cs" />
     <Compile Include="Models\Products\ProductUpdateModel.cs" />
     <Compile Include="Models\Products\ThemeModel.cs" />
+    <Compile Include="Models\ValidationError.cs" />
     <Compile Include="ProductCommentRequest.cs" />
     <Compile Include="ProductRequest.cs" />
     <Compile Include="ProductSearchRequest.cs" />

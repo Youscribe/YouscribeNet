@@ -13,16 +13,7 @@ namespace YouScribe.Rest
         protected readonly string authorizeToken;
         protected readonly ISerializer serializer = new JSonSerializer();
 
-        public ICollection<string> Errors
-        {
-            get;
-            private set;
-        }
-
-        IEnumerable<string> IYouScribeRequest.Errors
-        {
-            get { return this.Errors; }
-        }
+        public RequestError Error { get; internal set; }
 
         public string BaseUrl
         {
@@ -34,12 +25,12 @@ namespace YouScribe.Rest
         {
             this.clientFactory = clientFactory;
             this.authorizeToken = authorizeToken;
-            this.Errors = new List<string>();
+            this.Error = new RequestError(this);
         }
 
         protected HttpClient CreateClient()
         {
-            this.Errors.Clear();
+            this.Error = new RequestError(this);
             var client = clientFactory();
             if (!string.IsNullOrEmpty(this.BaseUrl))
                 client.BaseAddress = new Uri(this.BaseUrl);
@@ -55,6 +46,11 @@ namespace YouScribe.Rest
             return new StringContent(str, Encoding.UTF8, "application/json");
         }
 
+        public T GetObject<T>(string content)
+        {
+            return serializer.Deserialize<T>(content);
+        }
+
         protected async Task<T> GetObjectAsync<T>(HttpContent content)
         {
             var str = await content.ReadAsStringAsync();
@@ -64,6 +60,7 @@ namespace YouScribe.Rest
         protected async Task AddErrorsAsync(HttpResponseMessage response)
         {
             var error = await response.Content.ReadAsStringAsync();
+            var errorMessages = new List<string>();
             if (string.IsNullOrEmpty(error) == false)
             {
                 if (error.StartsWith("[") && error.EndsWith("]"))
@@ -73,18 +70,23 @@ namespace YouScribe.Rest
                         .Select(c => c.Trim(new[] { '\'' }));
 
                     foreach (var item in errors)
-                        this.Errors.Add(item);
+                        errorMessages.Add(item);
                 }
                 else
-                    this.Errors.Add(error.Trim(new[] { '\'' }));
+                    errorMessages.Add(error.Trim(new[] { '\'' }));
             }
+            this.Error.Messages = errorMessages;
+            this.Error.StatusCode = (int)response.StatusCode;
+            this.Error.RawOutput = error;
         }
 
         protected async Task<bool> HandleResponseAsync(HttpResponseMessage response, System.Net.HttpStatusCode expectedStatusCode)
         {
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized 
+                || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
-                this.Errors.Add("Not connected");
+                this.Error.Messages = new List<string>(){ "Not connected" };
+                this.Error.StatusCode = (int)response.StatusCode;
                 return false;
             }
             else if (response.StatusCode != expectedStatusCode)

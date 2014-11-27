@@ -74,10 +74,7 @@ namespace YouScribe.Rest
         public async Task<bool> UploadPictureAsync(Uri uri)
         {
             if (uri.IsValid() == false)
-            {
-                this.Errors.Add("uri invalid");
-                return false;
-            }
+                throw new ArgumentException("Uri is not valid", "uri");
             using (var client = this.CreateClient())
             {
                 var url = ApiUrls.PictureUrl;
@@ -95,10 +92,7 @@ namespace YouScribe.Rest
         public async Task<bool> UploadPictureAsync(Models.FileModel image)
         {
             if (image.IsValid == false)
-            {
-                this.Errors.Add("invalid image parameters");
-                return false;
-            }
+                throw new ArgumentException("image is not valid", "image");
 
             using (var client = this.CreateClient())
             {

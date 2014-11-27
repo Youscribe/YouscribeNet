@@ -65,10 +65,7 @@ namespace YouScribe.Rest
         public async Task<ProductModel> PublishDocumentAsync(ProductModel productInformation, IEnumerable<Uri> filesUri)
         {
             if (filesUri == null || filesUri.Any(c => (c.IsValid() == false)))
-            {
-                this.Errors.Add("Incorrect files uri, need the FileName, ContentType and Uri");
-                return null;
-            }
+                throw new ArgumentException("Incorrect files uri, need the FileName, ContentType and Uri", "filesUri");
 
             //create product
             using (var client = this.CreateClient())
@@ -91,10 +88,7 @@ namespace YouScribe.Rest
         private async Task<ProductModel> publishDocumentAsync(ProductModel productInformation, IEnumerable<FileModel> files)
         {
             if (files.Any(f => f.IsValid == false))
-            {
-                this.Errors.Add("Incorrect files, need the FileName, ContentType and Content");
-                return null;
-            }
+                throw new ArgumentException("Incorrect files, need the FileName, ContentType and Content", "files");
             //create product
             using (var client = this.CreateClient())
             {
@@ -188,10 +182,7 @@ namespace YouScribe.Rest
         public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation, IEnumerable<FileModel> files)
         {
             if (files != null && files.Any(f => f.IsValid == false))
-            {
-                this.Errors.Add("Incorrect files, need the FileName, ContentType and Content");
-                return false;
-            }
+                throw new ArgumentException("Incorrect files, need the FileName, ContentType and Content", "files");
             var ok = await this.updateDocumentAsync(productId, productInformation);
             if (ok == false)
                 return false;
@@ -204,10 +195,7 @@ namespace YouScribe.Rest
         public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation, IEnumerable<Uri> filesUri)
         {
             if (filesUri != null && filesUri.Any(c => c.IsValid() == false))
-            {
-                this.Errors.Add("Incorrect files uri, need the FileName, ContentType and Uri");
-                return false;
-            }
+                throw new ArgumentException("Incorrect files uri, need the FileName, ContentType and Uri", "filesUri");
             var ok = await this.updateDocumentAsync(productId, productInformation);
             if (ok == false)
                 return false;
@@ -249,10 +237,7 @@ namespace YouScribe.Rest
         public async Task<bool> UpdateDocumentThumbnailAsync(int productId, Uri imageUri)
         {
             if (imageUri == null || imageUri.IsValid() == false)
-            {
-                this.Errors.Add("imageUri invalid");
-                return false;
-            }
+                throw new ArgumentException("ImageUri invalid", "imageUri");
 
             using (var client = this.CreateClient())
             {
@@ -284,10 +269,7 @@ namespace YouScribe.Rest
         public async Task<bool> UpdateDocumentThumbnailAsync(int productId, FileModel image)
         {
             if (image.IsValid == false)
-            {
-                this.Errors.Add("invalid image parameters");
-                return false;
-            }
+                throw new ArgumentException("Invalid image parameters", "image");
 
             using (var client = this.CreateClient())
             {
