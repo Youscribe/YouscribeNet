@@ -42,7 +42,10 @@ namespace YouScribe.Rest
                 var response = await client.PostAsync(url, null);
 
                 if (!response.IsSuccessStatusCode)
+                {
                     await this.AddErrorsAsync(response);
+                    return null;
+                }
                 return await this.GetObjectAsync<string>(response.Content);
             }
         }
