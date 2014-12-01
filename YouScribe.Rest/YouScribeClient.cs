@@ -15,6 +15,7 @@ namespace YouScribe.Rest
         static Dictionary<int, HttpClient> clients = new Dictionary<int,HttpClient>();
 
         internal readonly Func<HttpClient> clientFactory;
+		internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
 
         private string baseUrl;
         private string _authorizeToken;
@@ -28,12 +29,12 @@ namespace YouScribe.Rest
             : this(null, baseUrl)
         { }
 
-        public YouScribeClient()
+	    public YouScribeClient()
             : this(null)
         { }
 
 
-        public YouScribeClient(HttpMessageHandler handler, string baseUrl)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
         {
             this.baseUrl = baseUrl;
             this.clientFactory = () =>
@@ -47,7 +48,7 @@ namespace YouScribe.Rest
                         if (!clients.ContainsKey(id))
                         {
                             var newDico = clients.ToDictionary(c => c.Key, c => c.Value);
-                            var client = handler == null ? new HttpClient() : new HttpClient(handler);
+                            var client = handlerFactory == null ? new HttpClient() : new HttpClient(handlerFactory());
                             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                             newDico.Add(id, client);
                             Interlocked.Exchange(ref clients, newDico);
@@ -57,6 +58,7 @@ namespace YouScribe.Rest
 
                 var cclient = clients[id];
                 cclient.DefaultRequestHeaders.UserAgent.Clear();
+
                 foreach (var userAgent in userAgents)
                     cclient.DefaultRequestHeaders.UserAgent.Add(userAgent);
                 return cclient;

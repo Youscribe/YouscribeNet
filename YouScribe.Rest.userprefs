@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="YouScribe.Rest/AccountRequest.cs">
+    <Files>
+      <File FileName="YouScribe.Rest/IAccountRequest.cs" Line="34" Column="34" />
+      <File FileName="YouScribe.Rest/AccountRequest.cs" Line="84" Column="84" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>YouScribe.Rest.IntegrationTests/YouScribe.Rest.IntegrationTests.csproj</String>
+  </DisabledProjects>
+</Properties>
