@@ -10,6 +10,15 @@ namespace YouScribe.Rest
     public interface IYouScribeClient
     {
         /// <summary>
+        /// Current Base Url
+        /// </summary>
+        string BaseUrl
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// Authorize an user using its username or email and its clear password
         /// </summary>
         /// <param name="userNameOrEmail"></param>

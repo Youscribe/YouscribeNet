@@ -26,7 +26,7 @@ namespace YouScribe.Rest
 
         public string BaseUrl
         {
-            internal set;
+            set;
             get;
         }
 
