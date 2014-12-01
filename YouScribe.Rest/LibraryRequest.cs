@@ -17,117 +17,101 @@ namespace YouScribe.Rest
 		public async Task<IEnumerable<SimpleLibraryModel>> GetAsync()
 		{
             IEnumerable<SimpleLibraryModel> model;
-            using (var client = this.CreateClient())
+            var client = this.CreateClient();
+            var response = await client.GetAsync(this.GetUri(ApiUrls.LibraryUrl));
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await client.GetAsync(ApiUrls.LibraryUrl);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                model = await this.GetObjectAsync<IEnumerable<SimpleLibraryModel>>(response.Content);
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            model = await this.GetObjectAsync<IEnumerable<SimpleLibraryModel>>(response.Content);
             return model;
 		}
 
 		public async Task<Models.Libraries.LibraryModel> GetAsync(int id)
 		{
             LibraryModel model;
-            using (var client = this.CreateClient())
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString());
+            var response = await client.GetAsync(this.GetUri(url));
+            if (!response.IsSuccessStatusCode)
             {
-                var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString());
-                var response = await client.GetAsync(url);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                model = await this.GetObjectAsync<LibraryModel>(response.Content);
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            model = await this.GetObjectAsync<LibraryModel>(response.Content);
             return model;
 		}
 
         public async Task<Models.Libraries.LibraryModel> GetAsync(string typeName)
         {
             LibraryModel model = null;
-            using (var client = this.CreateClient())
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString());
+            var response = await client.GetAsync(this.GetUri(url));
+            if (!response.IsSuccessStatusCode)
             {
-                var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString());
-                var response = await client.GetAsync(url);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                model = await this.GetObjectAsync<LibraryModel>(response.Content);
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            model = await this.GetObjectAsync<LibraryModel>(response.Content);
             return model;
         }
 
         public async Task<bool> AddProductAsync(int id, int productId, bool isPublic)
         {
-            using (var client = this.CreateClient())
-            {
-                var url = ApiUrls.LibraryAddProductUrl.Replace("{id}", id.ToString())
-                    .Replace("{productId}", productId.ToString());
-                var content = this.GetContent(isPublic);
-                var response = await client.PutAsync(url, content);
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryAddProductUrl.Replace("{id}", id.ToString())
+                .Replace("{productId}", productId.ToString());
+            var content = this.GetContent(isPublic);
+            var response = await client.PutAsync(this.GetUri(url), content);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<bool> AddProductAsync(string typeName, int productId, bool isPublic)
         {
-            using (var client = this.CreateClient())
-            {
-                var url = ApiUrls.LibraryAddByTypeNameProductUrl.Replace("{typeName}", typeName.ToString())
-                    .Replace("{productId}", productId.ToString());
-                var content = this.GetContent(isPublic);
-                var response = await client.PutAsync(url, content);
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryAddByTypeNameProductUrl.Replace("{typeName}", typeName.ToString())
+                .Replace("{productId}", productId.ToString());
+            var content = this.GetContent(isPublic);
+            var response = await client.PutAsync(this.GetUri(url), content);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<bool> DeleteProductAsync(int id, int productId)
         {
-            using (var client = this.CreateClient())
-            {
-                var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString())
-                    .Replace("{productId}", productId.ToString());
-                var response = await client.DeleteAsync(url);
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString())
+                .Replace("{productId}", productId.ToString());
+            var response = await client.DeleteAsync(this.GetUri(url));
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<bool> DeleteProductAsync(string typeName, int productId)
         {
-            using (var client = this.CreateClient())
-            {
-                var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString())
-                    .Replace("{productId}", productId.ToString());
-                var response = await client.DeleteAsync(url);
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString())
+                .Replace("{productId}", productId.ToString());
+            var response = await client.DeleteAsync(this.GetUri(url));
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<IEnumerable<int>> GetByProductIdAsync(int productId)
         {
-            using (var client = this.CreateClient())
-            {
-                var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
-                var response = await client.GetAsync(url);
+            var client = this.CreateClient();
+            var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
+            var response = await client.GetAsync(this.GetUri(url));
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                return await this.GetObjectAsync<IEnumerable<int>>(response.Content);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            return await this.GetObjectAsync<IEnumerable<int>>(response.Content);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace YouScribe.Rest
 
         public YouScribeRequest(Func<HttpClient> clientFactory, string authorizeToken)
         {
+            this.BaseUrl = ApiUrls.BaseUrl;
             this.clientFactory = clientFactory;
             this.authorizeToken = authorizeToken;
             this.Error = new RequestError(this);
@@ -32,8 +33,8 @@ namespace YouScribe.Rest
         {
             this.Error = new RequestError(this);
             var client = clientFactory();
-            if (!string.IsNullOrEmpty(this.BaseUrl))
-                client.BaseAddress = new Uri(this.BaseUrl);
+            if (client.DefaultRequestHeaders.Contains(ApiUrls.AuthorizeTokenHeaderName))
+                client.DefaultRequestHeaders.Remove(ApiUrls.AuthorizeTokenHeaderName);
             if (string.IsNullOrEmpty(this.authorizeToken) == false)
                 client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
 
@@ -44,6 +45,11 @@ namespace YouScribe.Rest
         {
             var str = serializer.Serialize(obj);
             return new StringContent(str, Encoding.UTF8, "application/json");
+        }
+
+        public Uri GetUri(string relativeUri)
+        {
+            return new Uri(new Uri(BaseUrl), relativeUri);
         }
 
         public T GetObject<T>(string content)

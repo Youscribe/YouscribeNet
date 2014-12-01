@@ -16,38 +16,34 @@ namespace YouScribe.Rest
 
         public async Task<string> GeneratePasswordAsync(int minLength, int maxLength)
         {
-            using (var client = this.CreateClient())
+            var client = this.CreateClient();
+            var url = "api/v1/accounts/generated-passwords";
+            var dico = new Dictionary<string, string>()
             {
-                var url = "api/v1/accounts/generated-passwords";
-                var dico = new Dictionary<string, string>()
-                {
-                    { "minLength", minLength.ToString() },
-                    { "maxLength", maxLength.ToString() },
-                };
-                url = url + "?" + dico.ToQueryString();
-                var response = await client.PostAsync(url, null);
+                { "minLength", minLength.ToString() },
+                { "maxLength", maxLength.ToString() },
+            };
+            url = url + "?" + dico.ToQueryString();
+            var response = await client.PostAsync(this.GetUri(url), null);
 
-                if (!response.IsSuccessStatusCode)
-                    await this.AddErrorsAsync(response);
-                return await this.GetObjectAsync<string>(response.Content);
-            }
+            if (!response.IsSuccessStatusCode)
+                await this.AddErrorsAsync(response);
+            return await this.GetObjectAsync<string>(response.Content);
         }
 
         public async Task<string> GetUserNameFromEmailAsync(string email)
         {
-            using (var client = this.CreateClient())
-            {
-                var url = "api/v1/accounts/unique-usernames";
-                url = url + "?email=" + System.Uri.EscapeDataString(email);
-                var response = await client.PostAsync(url, null);
+            var client = this.CreateClient();
+            var url = "api/v1/accounts/unique-usernames";
+            url = url + "?email=" + System.Uri.EscapeDataString(email);
+            var response = await client.PostAsync(this.GetUri(url), null);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                return await this.GetObjectAsync<string>(response.Content);
+            if (!response.IsSuccessStatusCode)
+            {
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            return await this.GetObjectAsync<string>(response.Content);
         }
     }
 }

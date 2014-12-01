@@ -16,28 +16,24 @@ namespace YouScribe.Rest
 
         public async Task<IEnumerable<Models.Accounts.UserTypeModel>> ListAllUserTypesAsync()
         {
-            using (var client = this.CreateClient())
-            {
-                var response = await client.GetAsync(ApiUrls.AccountUserTypesUrl);
+            var client = this.CreateClient();
+            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUserTypesUrl));
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response);
-                    return Enumerable.Empty<Models.Accounts.UserTypeModel>();
-                }
-                return await this.GetObjectAsync<IEnumerable<UserTypeModel>>(response.Content);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                await this.AddErrorsAsync(response);
+                return Enumerable.Empty<Models.Accounts.UserTypeModel>();
             }
+            return await this.GetObjectAsync<IEnumerable<UserTypeModel>>(response.Content);
         }
 
         public async Task<bool> SetUserTypeAsync(Models.Accounts.UserTypeModel userType)
         {
-            using (var client = this.CreateClient())
-            {
-                var content = this.GetContent(userType);
-                var response = await client.PutAsync(ApiUrls.AccountUserTypesUrl, content);
+            var client = this.CreateClient();
+            var content = this.GetContent(userType);
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUserTypesUrl), content);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
     }
 }

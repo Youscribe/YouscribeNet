@@ -17,27 +17,25 @@ namespace YouScribe.Rest
 
         public async Task<IEnumerable<Models.Products.ProductSearchItemOutputModel>> GetSuggestAsync(int id, string offerType = null, string domainLanguage = "fr", int take = 3)
         {
-            using (var client = this.CreateClient())
-            {
-                var parameters = new Dictionary<string, string>();
-                var dico = new Dictionary<string, string>(){
-                    { "domainLanguage", domainLanguage },
-                    { "take", take.ToString() },
-                    { "offerType", offerType }
-                };
+            var client = this.CreateClient();
+            var parameters = new Dictionary<string, string>();
+            var dico = new Dictionary<string, string>(){
+                { "domainLanguage", domainLanguage },
+                { "take", take.ToString() },
+                { "offerType", offerType }
+            };
 
-                var queryString = dico.ToQueryString();
-                var url = "api/v1/products/{id}/suggests".Replace("{id}", id.ToString());
-                if (!string.IsNullOrEmpty(queryString))
-                    url = url + "?" + queryString;
-                var response = await client.GetAsync(url);
+            var queryString = dico.ToQueryString();
+            var url = "api/v1/products/{id}/suggests".Replace("{id}", id.ToString());
+            if (!string.IsNullOrEmpty(queryString))
+                url = url + "?" + queryString;
+            var response = await client.GetAsync(this.GetUri(url));
 
-                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
 
-                if (response.IsSuccessStatusCode)
-                    return (await this.GetObjectAsync<IEnumerable<Models.Products.ProductSearchItemOutputModel>>(response.Content));
-                return Enumerable.Empty<Models.Products.ProductSearchItemOutputModel>();
-            }
+            if (response.IsSuccessStatusCode)
+                return (await this.GetObjectAsync<IEnumerable<Models.Products.ProductSearchItemOutputModel>>(response.Content));
+            return Enumerable.Empty<Models.Products.ProductSearchItemOutputModel>();
         }
     }
 }

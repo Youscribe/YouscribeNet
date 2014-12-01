@@ -18,75 +18,65 @@ namespace YouScribe.Rest
 
         public async Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
         {
-            using (var client = this.CreateClient())
-            {
-                var response = await client.GetAsync(ApiUrls.AccountUrl);
+            var client = this.CreateClient();
+            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUrl));
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                return await this.GetObjectAsync<AccountGetModel>(response.Content);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            return await this.GetObjectAsync<AccountGetModel>(response.Content);
         }
 
         public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account)
         {
-            using (var client = this.CreateClient())
-            {
-                var content = this.GetContent(account);
-                var response = await client.PostAsync(ApiUrls.AccountUrl, content);
+            var client = this.CreateClient();
+            var content = this.GetContent(account);
+            var response = await client.PostAsync(this.GetUri(ApiUrls.AccountUrl), content);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.Created)
-                {
-                    await this.AddErrorsAsync(response);
-                    return null;
-                }
-                return await this.GetObjectAsync<AccountModel>(response.Content);
+            if (response.StatusCode != System.Net.HttpStatusCode.Created)
+            {
+                await this.AddErrorsAsync(response);
+                return null;
             }
+            return await this.GetObjectAsync<AccountModel>(response.Content);
         }
 
         public async Task<bool> UpdateAsync(Models.Accounts.AccountModel account)
         {
-            using (var client = this.CreateClient())
-            {
-                var content = this.GetContent(account);
-                var response = await client.PutAsync(ApiUrls.AccountUrl, content);
+            var client = this.CreateClient();
+            var content = this.GetContent(account);
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUrl), content);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<bool> SetSpokenLanguagesAsync(IEnumerable<string> languages)
         {
-            using (var client = this.CreateClient())
-            {
-                var content = new FormUrlEncodedContent(
-                    languages.Select(c => new KeyValuePair<string, string>("Languages", c))
-                );
-                var response = await client.PutAsync(ApiUrls.AccountLanguagesUrl, content);
+            var client = this.CreateClient();
+            var content = new FormUrlEncodedContent(
+                languages.Select(c => new KeyValuePair<string, string>("Languages", c))
+            );
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountLanguagesUrl), content);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
 
         public async Task<bool> UploadPictureAsync(Uri uri)
         {
             if (uri.IsValid() == false)
                 throw new ArgumentException("Uri is not valid", "uri");
-            using (var client = this.CreateClient())
-            {
-                var url = ApiUrls.PictureUrl;
-                var dico = new Dictionary<string, string>(){
-                    {"url", uri.ToString()}
-                };
-                url = url + "?" + dico.ToQueryString();
-                var response = await client.PostAsync(url, null);
+            var client = this.CreateClient();
+            var url = ApiUrls.PictureUrl;
+            var dico = new Dictionary<string, string>(){
+                {"url", uri.ToString()}
+            };
+            url = url + "?" + dico.ToQueryString();
+            var response = await client.PostAsync(this.GetUri(url), null);
 
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
         }
 
         public async Task<bool> UploadPictureAsync(Models.FileModel image)
@@ -94,24 +84,20 @@ namespace YouScribe.Rest
             if (image.IsValid == false)
                 throw new ArgumentException("image is not valid", "image");
 
-            using (var client = this.CreateClient())
-            {
-                var content = new MultipartFormDataContent();
-                content.Add(new StreamContent(image.Content), "file", image.FileName);
-                var response = await client.PostAsync(ApiUrls.PictureUrl, content);
+            var client = this.CreateClient();
+            var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(image.Content), "file", image.FileName);
+            var response = await client.PostAsync(this.GetUri(ApiUrls.PictureUrl), content);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
         }
 
         public async Task<bool> DeletePictureAsync()
         {
-            using (var client = this.CreateClient())
-            {
-                var response = await client.DeleteAsync(ApiUrls.PictureUrl);
+            var client = this.CreateClient();
+            var response = await client.DeleteAsync(this.GetUri(ApiUrls.PictureUrl));
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
-            }
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
         }
     }
 }

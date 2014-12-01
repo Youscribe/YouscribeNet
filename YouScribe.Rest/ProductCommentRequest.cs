@@ -17,23 +17,21 @@ namespace YouScribe.Rest
 
         public async Task<ProductCommentsOutput> GetCommentsAsync(int productId, int skip = 0, int take = 5, int repliesTake = 3)
         {
-            using (var client = this.CreateClient())
+            var client = this.CreateClient();
+            var url = "api/v1/products/" + productId + "/comments";
+            var dico = new Dictionary<string, string>(){
+                { "skip", skip.ToString() },
+                { "take", take.ToString() },
+                { "repliesTake", repliesTake.ToString() }
+            };
+            url = url + "?" + dico.ToQueryString();
+            var response = await client.GetAsync(this.GetUri(url));
+            if (!response.IsSuccessStatusCode)
             {
-                var url = "api/v1/products/" + productId + "/comments";
-                var dico = new Dictionary<string, string>(){
-                    { "skip", skip.ToString() },
-                    { "take", take.ToString() },
-                    { "repliesTake", repliesTake.ToString() }
-                };
-                url = url + "?" + dico.ToQueryString();
-                var response = await client.GetAsync(url);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response);
-                    return new ProductCommentsOutput(){ Count = -1, Comments = Enumerable.Empty<ProductCommentOutput>() };
-                }
-                return await this.GetObjectAsync<ProductCommentsOutput>(response.Content);
+                await this.AddErrorsAsync(response);
+                return new ProductCommentsOutput(){ Count = -1, Comments = Enumerable.Empty<ProductCommentOutput>() };
             }
+            return await this.GetObjectAsync<ProductCommentsOutput>(response.Content);
         }
     }
 }
