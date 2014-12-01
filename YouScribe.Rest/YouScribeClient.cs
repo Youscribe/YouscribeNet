@@ -17,13 +17,18 @@ namespace YouScribe.Rest
         internal readonly Func<HttpClient> clientFactory;
 		internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
 
-        private string baseUrl;
         private string _authorizeToken;
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
             new ProductInfoHeaderValue("YouScribe", "2.0")
         };
+
+        public string BaseUrl
+        {
+            internal set;
+            get;
+        }
 
         public YouScribeClient(string baseUrl)
             : this(null, baseUrl)
@@ -36,7 +41,7 @@ namespace YouScribe.Rest
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
         {
-            this.baseUrl = baseUrl;
+            this.BaseUrl = baseUrl;
             this.clientFactory = () =>
             {
                 var id = System.Threading.Thread.CurrentThread.ManagedThreadId;
@@ -93,7 +98,7 @@ namespace YouScribe.Rest
             if (validityInHours.HasValue)
                 keyValues.Add(new KeyValuePair<string, string>("ValidityInHours", validityInHours.Value.ToString()));
             var content = new System.Net.Http.FormUrlEncodedContent(keyValues);
-            var response = await client.PostAsync(new Uri(new Uri(baseUrl), ApiUrls.AuthorizeUrl), content);
+            var response = await client.PostAsync(new Uri(new Uri(BaseUrl), ApiUrls.AuthorizeUrl), content);
             if (!response.IsSuccessStatusCode)
                 return false;
             if (response.Headers.Any(c => c.Key == ApiUrls.AuthorizeTokenHeaderName) == false)
@@ -111,67 +116,67 @@ namespace YouScribe.Rest
 
         public IProductRequest CreateProductRequest()
         {
-            var productRequest = new ProductRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var productRequest = new ProductRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return productRequest;
         }
 
         public ILibraryRequest CreateLibraryRequest()
         {
-            var libraryRequest = new LibraryRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var libraryRequest = new LibraryRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return libraryRequest;
 		}
         
         public IAccountRequest CreateAccountRequest()
         {
-            var request = new AccountRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new AccountRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
         
         public IAccountEventRequest CreateAccountEventRequest()
         {
-            var request = new AccountEventRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new AccountEventRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IAccountPublisherRequest CreateAccountPublisherRequest()
         {
-            var request = new AccountPublisherRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new AccountPublisherRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IAccountUsertTypeRequest CreateAccountUserTypeRequest()
         {
-            var request = new AccountUserTypeRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new AccountUserTypeRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IAccountUtilRequest CreateAccountUtilRequest()
         {
-            var request = new AccountUtilRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new AccountUtilRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IEmbedRequest CreateEmbedRequest()
         {
-            var request = new EmbedRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new EmbedRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IProductCommentRequest CreateProductCommentRequest()
         {
-            var request = new ProductCommentRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new ProductCommentRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IProductSearchRequest CreateProductSearchRequest()
         {
-            var request = new ProductSearchRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new ProductSearchRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
 
         public IProductSuggestRequest CreateProductSuggestRequest()
         {
-            var request = new ProductSuggestRequest(this.clientFactory, _authorizeToken) { BaseUrl = baseUrl };
+            var request = new ProductSuggestRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
     }
