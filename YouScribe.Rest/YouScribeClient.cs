@@ -35,9 +35,13 @@ namespace YouScribe.Rest
         { }
 
 	    public YouScribeClient()
-            : this(null)
+            : this(ApiUrls.BaseUrl)
         { }
 
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory)
+            : this(handlerFactory, ApiUrls.BaseUrl)
+        {
+        }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
         {
