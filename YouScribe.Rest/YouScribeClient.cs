@@ -12,6 +12,7 @@ namespace YouScribe.Rest
     public class YouScribeClient : IYouScribeClient
     {
         internal readonly Func<HttpClient> clientFactory;
+		internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
 
         private string _authorizeToken;
 
@@ -28,15 +29,16 @@ namespace YouScribe.Rest
             : this(null, baseUrl)
         { }
 
-        public YouScribeClient(HttpMessageHandler handler)
-            : this(handler, ApiUrls.BaseUrl)
+		public YouScribeClient(Func<HttpMessageHandler> handlerFactory)
+            : this(handlerFactory, ApiUrls.BaseUrl)
         { }
 
-        public YouScribeClient(HttpMessageHandler handler, string baseUrl)
+			public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
         {
+			this.httpMessageHandlerFactory = handlerFactory;
             this.clientFactory = () =>
             {
-                var client = handler == null ? new HttpClient() : new HttpClient(handler);
+				var client = httpMessageHandlerFactory == null ? new HttpClient() : new HttpClient(httpMessageHandlerFactory());
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.UserAgent.Clear();

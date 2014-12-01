@@ -29,10 +29,13 @@ Global
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C} = {98772908-4E84-413C-B824-FB0514FF0B58}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = YouScribe.Rest\YouScribe.Rest.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
