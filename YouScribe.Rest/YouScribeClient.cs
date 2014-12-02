@@ -102,7 +102,7 @@ namespace YouScribe.Rest
             if (validityInHours.HasValue)
                 keyValues.Add(new KeyValuePair<string, string>("ValidityInHours", validityInHours.Value.ToString()));
             var content = new System.Net.Http.FormUrlEncodedContent(keyValues);
-            var response = await client.PostAsync(new Uri(new Uri(BaseUrl), ApiUrls.AuthorizeUrl), content);
+            var response = await client.PostAsync(new Uri(new Uri(BaseUrl), ApiUrls.AuthorizeUrl), content).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
                 return false;
             if (response.Headers.Any(c => c.Key == ApiUrls.AuthorizeTokenHeaderName) == false)

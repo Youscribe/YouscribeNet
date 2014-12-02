@@ -59,13 +59,13 @@ namespace YouScribe.Rest
 
         protected async Task<T> GetObjectAsync<T>(HttpContent content)
         {
-            var str = await content.ReadAsStringAsync();
+            var str = await content.ReadAsStringAsync().ConfigureAwait(false);
             return serializer.Deserialize<T>(str);
         }
 
         protected async Task AddErrorsAsync(HttpResponseMessage response)
         {
-            var error = await response.Content.ReadAsStringAsync();
+            var error = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var errorMessages = new List<string>();
             if (string.IsNullOrEmpty(error) == false)
             {
@@ -97,7 +97,7 @@ namespace YouScribe.Rest
             }
             else if (response.StatusCode != expectedStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return false;
             }
             return true;

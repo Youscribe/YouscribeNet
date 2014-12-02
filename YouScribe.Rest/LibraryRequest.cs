@@ -18,13 +18,13 @@ namespace YouScribe.Rest
 		{
             IEnumerable<SimpleLibraryModel> model;
             var client = this.CreateClient();
-            var response = await client.GetAsync(this.GetUri(ApiUrls.LibraryUrl));
+            var response = await client.GetAsync(this.GetUri(ApiUrls.LibraryUrl)).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            model = await this.GetObjectAsync<IEnumerable<SimpleLibraryModel>>(response.Content);
+            model = await this.GetObjectAsync<IEnumerable<SimpleLibraryModel>>(response.Content).ConfigureAwait(false);
             return model;
 		}
 
@@ -33,13 +33,13 @@ namespace YouScribe.Rest
             LibraryModel model;
             var client = this.CreateClient();
             var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString());
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            model = await this.GetObjectAsync<LibraryModel>(response.Content);
+            model = await this.GetObjectAsync<LibraryModel>(response.Content).ConfigureAwait(false);
             return model;
 		}
 
@@ -48,13 +48,13 @@ namespace YouScribe.Rest
             LibraryModel model = null;
             var client = this.CreateClient();
             var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString());
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            model = await this.GetObjectAsync<LibraryModel>(response.Content);
+            model = await this.GetObjectAsync<LibraryModel>(response.Content).ConfigureAwait(false);
             return model;
         }
 
@@ -64,9 +64,9 @@ namespace YouScribe.Rest
             var url = ApiUrls.LibraryAddProductUrl.Replace("{id}", id.ToString())
                 .Replace("{productId}", productId.ToString());
             var content = this.GetContent(isPublic);
-            var response = await client.PutAsync(this.GetUri(url), content);
+            var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> AddProductAsync(string typeName, int productId, bool isPublic)
@@ -75,9 +75,9 @@ namespace YouScribe.Rest
             var url = ApiUrls.LibraryAddByTypeNameProductUrl.Replace("{typeName}", typeName.ToString())
                 .Replace("{productId}", productId.ToString());
             var content = this.GetContent(isPublic);
-            var response = await client.PutAsync(this.GetUri(url), content);
+            var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> DeleteProductAsync(int id, int productId)
@@ -85,9 +85,9 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString())
                 .Replace("{productId}", productId.ToString());
-            var response = await client.DeleteAsync(this.GetUri(url));
+            var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> DeleteProductAsync(string typeName, int productId)
@@ -95,23 +95,23 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString())
                 .Replace("{productId}", productId.ToString());
-            var response = await client.DeleteAsync(this.GetUri(url));
+            var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<int>> GetByProductIdAsync(int productId)
         {
             var client = this.CreateClient();
             var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await this.GetObjectAsync<IEnumerable<int>>(response.Content);
+            return await this.GetObjectAsync<IEnumerable<int>>(response.Content).ConfigureAwait(false);
         }
     }
 }

@@ -25,13 +25,13 @@ namespace YouScribe.Rest
                 { "repliesTake", repliesTake.ToString() }
             };
             url = url + "?" + dico.ToQueryString();
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return new ProductCommentsOutput(){ Count = -1, Comments = Enumerable.Empty<ProductCommentOutput>() };
             }
-            return await this.GetObjectAsync<ProductCommentsOutput>(response.Content);
+            return await this.GetObjectAsync<ProductCommentsOutput>(response.Content).ConfigureAwait(false);
         }
     }
 }

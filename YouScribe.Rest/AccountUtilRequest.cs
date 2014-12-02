@@ -24,11 +24,11 @@ namespace YouScribe.Rest
                 { "maxLength", maxLength.ToString() },
             };
             url = url + "?" + dico.ToQueryString();
-            var response = await client.PostAsync(this.GetUri(url), null);
+            var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
-                await this.AddErrorsAsync(response);
-            return await this.GetObjectAsync<string>(response.Content);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
+            return await this.GetObjectAsync<string>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<string> GetUserNameFromEmailAsync(string email)
@@ -36,14 +36,14 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var url = "api/v1/accounts/unique-usernames";
             url = url + "?email=" + System.Uri.EscapeDataString(email);
-            var response = await client.PostAsync(this.GetUri(url), null);
+            var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await this.GetObjectAsync<string>(response.Content);
+            return await this.GetObjectAsync<string>(response.Content).ConfigureAwait(false);
         }
     }
 }

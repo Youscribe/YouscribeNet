@@ -24,14 +24,14 @@ namespace YouScribe.Rest
         {
             var client = this.CreateClient();
             var url = ApiUrls.ProductGetUrl.Replace("{id}", id.ToString());
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await this.GetObjectAsync<ProductGetModel>(response.Content);
+            return await this.GetObjectAsync<ProductGetModel>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids)
@@ -39,14 +39,14 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var url = ApiUrls.ProductUrlByIds;
             var content = this.GetContent(ids);
-            var response = await client.PostAsync(this.GetUri(url), content);
+            var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await this.GetObjectAsync<IEnumerable<ProductGetModel>>(response.Content);
+            return await this.GetObjectAsync<IEnumerable<ProductGetModel>>(response.Content).ConfigureAwait(false);
         }
 
         #region PublishDocument
@@ -66,14 +66,14 @@ namespace YouScribe.Rest
             //create product
             var client = this.CreateClient();
             var content = this.GetContent(productInformation);
-            var productReponse = await client.PostAsync(this.GetUri(ApiUrls.ProductUrl), content);
+            var productReponse = await client.PostAsync(this.GetUri(ApiUrls.ProductUrl), content).ConfigureAwait(false);
 
-            if (await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.Created) == false)
+            if (await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.Created).ConfigureAwait(false) == false)
                 return null;
 
-            var product = await this.GetObjectAsync<ProductModel>(productReponse.Content);
+            var product = await this.GetObjectAsync<ProductModel>(productReponse.Content).ConfigureAwait(false);
 
-            if (await this.uploadFilesAsync(product.Id, filesUri) == false)
+            if (await this.uploadFilesAsync(product.Id, filesUri).ConfigureAwait(false) == false)
                 return null;
 
             return product;
@@ -86,14 +86,14 @@ namespace YouScribe.Rest
             //create product
             var client = this.CreateClient();
             var content = this.GetContent(productInformation);
-            var productReponse = await client.PostAsync(this.GetUri(ApiUrls.ProductUrl), content);
+            var productReponse = await client.PostAsync(this.GetUri(ApiUrls.ProductUrl), content).ConfigureAwait(false);
 
-            if (await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.Created) == false)
+            if (await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.Created).ConfigureAwait(false) == false)
                 return null;
 
-            var product = await this.GetObjectAsync<ProductModel>(productReponse.Content);
+            var product = await this.GetObjectAsync<ProductModel>(productReponse.Content).ConfigureAwait(false);
 
-            if (await this.uploadFilesAsync(product.Id, files) == false)
+            if (await this.uploadFilesAsync(product.Id, files).ConfigureAwait(false) == false)
                 return null;
 
             return product;
@@ -114,17 +114,17 @@ namespace YouScribe.Rest
                 var content = new MultipartFormDataContent();
                 content.Add(new StreamContent(file.Content), "file", file.FileName);
                 var fileUrl = ApiUrls.UploadUrl.Replace("{id}", productId.ToString());
-                var productReponse = await fileClient.PostAsync(this.GetUri(fileUrl), content);
+                var productReponse = await fileClient.PostAsync(this.GetUri(fileUrl), content).ConfigureAwait(false);
 
-                await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.OK);
+                await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
             }
 
             //finalize
             var client = this.CreateClient();
             var url = ApiUrls.ProductEndUploadUrl.Replace("{id}", productId.ToString());
-            var response = await client.PutAsync(this.GetUri(url), null);
+            var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         private async Task<bool> uploadFilesAsync(int productId, IEnumerable<Uri> files)
@@ -138,17 +138,17 @@ namespace YouScribe.Rest
                 };
                 var fileUrl = ApiUrls.UploadFileUrl.Replace("{id}", productId.ToString());
                 fileUrl = fileUrl + "?" + dico.ToQueryString();
-                var productReponse = await fileClient.PostAsync(this.GetUri(fileUrl), null);
+                var productReponse = await fileClient.PostAsync(this.GetUri(fileUrl), null).ConfigureAwait(false);
 
-                await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.OK);
+                await this.HandleResponseAsync(productReponse, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
             }
 
             //finalize
             var client = this.CreateClient();
             var url = ApiUrls.ProductEndUploadUrl.Replace("{id}", productId.ToString());
-            var response = await client.PutAsync(this.GetUri(url), null);
+            var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         #endregion
@@ -157,37 +157,37 @@ namespace YouScribe.Rest
 
         public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation)
         {
-            var ok = await this.updateDocumentAsync(productId, productInformation);
+            var ok = await this.updateDocumentAsync(productId, productInformation).ConfigureAwait(false);
             if (ok == false)
                 return false;
-            return await this.finalizeUdateAsync(productId);
+            return await this.finalizeUdateAsync(productId).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation, IEnumerable<FileModel> files)
         {
             if (files != null && files.Any(f => f.IsValid == false))
                 throw new ArgumentException("Incorrect files, need the FileName, ContentType and Content", "files");
-            var ok = await this.updateDocumentAsync(productId, productInformation);
+            var ok = await this.updateDocumentAsync(productId, productInformation).ConfigureAwait(false);
             if (ok == false)
                 return false;
             if (files != null)
-                return await this.uploadFilesAsync(productId, files);
+                return await this.uploadFilesAsync(productId, files).ConfigureAwait(false);
 
-            return await this.finalizeUdateAsync(productId);
+            return await this.finalizeUdateAsync(productId).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateDocumentAsync(int productId, ProductUpdateModel productInformation, IEnumerable<Uri> filesUri)
         {
             if (filesUri != null && filesUri.Any(c => c.IsValid() == false))
                 throw new ArgumentException("Incorrect files uri, need the FileName, ContentType and Uri", "filesUri");
-            var ok = await this.updateDocumentAsync(productId, productInformation);
+            var ok = await this.updateDocumentAsync(productId, productInformation).ConfigureAwait(false);
             if (ok == false)
                 return false;
 
             if (filesUri != null)
-                return await this.uploadFilesAsync(productId, filesUri);
+                return await this.uploadFilesAsync(productId, filesUri).ConfigureAwait(false);
 
-            return await this.finalizeUdateAsync(productId);
+            return await this.finalizeUdateAsync(productId).ConfigureAwait(false);
         }
 
         private async Task<bool> updateDocumentAsync(int productId, ProductUpdateModel productInformation)
@@ -196,18 +196,18 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var url = ApiUrls.ProductUpdateUrl.Replace("{id}", productId.ToString());
             var content = this.GetContent(productInformation);
-            var response = await client.PutAsync(this.GetUri(url), content);
+            var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         private async Task<bool> finalizeUdateAsync(int productId)
         {
             var client = this.CreateClient();
             var url = ApiUrls.ProductEndUpdateUrl.Replace("{id}", productId.ToString());
-            var response = await client.PutAsync(this.GetUri(url), null);
+            var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         #endregion
@@ -225,9 +225,9 @@ namespace YouScribe.Rest
                 {"url", imageUri.ToString()}
             };
             url = url + "?" + dico.ToQueryString();
-            var response = await client.PostAsync(this.GetUri(url), null);
+            var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateDocumentThumbnailAsync(int productId, int page)
@@ -237,9 +237,9 @@ namespace YouScribe.Rest
             var dico = new Dictionary<string, string>(){
                 {"url", page.ToString()}
             };
-            var response = await client.PostAsync(this.GetUri(url), null);
+            var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateDocumentThumbnailAsync(int productId, FileModel image)
@@ -251,9 +251,9 @@ namespace YouScribe.Rest
             var url = ApiUrls.ThumbnailDataUrl.Replace("{id}", productId.ToString());
             var content = new MultipartFormDataContent();
             content.Add(new StreamContent(image.Content), "file", image.FileName);
-            var response = await client.PostAsync(this.GetUri(url), content);
+            var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
         }
 
         #endregion
@@ -262,14 +262,14 @@ namespace YouScribe.Rest
         {
             var client = this.CreateClient();
             var url = ApiUrls.ProductRightUrl.Replace("{id}", productId.ToString());
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return -1;
             }
-            return await this.GetObjectAsync<int>(response.Content);
+            return await this.GetObjectAsync<int>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<Stream> DownloadFileAsync(int productId, string extension)
@@ -278,14 +278,14 @@ namespace YouScribe.Rest
             var url = ApiUrls.ProductDownloadByExtensionUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{extension}", extension);
-            var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead);
+            var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await response.Content.ReadAsStreamAsync();
+            return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         }
 
         public async Task<Stream> DownloadFileAsync(int productId, int formatTypeId)
@@ -294,14 +294,14 @@ namespace YouScribe.Rest
             var url = ApiUrls.ProductDownloadByFormatTypeIdUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{formatTypeId}", formatTypeId.ToString());
-            var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead);
+            var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await response.Content.ReadAsStreamAsync();
+            return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
         }
 
 
@@ -311,21 +311,21 @@ namespace YouScribe.Rest
             int totalBytes = 0;
 
             var client = this.CreateClient();
-            var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead);
+            var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return;
             }
-            var stream = await response.Content.ReadAsStreamAsync();
+            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
             byte[] buffer = new byte[4096];
             totalBytes = (int)response.Content.Headers.ContentLength.Value;
 
             for (; ; )
             {
-                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                 if (bytesRead == 0)
                     break;
 

@@ -28,12 +28,12 @@ namespace YouScribe.Rest
             var url = ApiUrls.EmbedUrl.Replace("{id}", id.ToString());
             if (!string.IsNullOrEmpty(queryString))
                 url = url + "?" + queryString;
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
-                return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content)).Content;
+                return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
             return string.Empty;
         }
 
@@ -54,12 +54,12 @@ namespace YouScribe.Rest
             var url = ApiUrls.PrivateEmbedUrl;
             if (!string.IsNullOrEmpty(queryString))
                 url = url + "?" + queryString;
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
-                return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content)).Content;
+                return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
             return string.Empty;
         }
 

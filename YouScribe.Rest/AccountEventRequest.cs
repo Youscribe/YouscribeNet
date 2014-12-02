@@ -17,14 +17,14 @@ namespace YouScribe.Rest
         public async Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()
         {
             var client = this.CreateClient();
-            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountEventUrl));
+            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountEventUrl)).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return Enumerable.Empty<Models.Accounts.AccountEventModel>();
             }
-            return await this.GetObjectAsync<IEnumerable<Models.Accounts.AccountEventModel>>(response.Content);
+            return await this.GetObjectAsync<IEnumerable<Models.Accounts.AccountEventModel>>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<bool> SubscribeToEventAsync(string name)
@@ -32,27 +32,27 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var url = ApiUrls.AccountSubscribeEventUrl;
             url = url.Replace("{name}", name);
-            var response = await client.PutAsync(this.GetUri(url), null);
+            var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> UnSubscribeToEventAsync(Models.Accounts.AccountEventModel @event)
         {
             var client = this.CreateClient();
             var url = ApiUrls.AccountUnSubscribeEventUrl.Replace("{id}", @event.Id.ToString());
-            var response = await client.DeleteAsync(this.GetUri(url));
+            var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> SetEventFrequencyAsync(Models.Accounts.NotificationFrequency frequency)
         {
             var client = this.CreateClient();
             var url = ApiUrls.AccountEventFrequencyUrl.Replace("{frequency}", frequency.ToString());
-            var response = await client.PutAsync(this.GetUri(url), null);
+            var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
     }
 }

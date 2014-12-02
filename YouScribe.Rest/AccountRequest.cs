@@ -19,37 +19,37 @@ namespace YouScribe.Rest
         public async Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
         {
             var client = this.CreateClient();
-            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUrl));
+            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUrl)).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await this.GetObjectAsync<AccountGetModel>(response.Content);
+            return await this.GetObjectAsync<AccountGetModel>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account)
         {
             var client = this.CreateClient();
             var content = this.GetContent(account);
-            var response = await client.PostAsync(this.GetUri(ApiUrls.AccountUrl), content);
+            var response = await client.PostAsync(this.GetUri(ApiUrls.AccountUrl), content).ConfigureAwait(false);
 
             if (response.StatusCode != System.Net.HttpStatusCode.Created)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return null;
             }
-            return await this.GetObjectAsync<AccountModel>(response.Content);
+            return await this.GetObjectAsync<AccountModel>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateAsync(Models.Accounts.AccountModel account)
         {
             var client = this.CreateClient();
             var content = this.GetContent(account);
-            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUrl), content);
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUrl), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> SetSpokenLanguagesAsync(IEnumerable<string> languages)
@@ -58,9 +58,9 @@ namespace YouScribe.Rest
             var content = new FormUrlEncodedContent(
                 languages.Select(c => new KeyValuePair<string, string>("Languages", c))
             );
-            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountLanguagesUrl), content);
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountLanguagesUrl), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> UploadPictureAsync(Uri uri)
@@ -73,10 +73,10 @@ namespace YouScribe.Rest
                 {"url", uri.ToString()}
             };
             url = url + "?" + dico.ToQueryString();
-            var response = await client.PostAsync(this.GetUri(url), null);
+            var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
         }
 
         public async Task<bool> UploadPictureAsync(Models.FileModel image)
@@ -87,17 +87,17 @@ namespace YouScribe.Rest
             var client = this.CreateClient();
             var content = new MultipartFormDataContent();
             content.Add(new StreamContent(image.Content), "file", image.FileName);
-            var response = await client.PostAsync(this.GetUri(ApiUrls.PictureUrl), content);
+            var response = await client.PostAsync(this.GetUri(ApiUrls.PictureUrl), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
         }
 
         public async Task<bool> DeletePictureAsync()
         {
             var client = this.CreateClient();
-            var response = await client.DeleteAsync(this.GetUri(ApiUrls.PictureUrl));
+            var response = await client.DeleteAsync(this.GetUri(ApiUrls.PictureUrl)).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
     }
 }

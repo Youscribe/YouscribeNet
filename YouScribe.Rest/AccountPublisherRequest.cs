@@ -17,18 +17,18 @@ namespace YouScribe.Rest
         {
             var client = this.CreateClient();
             var content = this.GetContent(paypalPublisher);
-            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountPaypalPublisherUrl), content);
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountPaypalPublisherUrl), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
 
         public async Task<bool> SetAsTransferPublisherAsync(Models.Accounts.AccountPublisherTransferModel transferPublisher)
         {
             var client = this.CreateClient();
             var content = this.GetContent(transferPublisher);
-            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountTransferPublisherUrl), content);
+            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountTransferPublisherUrl), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent);
+            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
         }
     }
 }

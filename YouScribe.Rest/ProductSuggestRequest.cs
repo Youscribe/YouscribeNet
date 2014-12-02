@@ -29,12 +29,12 @@ namespace YouScribe.Rest
             var url = "api/v1/products/{id}/suggests".Replace("{id}", id.ToString());
             if (!string.IsNullOrEmpty(queryString))
                 url = url + "?" + queryString;
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK);
+            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
-                return (await this.GetObjectAsync<IEnumerable<Models.Products.ProductSearchItemOutputModel>>(response.Content));
+                return (await this.GetObjectAsync<IEnumerable<Models.Products.ProductSearchItemOutputModel>>(response.Content).ConfigureAwait(false));
             return Enumerable.Empty<Models.Products.ProductSearchItemOutputModel>();
         }
     }

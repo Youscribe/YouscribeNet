@@ -21,14 +21,14 @@ namespace YouScribe.Rest
             var qs = input.ToQueryString();
             url = url + "?" + qs;
 
-            var response = await client.GetAsync(this.GetUri(url));
+            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
-                await this.AddErrorsAsync(response);
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return new ProductSearchOutputModel() { TotalResults = -1, Products = Enumerable.Empty<ProductSearchItemOutputModel>() };
             }
-            return await this.GetObjectAsync<ProductSearchOutputModel>(response.Content);
+            return await this.GetObjectAsync<ProductSearchOutputModel>(response.Content).ConfigureAwait(false);
         }
     }
 }
