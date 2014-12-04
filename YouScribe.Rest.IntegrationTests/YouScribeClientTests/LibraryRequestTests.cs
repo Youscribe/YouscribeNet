@@ -184,6 +184,10 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                     }
+                    else if (context.Request.HttpMethod == "DELETE")
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+                    }
                     break;
                 case "/api/v1/libraries/product/1":
                     context.Response.ContentType = "application/json";

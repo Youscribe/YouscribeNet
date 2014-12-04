@@ -93,7 +93,7 @@ namespace YouScribe.Rest
         public async Task<bool> DeleteProductAsync(string typeName, int productId)
         {
             var client = this.CreateClient();
-            var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString())
+            var url = ApiUrls.LibraryDeleteByTypeNameProductUrl.Replace("{typeName}", typeName)
                 .Replace("{productId}", productId.ToString());
             var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
