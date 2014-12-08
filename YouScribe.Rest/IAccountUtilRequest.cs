@@ -12,6 +12,6 @@ namespace YouScribe.Rest
 
         Task<string> GetUserNameFromEmailAsync(string email);
 
-        Task<bool> ForgotPassword(string userNameOrEmail);
+        Task<bool> ForgotPasswordAsync(string userNameOrEmail);
     }
 }

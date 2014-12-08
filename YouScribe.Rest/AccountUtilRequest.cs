@@ -46,7 +46,7 @@ namespace YouScribe.Rest
             return await this.GetObjectAsync<string>(response.Content).ConfigureAwait(false);
         }
 
-        public async Task<bool> ForgotPassword(string userNameOrEmail)
+        public async Task<bool> ForgotPasswordAsync(string userNameOrEmail)
         {
             var client = this.CreateClient();
             var url = "api/v1/accounts/forgot-passwords";
