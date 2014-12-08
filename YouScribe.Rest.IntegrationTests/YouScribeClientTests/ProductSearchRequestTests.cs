@@ -37,8 +37,12 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 Assert.Equal(1, results.TotalResults);
                 Assert.NotEmpty(results.Products);
                 Assert.Equal("bouh", results.Products.First().Title);
+                var theme = results.Products.First().Theme;
+                Assert.NotNull(theme);
+                Assert.Equal(138, theme.Id);
             }
         }
+        
 
         private static void EventHandler(HttpListenerContext context)
         {

@@ -30,7 +30,19 @@
                     "Width": 67,
                     "Height": 86
                 }
-            ]
+            ],
+			 "Theme": {
+                "Id": 138,
+                "Name": "renaissance_music_scores",
+                "Label": "Partitions de musique de la renaissance",
+                "Parent": {
+                    "Id": 13,
+                    "Name": "art",
+                    "Label": "Art, musique et cinéma",
+                    "Parent": null
+                }
+            },
+            "StateId": 3
         }
     ]
 }

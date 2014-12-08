@@ -40,6 +40,11 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<string> PublicFormatExtensions { get; set; }
 
         public IEnumerable<ImageUrlOutput> ThumbnailUrls { get; set; }
+
+        public ThemeModel Theme { get; set; }
+
+        public int StateId { get; set; }
+        
     }
 
     public class ProductSearchOutputModel

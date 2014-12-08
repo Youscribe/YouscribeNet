@@ -354,5 +354,20 @@ namespace YouScribe.Rest
                 .Replace("{extension}", extension);
             return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
         }
+
+        public async Task<IEnumerable<ProductUrlsModel>> GetProductUrlsAsync(IEnumerable<int> ids)
+        {
+            var client = this.CreateClient();
+            var url = ApiUrls.ProductGetUrlsByIds;
+            var content = this.GetContent(ids);
+            var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
+                return null;
+            }
+            return await this.GetObjectAsync<IEnumerable<ProductUrlsModel>>(response.Content).ConfigureAwait(false);
+        }
     }
 }

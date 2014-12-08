@@ -36,5 +36,11 @@ namespace YouScribe.Rest.Models.Products
         public int take { get; set; }
 
         public IEnumerable<string> sort { get; set; }
+
+        public int? language_id { get; set; }
+
+        public int? price_group { get; set; }
+
+        public int? access_type { get; set; }
     }
 }

@@ -1,0 +1,12 @@
+﻿[
+    {
+        "Id": 410820,
+        "Url": "http://www.localhost.local/catalogue/tous/sante-et-bien-etre/medecine/fze-410820",
+        "UrlOwner": "http://www.localhost.local/freuh/"
+    },
+    {
+        "Id": 410821,
+        "Url": "http://www.localhost.local/catalogue/tous/test-de-yann-410821",
+        "UrlOwner": "http://www.localhost.local/me.show/"
+    }
+]

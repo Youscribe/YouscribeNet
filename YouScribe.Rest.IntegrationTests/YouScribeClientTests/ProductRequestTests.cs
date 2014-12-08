@@ -347,6 +347,26 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenGettingProductsUrls_ThenCheckResponse()
+        {
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.GetProductUrlsAsync(new List<int>() { 410820, 410821 }).Result;
+
+                Assert.Equal(410820, response.First().Id);
+                Assert.Equal(true, response.First().Url.Contains("410820"));
+
+                Assert.Equal(410821, response.Last().Id);
+                Assert.Equal(true, response.Last().Url.Contains("410821"));
+            }
+        }
+
         private static void ProductRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
@@ -452,6 +472,14 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                         requestContent = context.Request.GetRequestAsString();
                         context.Response.StatusCode = (int)HttpStatusCode.OK;
                         context.Response.OutputStream.Write("[" + File.ReadAllText("Responses/Product_Get.txt") + "]");
+                    }
+                    break;
+                case "/api/v1/products/urls/byids":
+                    if (context.Request.HttpMethod == "POST")
+                    {
+                        requestContent = context.Request.GetRequestAsString();
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        context.Response.OutputStream.Write(File.ReadAllText("Responses/Products_Urls.txt"));
                     }
                     break;
                 case "/api/authorize":

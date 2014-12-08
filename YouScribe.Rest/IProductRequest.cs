@@ -136,5 +136,12 @@ namespace YouScribe.Rest
         /// <returns></returns>
         Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport);
 
+        /// <summary>
+        /// Retunr products urls
+        /// </summary>
+        /// <param name="ids">products id</param>
+        /// <returns></returns>
+        Task<IEnumerable<ProductUrlsModel>> GetProductUrlsAsync(IEnumerable<int> ids);
+
     }
 }
