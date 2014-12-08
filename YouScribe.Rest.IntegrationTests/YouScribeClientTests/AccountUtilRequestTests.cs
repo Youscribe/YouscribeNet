@@ -49,6 +49,24 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact]
+        public void WhenForgotPassword_ThenOk()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                var request = client.CreateAccountUtilRequest();
+
+                // Act
+                var userName = request.ForgotPassword("me.show@gmail.com").Result;
+
+                // Assert
+                Assert.Empty(request.Error.Messages);
+            }
+        }
+
         private static void EventHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
@@ -59,6 +77,13 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                         context.Response.ContentType = "application/json; charset=utf-8";
                         context.Response.StatusCode = (int)HttpStatusCode.OK;
                         context.Response.OutputStream.Write("\"toto\"");
+                    }
+                    break;
+                case "/api/v1/accounts/forgot-passwords?userNameOrEmail=me.show%40gmail.com":
+                    if (context.Request.HttpMethod == "PUT")
+                    {
+                        context.Response.ContentType = "application/json; charset=utf-8";
+                        context.Response.StatusCode = (int)HttpStatusCode.NoContent;
                     }
                     break;
                 case "/api/v1/accounts/unique-usernames?email=me.show%40gmail.com":

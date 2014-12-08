@@ -45,5 +45,22 @@ namespace YouScribe.Rest
             }
             return await this.GetObjectAsync<string>(response.Content).ConfigureAwait(false);
         }
+
+        public async Task<bool> ForgotPassword(string userNameOrEmail)
+        {
+            var client = this.CreateClient();
+            var url = "api/v1/accounts/forgot-passwords";
+            url = url + "?userNameOrEmail=" + System.Uri.EscapeDataString(userNameOrEmail);
+            var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                await this.AddErrorsAsync(response).ConfigureAwait(false);
+                return false;
+            }
+            return true;
+        }
+
+
     }
 }
