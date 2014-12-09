@@ -7,7 +7,7 @@ namespace YouScribe.Rest
 {
     static class ApiUrls
     {
-        public const string BaseUrl = "http://services.youscribe.com";
+        public const string BaseUrl = "https://services.youscribe.com";
 
         public const string AuthorizeUrl = "api/authorize";
 
