@@ -58,7 +58,6 @@ namespace YouScribe.Rest
                         {
                             var newDico = clients.ToDictionary(c => c.Key, c => c.Value);
                             var client = handlerFactory == null ? new HttpClient() : new HttpClient(handlerFactory());
-                            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                             newDico.Add(id, client);
                             Interlocked.Exchange(ref clients, newDico);
                         }
@@ -66,7 +65,9 @@ namespace YouScribe.Rest
                 }
 
                 var cclient = clients[id];
+                cclient.DefaultRequestHeaders.Clear();
                 cclient.DefaultRequestHeaders.UserAgent.Clear();
+                cclient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 foreach (var userAgent in userAgents)
                     cclient.DefaultRequestHeaders.UserAgent.Add(userAgent);

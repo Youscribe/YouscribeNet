@@ -35,5 +35,9 @@ namespace YouScribe.Rest
         /// The errors return by the server
         /// </summary>
         RequestError Error { get; }
+
+        void AddHeader(string name, IEnumerable<string> values);
+
+        void AddHeader(string name, string value);
     }
 }

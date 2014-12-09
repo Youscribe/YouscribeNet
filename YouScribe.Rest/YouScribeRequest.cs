@@ -12,6 +12,7 @@ namespace YouScribe.Rest
         protected readonly Func<HttpClient> clientFactory;
         protected readonly string authorizeToken;
         protected readonly ISerializer serializer = new JSonSerializer();
+        protected readonly IDictionary<string, IEnumerable<string>> headers = new Dictionary<string, IEnumerable<string>>();
 
         public RequestError Error { get; internal set; }
 
@@ -33,11 +34,10 @@ namespace YouScribe.Rest
         {
             this.Error = new RequestError(this);
             var client = clientFactory();
-            if (client.DefaultRequestHeaders.Contains(ApiUrls.AuthorizeTokenHeaderName))
-                client.DefaultRequestHeaders.Remove(ApiUrls.AuthorizeTokenHeaderName);
             if (string.IsNullOrEmpty(this.authorizeToken) == false)
                 client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
-
+            foreach (var header in headers)
+                client.DefaultRequestHeaders.Add(header.Key, header.Key);
             return client;
         }
 
@@ -101,6 +101,16 @@ namespace YouScribe.Rest
                 return false;
             }
             return true;
+        }
+
+        public void AddHeader(string name, IEnumerable<string> values)
+        {
+            this.headers.Add(name, values);
+        }
+
+        public void AddHeader(string name, string value)
+        {
+            this.headers.Add(name, new []{ value });
         }
     }
 }
