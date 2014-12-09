@@ -60,9 +60,10 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var request = client.CreateAccountUtilRequest();
 
                 // Act
-                var userName = request.ForgotPasswordAsync("me.show@gmail.com").Result;
+                var isOk = request.ForgotPasswordAsync("me.show@gmail.com").Result;
 
                 // Assert
+                Assert.True(isOk);
                 Assert.Empty(request.Error.Messages);
             }
         }
