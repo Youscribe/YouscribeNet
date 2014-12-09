@@ -21,7 +21,7 @@ namespace YouScribe.Rest
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
-            new ProductInfoHeaderValue("YouScribe", "2.0")
+            new ProductInfoHeaderValue("YouScribe.Rest", "2.1")
         };
 
         public string BaseUrl
@@ -83,6 +83,11 @@ namespace YouScribe.Rest
         public string GetToken()
         {
             return _authorizeToken;
+        }
+
+        public void AddUserAgent(string productName, string version)
+        {
+            this.userAgents.Add(new ProductInfoHeaderValue(productName, version));
         }
 
         public void SetUserAgent(string productName, string version)
