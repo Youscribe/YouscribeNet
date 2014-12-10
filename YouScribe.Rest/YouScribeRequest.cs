@@ -37,7 +37,7 @@ namespace YouScribe.Rest
             if (string.IsNullOrEmpty(this.authorizeToken) == false)
                 client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
             foreach (var header in headers)
-                client.DefaultRequestHeaders.Add(header.Key, header.Key);
+                client.DefaultRequestHeaders.Add(header.Key, header.Value);
             return client;
         }
 
