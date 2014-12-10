@@ -70,10 +70,8 @@ namespace YouScribe.Rest
                 cclient.DefaultRequestHeaders.UserAgent.Clear();
                 cclient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                // Fix HttpClient that use a "," for User-Agent separator instead of a space (as stated in RFC2616)
-                if (cclient.DefaultRequestHeaders.Contains("User-Agent"))
-                    cclient.DefaultRequestHeaders.Remove("User-Agent");
-                cclient.DefaultRequestHeaders.Add("User-Agent", string.Join(" ", userAgents.Select(c => c.ToString())));
+                foreach (var userAgent in userAgents)
+                    cclient.DefaultRequestHeaders.UserAgent.Add(userAgent);
                 
                 return cclient;
             };
