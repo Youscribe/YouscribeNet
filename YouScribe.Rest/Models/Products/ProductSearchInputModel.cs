@@ -9,8 +9,12 @@ namespace YouScribe.Rest.Models.Products
     {
         public ProductSearchInputModel()
         {
+            this.domain_language = "fr";
             this.take = 10;
-            this.sort = Enumerable.Empty<string>();
+            this.offer_type = new List<string>();
+            this.sort = new List<string>();
+            this.id = Enumerable.Empty<int>();
+            this.exclude_theme_id = new List<int>();
         }
 
         public IEnumerable<int> id { get; set; }
@@ -42,5 +46,7 @@ namespace YouScribe.Rest.Models.Products
         public int? price_group { get; set; }
 
         public int? access_type { get; set; }
+
+        public IList<int> exclude_theme_id { get; set; }
     }
 }
