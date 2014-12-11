@@ -49,7 +49,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             requestUrl = context.Request.RawUrl;
             switch (context.Request.RawUrl)
             {
-                case "/api/v1/products/search?id=5&id=9&id=18&quicksearch=pouet%24%26&skip=0&take=10":
+                case "/api/v1/products/search?id=5&id=9&id=18&quicksearch=pouet%24%26&domain_language=fr&skip=0&take=10":
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     context.Response.OutputStream.Write(File.ReadAllText("Responses/ProductSearch_Search.txt"));
                     break;
