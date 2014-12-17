@@ -13,6 +13,7 @@ namespace YouScribe.Rest
     public class YouScribeClient : IYouScribeClient
     {
         static Dictionary<int, HttpClient> clients = new Dictionary<int,HttpClient>();
+        const string defaultProductName = "YouScribe.Rest";
 
         internal readonly Func<HttpClient> clientFactory;
 		internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
@@ -21,8 +22,8 @@ namespace YouScribe.Rest
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
-            new ProductInfoHeaderValue("YouScribe.Rest", "2.2")
-        };
+		new ProductInfoHeaderValue(defaultProductName, "2.2")
+	};
 
         public string BaseUrl
         {
@@ -71,6 +72,7 @@ namespace YouScribe.Rest
 
                 foreach (var userAgent in userAgents)
                     cclient.DefaultRequestHeaders.UserAgent.Add(userAgent);
+                
                 return cclient;
             };
         }
@@ -87,7 +89,11 @@ namespace YouScribe.Rest
 
         public void AddUserAgent(string productName, string version)
         {
-            this.userAgents.Add(new ProductInfoHeaderValue(productName, version));
+            var idx = 0;
+            var last = this.userAgents.LastOrDefault();
+            if (last != null && last.Product.Name == defaultProductName)
+                idx = this.userAgents.Count - 1;
+            this.userAgents.Insert(idx, new ProductInfoHeaderValue(productName, version));
         }
 
         public void SetUserAgent(string productName, string version)
