@@ -14,7 +14,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         static string requestUrl;
 
         [Fact]
-        public void WhenSearching_ThenOk()
+        public void WhenSuggest_ThenOk()
         {
             // Arrange
             using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
@@ -38,7 +38,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             requestUrl = context.Request.RawUrl;
             switch (context.Request.RawUrl)
             {
-                case "/api/v1/products/1470/suggests?domainLanguage=fr&take=3":
+                case "/api/v2/products/1470/suggests?domainLanguage=fr&take=3":
                     context.Response.StatusCode = (int)HttpStatusCode.OK;
                     context.Response.OutputStream.Write(File.ReadAllText("Responses/ProductSuggest_Get.txt"));
                     break;

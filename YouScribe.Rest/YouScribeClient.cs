@@ -21,7 +21,7 @@ namespace YouScribe.Rest
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
-            new ProductInfoHeaderValue("YouScribe.Rest", "2.1")
+            new ProductInfoHeaderValue("YouScribe.Rest", "2.2")
         };
 
         public string BaseUrl

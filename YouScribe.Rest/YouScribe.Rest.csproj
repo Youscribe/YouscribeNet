@@ -115,6 +115,7 @@
     <Compile Include="Models\Products\ProductModel.cs" />
     <Compile Include="Models\Products\ProductSearchInputModel.cs" />
     <Compile Include="Models\Products\ProductSearchOutputModel.cs" />
+    <Compile Include="Models\Products\ProductSuggestItemOutputModel.cs" />
     <Compile Include="Models\Products\ProductUpdateModel.cs" />
     <Compile Include="Models\Products\ProductUrlsModel.cs" />
     <Compile Include="Models\Products\ThemeModel.cs" />

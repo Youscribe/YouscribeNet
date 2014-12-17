@@ -15,7 +15,7 @@ namespace YouScribe.Rest
 
         }
 
-        public async Task<IEnumerable<Models.Products.ProductSearchItemOutputModel>> GetSuggestAsync(int id, string offerType = null, string domainLanguage = "fr", int take = 3)
+        public async Task<IEnumerable<Models.Products.ProductSuggestItemOutputModel>> GetSuggestAsync(int id, string offerType = null, string domainLanguage = "fr", int take = 3)
         {
             var client = this.CreateClient();
             var parameters = new Dictionary<string, string>();
@@ -26,7 +26,7 @@ namespace YouScribe.Rest
             };
 
             var queryString = dico.ToQueryString();
-            var url = "api/v1/products/{id}/suggests".Replace("{id}", id.ToString());
+            var url = "api/v2/products/{id}/suggests".Replace("{id}", id.ToString());
             if (!string.IsNullOrEmpty(queryString))
                 url = url + "?" + queryString;
             var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
@@ -34,8 +34,8 @@ namespace YouScribe.Rest
             await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
-                return (await this.GetObjectAsync<IEnumerable<Models.Products.ProductSearchItemOutputModel>>(response.Content).ConfigureAwait(false));
-            return Enumerable.Empty<Models.Products.ProductSearchItemOutputModel>();
+                return (await this.GetObjectAsync<IEnumerable<Models.Products.ProductSuggestItemOutputModel>>(response.Content).ConfigureAwait(false));
+            return Enumerable.Empty<Models.Products.ProductSuggestItemOutputModel>();
         }
     }
 }
