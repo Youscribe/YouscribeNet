@@ -13,6 +13,7 @@ namespace YouScribe.Rest.Models.Products
             this.OfferTypes = Enumerable.Empty<string>();
             this.Authors = Enumerable.Empty<string>();
             this.PublicFormatExtensions = Enumerable.Empty<string>();
+            this.LanguagesIsoCode = Enumerable.Empty<string>();
         }
 
         public int Id { get; set; }
@@ -38,6 +39,8 @@ namespace YouScribe.Rest.Models.Products
         public CategoryModel Category { get; set; }
 
         public int StateId { get; set; }
+
+        public IEnumerable<string> LanguagesIsoCode { get; set; }
 
     }
 }
