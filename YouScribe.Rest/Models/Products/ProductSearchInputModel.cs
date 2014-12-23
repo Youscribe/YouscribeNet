@@ -11,10 +11,10 @@ namespace YouScribe.Rest.Models.Products
         {
             this.domain_language = "fr";
             this.take = 10;
-            this.offer_type = new List<string>();
-            this.sort = new List<string>();
+            this.offer_type = Enumerable.Empty<string>();
+            this.sort = Enumerable.Empty<string>();
             this.id = Enumerable.Empty<int>();
-            this.excluded_theme_id = new List<int>();
+            this.excluded_theme_id = Enumerable.Empty<int>();
         }
 
         public IEnumerable<int> id { get; set; }
@@ -47,6 +47,6 @@ namespace YouScribe.Rest.Models.Products
 
         public int? access_type { get; set; }
 
-        public IList<int> excluded_theme_id { get; set; }
+        public IEnumerable<int> excluded_theme_id { get; set; }
     }
 }
