@@ -9,7 +9,6 @@ namespace YouScribe.Rest.Models.Products
     {
         public ProductSearchInputModel()
         {
-            this.domain_language = "fr";
             this.take = 10;
             this.offer_type = Enumerable.Empty<string>();
             this.sort = Enumerable.Empty<string>();
