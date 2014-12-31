@@ -28,6 +28,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     new ProductSearchInputModel()
                     {
                         id = new List<int>() { 5, 9, 18 },
+                        domain_language = "fr",
                         quicksearch = "pouet$&"
                     }).Result;
 
