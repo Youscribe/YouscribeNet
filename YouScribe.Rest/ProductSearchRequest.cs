@@ -18,10 +18,9 @@ namespace YouScribe.Rest
         {
             var client = this.CreateClient();
             var url = ApiUrls.ProductSearchUrl;
-            var qs = input.ToQueryString();
-            url = url + "?" + qs;
 
-            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
+            var content = this.GetContent(input);
+            var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
