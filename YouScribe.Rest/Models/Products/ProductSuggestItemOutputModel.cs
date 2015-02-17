@@ -42,5 +42,7 @@ namespace YouScribe.Rest.Models.Products
 
         public IEnumerable<string> LanguagesIsoCode { get; set; }
 
+        public int? ModelId { get; set; }
+
     }
 }
