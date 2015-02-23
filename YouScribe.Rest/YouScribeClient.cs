@@ -22,8 +22,8 @@ namespace YouScribe.Rest
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
-		new ProductInfoHeaderValue(defaultProductName, "2.2")
-	};
+		    new ProductInfoHeaderValue(defaultProductName, "2.2")
+	    };
 
         public string BaseUrl
         {
@@ -45,6 +45,11 @@ namespace YouScribe.Rest
         }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
+            : this(handlerFactory, baseUrl, TimeSpan.FromMinutes(15))
+        {
+        }
+
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, TimeSpan timeout)
         {
             this.BaseUrl = baseUrl;
             this.clientFactory = () =>
@@ -59,6 +64,7 @@ namespace YouScribe.Rest
                         {
                             var newDico = clients.ToDictionary(c => c.Key, c => c.Value);
                             var client = handlerFactory == null ? new HttpClient() : new HttpClient(handlerFactory());
+                            client.Timeout = timeout;
                             newDico.Add(id, client);
                             Interlocked.Exchange(ref clients, newDico);
                         }
