@@ -6,6 +6,11 @@ using YouScribe.Rest.Models.Products;
 
 namespace YouScribe.Rest.Models.Accounts
 {
+    public class FacebookAccountGetModel : AccountGetModel
+    {
+        public bool IsNewUser { get; set; }
+    }
+
     public class AccountGetModel : AccountModel
     {
         public AccountGetModel()
