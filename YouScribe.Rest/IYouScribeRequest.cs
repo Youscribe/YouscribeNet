@@ -9,10 +9,15 @@ namespace YouScribe.Rest
     {
         YouScribeRequest request;
 
+        public RequestError()
+        {
+            this.Messages = Enumerable.Empty<string>();
+        }
+
         internal RequestError(YouScribeRequest request)
+            : this()
         {
             this.request = request;
-            this.Messages = Enumerable.Empty<string>();
         }
 
         public int StatusCode { get; set; }
