@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{98772908-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouScribe.Rest.IntegrationTests", "YouScribe.Rest.IntegrationTests\YouScribe.Rest.IntegrationTests.csproj", "{8FFBE6FA-96C1-4A12-94E2-150562F7380C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouScribe.Cryptography", "YouScribe.Cryptography\YouScribe.Cryptography.csproj", "{FC4D648B-4BFF-4530-A652-2A806FC0414C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,14 +30,18 @@ Global
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC4D648B-4BFF-4530-A652-2A806FC0414C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4D648B-4BFF-4530-A652-2A806FC0414C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4D648B-4BFF-4530-A652-2A806FC0414C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4D648B-4BFF-4530-A652-2A806FC0414C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8FFBE6FA-96C1-4A12-94E2-150562F7380C} = {98772908-4E84-413C-B824-FB0514FF0B58}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = YouScribe.Rest\YouScribe.Rest.csproj
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

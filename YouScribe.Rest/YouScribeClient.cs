@@ -12,11 +12,13 @@ namespace YouScribe.Rest
 {
     public class YouScribeClient : IYouScribeClient
     {
-        static Dictionary<int, HttpClient> clients = new Dictionary<int,HttpClient>();
+
+        static Dictionary<int, YousScribeHttpClient> clients = new Dictionary<int, YousScribeHttpClient>();
         const string defaultProductName = "YouScribe.Rest";
 
-        internal readonly Func<HttpClient> clientFactory;
-		internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
+        internal readonly Func<YousScribeHttpClient> clientFactory;
+        internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
+        Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory;
 
         private string _authorizeToken;
 
@@ -33,25 +35,50 @@ namespace YouScribe.Rest
 
         public YouScribeClient(string baseUrl)
             : this(null, baseUrl)
+        {
+        }
+        public YouScribeClient(string baseUrl, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+            : this(null, baseUrl, baseClientFactory)
+        {
+        }
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+            : this(handlerFactory, baseUrl, baseClientFactory, TimeSpan.FromMinutes(15))
+        {
+        }
+
+        public YouScribeClient()
+            : this(ApiUrls.BaseUrl)
         { }
 
-	    public YouScribeClient()
-            : this(ApiUrls.BaseUrl)
+        public YouScribeClient(Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+            : this(ApiUrls.BaseUrl, baseClientFactory)
         { }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory)
             : this(handlerFactory, ApiUrls.BaseUrl)
-        {
-        }
+        { }
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+            : this(handlerFactory, ApiUrls.BaseUrl, baseClientFactory)
+        { }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
-            : this(handlerFactory, baseUrl, TimeSpan.FromMinutes(15))
-        {
-        }
+            : this(handlerFactory, baseUrl, null, TimeSpan.FromMinutes(15))
+        { }
 
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, TimeSpan timeout)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory, TimeSpan timeout)
         {
             this.BaseUrl = baseUrl;
+            if (baseClientFactory == null)
+            {
+                this.baseClientFactory = (c) =>
+                {
+                    return c == null ? new YousScribeHttpClient(new HttpClient()) : new YousScribeHttpClient(new HttpClient(c()));
+                };
+            }
+            else
+            {
+                this.baseClientFactory = baseClientFactory;
+            }
             this.clientFactory = () =>
             {
                 var id = System.Threading.Thread.CurrentThread.ManagedThreadId;
@@ -63,7 +90,7 @@ namespace YouScribe.Rest
                         if (!clients.ContainsKey(id))
                         {
                             var newDico = clients.ToDictionary(c => c.Key, c => c.Value);
-                            var client = handlerFactory == null ? new HttpClient() : new HttpClient(handlerFactory());
+                            var client = this.baseClientFactory(handlerFactory);
                             client.Timeout = timeout;
                             newDico.Add(id, client);
                             Interlocked.Exchange(ref clients, newDico);
@@ -78,7 +105,7 @@ namespace YouScribe.Rest
 
                 foreach (var userAgent in userAgents)
                     cclient.DefaultRequestHeaders.UserAgent.Add(userAgent);
-                
+
                 return cclient;
             };
         }
@@ -132,7 +159,7 @@ namespace YouScribe.Rest
             .ToString()
             ;
             _authorizeToken = token;
-                
+
             return true;
         }
 
@@ -146,14 +173,14 @@ namespace YouScribe.Rest
         {
             var libraryRequest = new LibraryRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return libraryRequest;
-		}
-        
+        }
+
         public IAccountRequest CreateAccountRequest()
         {
             var request = new AccountRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
-        
+
         public IAccountEventRequest CreateAccountEventRequest()
         {
             var request = new AccountEventRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };

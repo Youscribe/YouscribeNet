@@ -77,6 +77,8 @@
     <Compile Include="AccountUserTypeRequest.cs" />
     <Compile Include="AccountUtilRequest.cs" />
     <Compile Include="ApiUrls.cs" />
+    <Compile Include="YousScribeHttpClient.cs" />
+    <Compile Include="Cryptography\IHMAC.cs" />
     <Compile Include="DownloadBytesProgress.cs" />
     <Compile Include="EmbedRequest.cs" />
     <Compile Include="Helpers\UriHelpers.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="QueryStringHelper.cs" />
     <Compile Include="YouScribeClient.cs" />
     <Compile Include="YouScribeRequest.cs" />
+    <Compile Include="YousScribeHMACHttpClientDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

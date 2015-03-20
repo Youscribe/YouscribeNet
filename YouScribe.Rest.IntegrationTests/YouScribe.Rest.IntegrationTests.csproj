@@ -79,6 +79,7 @@
     <Compile Include="Helpers\ResquestHelpers.cs" />
     <Compile Include="Helpers\SimpleServer.cs" />
     <Compile Include="Helpers\TestHelpers.cs" />
+    <Compile Include="Helpers\TestHMAC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YouScribeClientTests\AccountEventRequestTests.cs" />
     <Compile Include="YouScribeClientTests\AccountPublisherRequestTests.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="YouScribeClientTests\ProductRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductSearchRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductSuggestRequestTests.cs" />
+    <Compile Include="YouScribeClientTests\YouScribeHMACHttpClientTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

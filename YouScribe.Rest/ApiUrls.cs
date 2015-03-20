@@ -59,5 +59,7 @@ namespace YouScribe.Rest
         public const string PrivateEmbedUrl = "api/v1/embed/private";
 
         public const string AuthorizeTokenHeaderName = "YS-AUTH";
+        public const string HMACAuthenticateRandomKeyHeader = "YS-AUTH-RANDOM-KEY";
+        public const string HMACScheme = "YSWS";
     }
 }
