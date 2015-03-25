@@ -13,12 +13,12 @@ namespace YouScribe.Rest
     public class YouScribeClient : IYouScribeClient
     {
 
-        static Dictionary<int, YousScribeHttpClient> clients = new Dictionary<int, YousScribeHttpClient>();
+        static Dictionary<int, IYousScribeHttpClient> clients = new Dictionary<int, IYousScribeHttpClient>();
         const string defaultProductName = "YouScribe.Rest";
 
-        internal readonly Func<YousScribeHttpClient> clientFactory;
+        internal readonly Func<IYousScribeHttpClient> clientFactory;
         internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
-        Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory;
+        Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory;
 
         private string _authorizeToken;
 
@@ -42,11 +42,11 @@ namespace YouScribe.Rest
             : this(null, baseUrl)
         {
         }
-        public YouScribeClient(string baseUrl, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+        public YouScribeClient(string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
             : this(null, baseUrl, baseClientFactory)
         {
         }
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
             : this(handlerFactory, baseUrl, baseClientFactory, TimeSpan.FromMinutes(15))
         {
         }
@@ -55,14 +55,14 @@ namespace YouScribe.Rest
             : this(ApiUrls.BaseUrl)
         { }
 
-        public YouScribeClient(Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+        public YouScribeClient(Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
             : this(ApiUrls.BaseUrl, baseClientFactory)
         { }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory)
             : this(handlerFactory, ApiUrls.BaseUrl)
         { }
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
             : this(handlerFactory, ApiUrls.BaseUrl, baseClientFactory)
         { }
 
@@ -70,7 +70,7 @@ namespace YouScribe.Rest
             : this(handlerFactory, baseUrl, null, TimeSpan.FromMinutes(15))
         { }
 
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, YousScribeHttpClient> baseClientFactory, TimeSpan timeout)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, TimeSpan timeout)
         {
             this.BaseUrl = baseUrl;
             if (baseClientFactory == null)

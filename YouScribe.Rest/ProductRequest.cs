@@ -16,7 +16,7 @@ namespace YouScribe.Rest
     {
         const int nbFilesByDocument = 3;
 
-        public ProductRequest(Func<HttpClient> clientFactory, string authorizeToken)
+        public ProductRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         { }
 

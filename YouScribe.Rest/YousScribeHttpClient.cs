@@ -10,15 +10,11 @@ using System.Threading;
 
 namespace YouScribe.Rest
 {
-    public class YousScribeHttpClient : HttpClient
+    public class YousScribeHttpClient : IYousScribeHttpClient
     {
-        protected HttpClient baseClient;
 
-        public HttpClient BaseClient {
-            get {return baseClient;}
-        }
 
-        static public Func<Func<HttpMessageHandler>, YousScribeHttpClient> GetBaseClientFactory()
+        static public Func<Func<HttpMessageHandler>, IYousScribeHttpClient> GetBaseClientFactory()
         {
             return (c) =>
             {
@@ -26,11 +22,90 @@ namespace YouScribe.Rest
             };
         }
 
-        public YousScribeHttpClient(HttpClient baseClient)
+        public HttpClient BaseClient
         {
-            this.baseClient = baseClient;
+            get;
+            private set;
         }
 
+        public Uri BaseAddress
+        {
+            get { return BaseClient.BaseAddress; }
+            set { BaseClient.BaseAddress = value; }
+        }
+        public long MaxResponseContentBufferSize
+        {
+            get { return BaseClient.MaxResponseContentBufferSize; }
+            set { BaseClient.MaxResponseContentBufferSize = value; }
+        }
+        public HttpRequestHeaders DefaultRequestHeaders
+        {
+            get { return BaseClient.DefaultRequestHeaders; }
+        }
+        public TimeSpan Timeout
+        {
+            get { return BaseClient.Timeout; }
+            set { BaseClient.Timeout = value; }
+        }
+
+        public YousScribeHttpClient(HttpClient baseClient)
+        {
+            this.BaseClient = baseClient;
+        }
+
+        public HttpRequestHeaders GetDefaultHeaders()
+        {
+            return this.BaseClient.DefaultRequestHeaders;
+        }
+        public TimeSpan GetTimeOut()
+        {
+            return this.BaseClient.Timeout;
+        }
+
+        // Summary:
+        //     Cancel all pending requests on this instance.
+        public virtual void CancelPendingRequests()
+        {
+            this.BaseClient.CancelPendingRequests();
+        }
+        //
+        // Summary:
+        //     Send a DELETE request to the specified Uri as an asynchronous operation.
+        //
+        // Parameters:
+        //   requestUri:
+        //     The Uri the request is sent to.
+        //
+        // Returns:
+        //     Returns System.Threading.Tasks.Task<TResult>.The task object representing
+        //     the asynchronous operation.
+        public virtual async Task<HttpResponseMessage> DeleteAsync(string requestUri)
+        {
+            return await this.BaseClient.DeleteAsync(requestUri);
+        }
+        //
+        // Summary:
+        //     Send a DELETE request to the specified Uri as an asynchronous operation.
+        //
+        // Parameters:
+        //   requestUri:
+        //     The Uri the request is sent to.
+        //
+        // Returns:
+        //     Returns System.Threading.Tasks.Task<TResult>.The task object representing
+        //     the asynchronous operation.
+        public virtual async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
+        {
+            return await this.BaseClient.DeleteAsync(requestUri);
+        }
+        public virtual async Task<HttpResponseMessage> DeleteAsync(string requestUri, CancellationToken cancellationToken)
+        {
+            return await this.BaseClient.DeleteAsync(requestUri, cancellationToken);
+        }
+        public virtual async Task<HttpResponseMessage> DeleteAsync(Uri requestUri, CancellationToken cancellationToken)
+        {
+            return await this.BaseClient.DeleteAsync(requestUri, cancellationToken);
+        }
         //
         // Summary:
         //     Send a GET request to the specified Uri as an asynchronous operation.
@@ -46,9 +121,9 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public async Task<HttpResponseMessage> GetAsync(string requestUri)
+        public virtual async Task<HttpResponseMessage> GetAsync(string requestUri)
         {
-            return await baseClient.GetAsync(requestUri);
+            return await BaseClient.GetAsync(requestUri);
         }
         //
         // Summary:
@@ -65,33 +140,33 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
+        public virtual async Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
-            return await baseClient.GetAsync(requestUri);
+            return await BaseClient.GetAsync(requestUri);
         }
-        public async Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
+        public virtual async Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
         {
-            return await baseClient.GetAsync(requestUri, cancellationToken);
+            return await BaseClient.GetAsync(requestUri, cancellationToken);
         }
-        public async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption)
+        public virtual async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption)
         {
-            return await baseClient.GetAsync(requestUri, completionOption);
+            return await BaseClient.GetAsync(requestUri, completionOption);
         }
-        public async Task<HttpResponseMessage> GetAsync(Uri requestUri, CancellationToken cancellationToken)
+        public virtual async Task<HttpResponseMessage> GetAsync(Uri requestUri, CancellationToken cancellationToken)
         {
-            return await baseClient.GetAsync(requestUri, cancellationToken);
+            return await BaseClient.GetAsync(requestUri, cancellationToken);
         }
-        public async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption)
+        public virtual async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption)
         {
-            return await baseClient.GetAsync(requestUri, completionOption);
+            return await BaseClient.GetAsync(requestUri, completionOption);
         }
-        public async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+        public virtual async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
-            return await baseClient.GetAsync(requestUri, completionOption, cancellationToken);
+            return await BaseClient.GetAsync(requestUri, completionOption, cancellationToken);
         }
-        public async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+        public virtual async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
-            return await baseClient.GetAsync(requestUri, completionOption, cancellationToken);
+            return await BaseClient.GetAsync(requestUri, completionOption, cancellationToken);
         }
         
 
@@ -115,7 +190,7 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
         {
-            return await baseClient.PostAsync(requestUri, content);
+            return await BaseClient.PostAsync(requestUri, content);
         }
         //
         // Summary:
@@ -137,15 +212,15 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content)
         {
-            return await baseClient.PostAsync(requestUri, content);
+            return await BaseClient.PostAsync(requestUri, content);
         }
         public virtual async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            return await baseClient.PostAsync(requestUri, content, cancellationToken);
+            return await BaseClient.PostAsync(requestUri, content, cancellationToken);
         }
         public virtual async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            return await baseClient.PostAsync(requestUri, content, cancellationToken);
+            return await BaseClient.PostAsync(requestUri, content, cancellationToken);
         }
         //
         // Summary:
@@ -167,7 +242,7 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content)
         {
-            return await baseClient.PutAsync(requestUri, content);
+            return await BaseClient.PutAsync(requestUri, content);
         }
         //
         // Summary:
@@ -189,15 +264,15 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content)
         {
-            return await baseClient.PutAsync(requestUri, content);
+            return await BaseClient.PutAsync(requestUri, content);
         }
         public virtual async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            return await baseClient.PutAsync(requestUri, content, cancellationToken);
+            return await BaseClient.PutAsync(requestUri, content, cancellationToken);
         }
         public virtual async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
-            return await baseClient.PutAsync(requestUri, content, cancellationToken);
+            return await BaseClient.PutAsync(requestUri, content, cancellationToken);
         }
         //
         // Summary:
@@ -216,7 +291,7 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
-            return await baseClient.SendAsync(request);
+            return await BaseClient.SendAsync(request);
         }
         //
         // Summary:
@@ -238,7 +313,7 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            return await baseClient.SendAsync(request, cancellationToken);
+            return await BaseClient.SendAsync(request, cancellationToken);
         }
         //
         // Summary:
@@ -262,7 +337,7 @@ namespace YouScribe.Rest
         //     System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption)
         {
-            return await baseClient.SendAsync(request, completionOption);
+            return await BaseClient.SendAsync(request, completionOption);
         }
         //
         // Summary:
@@ -288,7 +363,7 @@ namespace YouScribe.Rest
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
         public virtual async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
-            return await baseClient.SendAsync(request, completionOption, cancellationToken);
+            return await BaseClient.SendAsync(request, completionOption, cancellationToken);
         }
 
     }
