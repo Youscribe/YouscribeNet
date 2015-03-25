@@ -33,6 +33,11 @@ namespace YouScribe.Rest
             get;
         }
 
+        internal static void ClearClients()
+        {
+            clients.Clear();
+        }
+
         public YouScribeClient(string baseUrl)
             : this(null, baseUrl)
         {

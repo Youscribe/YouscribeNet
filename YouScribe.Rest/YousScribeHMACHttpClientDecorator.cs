@@ -41,20 +41,23 @@ namespace YouScribe.Rest
             var encoding = new System.Text.UnicodeEncoding();
             return encoding.GetBytes(text);
         }
+
         void addHMACHeaders(Uri uri)
         {
             random.NextBytes(randBytes);
-            String randomKey = Convert.ToBase64String(randBytes);
+            var randomKey = Convert.ToBase64String(randBytes);
             DateTimeOffset dateNow = DateTimeOffset.Now;
 
-            String uriString = uri.Host + uri.AbsolutePath;
+            var uriString = uri.Host + uri.AbsolutePath;
 
-            byte[] message = StringEncode(uriString + dateNow.ToString() + randomKey);
+            this.baseClient.DefaultRequestHeaders.Date = dateNow;
 
+            var date = this.baseClient.DefaultRequestHeaders.GetValues("Date").FirstOrDefault();
+
+            byte[] message = StringEncode(uriString + date + randomKey);
             byte[] signature = hmac.ComputeHash(message, secretKey);
 
             this.baseClient.DefaultRequestHeaders.Add(ApiUrls.HMACAuthenticateRandomKeyHeader, randomKey);
-            this.baseClient.DefaultRequestHeaders.Date = dateNow;
             this.baseClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(ApiUrls.HMACScheme, applicationId + ":" + Convert.ToBase64String(signature));
         }
         //
