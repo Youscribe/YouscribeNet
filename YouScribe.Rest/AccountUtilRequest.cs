@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     class AccountUtilRequest : YouScribeRequest, IAccountUtilRequest
     {
-        public AccountUtilRequest(Func<HttpClient> clientFactory, string authorizeToken)
+        public AccountUtilRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         {
         }

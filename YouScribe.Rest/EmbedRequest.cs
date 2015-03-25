@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     class EmbedRequest : YouScribeRequest, IEmbedRequest
     {
-        public EmbedRequest(Func<HttpClient> clientFactory, string authorizeToken)
+        public EmbedRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         { }
 

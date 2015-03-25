@@ -10,7 +10,7 @@ namespace YouScribe.Rest
 {
     class ProductCommentRequest : YouScribeRequest, IProductCommentRequest
     {
-        public ProductCommentRequest(Func<HttpClient> clientFactory, string authorizeToken)
+        public ProductCommentRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         { }
 

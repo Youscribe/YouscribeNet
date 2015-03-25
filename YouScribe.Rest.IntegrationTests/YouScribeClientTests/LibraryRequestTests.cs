@@ -12,7 +12,6 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
     public class LibraryRequestTests
     {
         const string baseUrl = "http://localhost:8080/";
-        static string requestContent = null;
 
         [Fact]
         public void WhenGetLibrary_ThenCheckResponse()

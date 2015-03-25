@@ -10,7 +10,7 @@ namespace YouScribe.Rest
 {
     class ProductSearchRequest : YouScribeRequest, IProductSearchRequest
     {
-        public ProductSearchRequest(Func<HttpClient> clientFactory, string token)
+        public ProductSearchRequest(Func<IYousScribeHttpClient> clientFactory, string token)
             : base(clientFactory, token)
         { }
 

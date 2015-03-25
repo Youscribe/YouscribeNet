@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     class ProductSuggestRequest : YouScribeRequest, IProductSuggestRequest
     {
-        public ProductSuggestRequest(Func<HttpClient> clientFactory, string authorizeToken) : 
+        public ProductSuggestRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken) : 
             base(clientFactory, authorizeToken)
         {
 
