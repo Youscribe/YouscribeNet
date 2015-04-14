@@ -33,9 +33,20 @@ namespace YouScribe.Rest
             get;
         }
 
+        public static TimeSpan DefaultTimeout
+        {
+            get;
+            set;
+        }
+
         internal static void ClearClients()
         {
             clients.Clear();
+        }
+
+        static YouScribeClient()
+        {
+            DefaultTimeout = TimeSpan.FromMinutes(1);
         }
 
         public YouScribeClient(string baseUrl)
@@ -67,8 +78,9 @@ namespace YouScribe.Rest
         { }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
-            : this(handlerFactory, baseUrl, null, TimeSpan.FromMinutes(15))
-        { }
+            : this(handlerFactory, baseUrl, null, DefaultTimeout)
+        {
+        }
 
         public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, TimeSpan timeout)
         {
