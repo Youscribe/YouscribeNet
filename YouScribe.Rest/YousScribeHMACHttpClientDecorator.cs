@@ -70,10 +70,10 @@ namespace YouScribe.Rest
         // Returns:
         //     Returns System.Threading.Tasks.Task<TResult>.The task object representing
         //     the asynchronous operation.
-        public override async Task<HttpResponseMessage> DeleteAsync(string requestUri)
+        public override Task<HttpResponseMessage> DeleteAsync(string requestUri)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await this.BaseClient.DeleteAsync(requestUri);
+            return this.BaseClient.DeleteAsync(requestUri);
         }
         //
         // Summary:
@@ -86,20 +86,20 @@ namespace YouScribe.Rest
         // Returns:
         //     Returns System.Threading.Tasks.Task<TResult>.The task object representing
         //     the asynchronous operation.
-        public override async Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
+        public override Task<HttpResponseMessage> DeleteAsync(Uri requestUri)
         {
             addHMACHeaders(requestUri);
-            return await this.BaseClient.DeleteAsync(requestUri);
+            return this.BaseClient.DeleteAsync(requestUri);
         }
-        public override async Task<HttpResponseMessage> DeleteAsync(string requestUri, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> DeleteAsync(string requestUri, CancellationToken cancellationToken)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await this.BaseClient.DeleteAsync(requestUri, cancellationToken);
+            return this.BaseClient.DeleteAsync(requestUri, cancellationToken);
         }
-        public override async Task<HttpResponseMessage> DeleteAsync(Uri requestUri, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> DeleteAsync(Uri requestUri, CancellationToken cancellationToken)
         {
             addHMACHeaders(requestUri);
-            return await this.BaseClient.DeleteAsync(requestUri, cancellationToken);
+            return this.BaseClient.DeleteAsync(requestUri, cancellationToken);
         }
         //
         // Summary:
@@ -116,10 +116,10 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> GetAsync(string requestUri)
+        public override Task<HttpResponseMessage> GetAsync(string requestUri)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.GetAsync(requestUri);
+            return BaseClient.GetAsync(requestUri);
         }
         //
         // Summary:
@@ -136,40 +136,40 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> GetAsync(Uri requestUri)
+        public override Task<HttpResponseMessage> GetAsync(Uri requestUri)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.GetAsync(requestUri);
+            return BaseClient.GetAsync(requestUri);
         }
-        public override async Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> GetAsync(string requestUri, CancellationToken cancellationToken)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.GetAsync(requestUri, cancellationToken);
+            return BaseClient.GetAsync(requestUri, cancellationToken);
         }
-        public override async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption)
+        public override Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.GetAsync(requestUri, completionOption);
+            return BaseClient.GetAsync(requestUri, completionOption);
         }
-        public override async Task<HttpResponseMessage> GetAsync(Uri requestUri, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> GetAsync(Uri requestUri, CancellationToken cancellationToken)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.GetAsync(requestUri, cancellationToken);
+            return BaseClient.GetAsync(requestUri, cancellationToken);
         }
-        public override async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption)
+        public override Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.GetAsync(requestUri, completionOption);
+            return BaseClient.GetAsync(requestUri, completionOption);
         }
-        public override async Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> GetAsync(string requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.GetAsync(requestUri, completionOption, cancellationToken);
+            return BaseClient.GetAsync(requestUri, completionOption, cancellationToken);
         }
-        public override async Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> GetAsync(Uri requestUri, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.GetAsync(requestUri, completionOption, cancellationToken);
+            return BaseClient.GetAsync(requestUri, completionOption, cancellationToken);
         }
         //
         // Summary:
@@ -189,10 +189,10 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
+        public override Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.PostAsync(requestUri, content);
+            return BaseClient.PostAsync(requestUri, content);
         }
         //
         // Summary:
@@ -212,20 +212,20 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content)
+        public override Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.PostAsync(requestUri, content);
+            return BaseClient.PostAsync(requestUri, content);
         }
-        public override async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.PostAsync(requestUri, content, cancellationToken);
+            return BaseClient.PostAsync(requestUri, content, cancellationToken);
         }
-        public override async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.PostAsync(requestUri, content, cancellationToken);
+            return BaseClient.PostAsync(requestUri, content, cancellationToken);
         }
         //
         // Summary:
@@ -245,10 +245,10 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content)
+        public override Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.PutAsync(requestUri, content);
+            return BaseClient.PutAsync(requestUri, content);
         }
         //
         // Summary:
@@ -268,20 +268,20 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content)
+        public override Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.PutAsync(requestUri, content);
+            return BaseClient.PutAsync(requestUri, content);
         }
-        public override async Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> PutAsync(string requestUri, HttpContent content, CancellationToken cancellationToken)
         {
             addHMACHeaders(new Uri(requestUri));
-            return await BaseClient.PutAsync(requestUri, content, cancellationToken);
+            return BaseClient.PutAsync(requestUri, content, cancellationToken);
         }
-        public override async Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> PutAsync(Uri requestUri, HttpContent content, CancellationToken cancellationToken)
         {
             addHMACHeaders(requestUri);
-            return await BaseClient.PutAsync(requestUri, content, cancellationToken);
+            return BaseClient.PutAsync(requestUri, content, cancellationToken);
         }
         //
         // Summary:
@@ -298,10 +298,10 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
+        public override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
             addHMACHeaders(request.RequestUri);
-            return await BaseClient.SendAsync(request);
+            return BaseClient.SendAsync(request);
         }
         //
         // Summary:
@@ -321,10 +321,10 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             addHMACHeaders(request.RequestUri);
-            return await BaseClient.SendAsync(request, cancellationToken);
+            return BaseClient.SendAsync(request, cancellationToken);
         }
         //
         // Summary:
@@ -346,10 +346,10 @@ namespace YouScribe.Rest
         //   System.InvalidOperationException:
         //     This operation will not block. The request message was already sent by the
         //     System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption)
+        public override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption)
         {
             addHMACHeaders(request.RequestUri);
-            return await BaseClient.SendAsync(request, completionOption);
+            return BaseClient.SendAsync(request, completionOption);
         }
         //
         // Summary:
@@ -373,10 +373,10 @@ namespace YouScribe.Rest
         // Exceptions:
         //   System.InvalidOperationException:
         //     The request message was already sent by the System.Net.Http.HttpClient instance.
-        public override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
         {
             addHMACHeaders(request.RequestUri);
-            return await BaseClient.SendAsync(request, completionOption, cancellationToken);
+            return BaseClient.SendAsync(request, completionOption, cancellationToken);
         }
 
     }

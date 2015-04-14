@@ -7,8 +7,8 @@
     <ProjectGuid>{FC4D648B-4BFF-4530-A652-2A806FC0414C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YouScribe.Cryptography</RootNamespace>
-    <AssemblyName>YouScribe.Cryptography</AssemblyName>
+    <RootNamespace>YouScribe.Rest.Cryptography</RootNamespace>
+    <AssemblyName>YouScribe.Rest.Cryptography</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

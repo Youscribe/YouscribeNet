@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{98772908-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouScribe.Rest.IntegrationTests", "YouScribe.Rest.IntegrationTests\YouScribe.Rest.IntegrationTests.csproj", "{8FFBE6FA-96C1-4A12-94E2-150562F7380C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouScribe.Cryptography", "YouScribe.Cryptography\YouScribe.Cryptography.csproj", "{FC4D648B-4BFF-4530-A652-2A806FC0414C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouScribe.Rest.Cryptography", "YouScribe.Rest.Cryptography\YouScribe.Rest.Cryptography.csproj", "{FC4D648B-4BFF-4530-A652-2A806FC0414C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
