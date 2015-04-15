@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace YouScribe.Rest
 {
-    class YousScribeHMACHttpClientDecorator : YousScribeHttpClient
+    public class YousScribeHMACHttpClientDecorator : YousScribeHttpClient
     {
         byte[] secretKey;
         int applicationId;
