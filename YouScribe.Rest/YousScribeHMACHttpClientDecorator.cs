@@ -38,8 +38,7 @@ namespace YouScribe.Rest
 
         byte[] StringEncode(string text)
         {
-            var encoding = new System.Text.UnicodeEncoding();
-            return encoding.GetBytes(text);
+            return Encoding.UTF8.GetBytes(text);
         }
 
         void addHMACHeaders(Uri uri)
