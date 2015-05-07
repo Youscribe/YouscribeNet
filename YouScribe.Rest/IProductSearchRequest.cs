@@ -10,5 +10,7 @@ namespace YouScribe.Rest
     public interface IProductSearchRequest : IYouScribeRequest
     {
         Task<ProductSearchOutputModel> SearchProductsAsync(ProductSearchInputModel input);
+
+        Task<ProductSearchOutputModel> SearchProductsAsyncV2(ProductSearchInputModel input);
     }
 }
