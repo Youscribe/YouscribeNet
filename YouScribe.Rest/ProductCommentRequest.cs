@@ -10,28 +10,31 @@ namespace YouScribe.Rest
 {
     class ProductCommentRequest : YouScribeRequest, IProductCommentRequest
     {
-        public ProductCommentRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
+        public ProductCommentRequest(Func<DisposableClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         { }
 
 
         public async Task<ProductCommentsOutput> GetCommentsAsync(int productId, int skip = 0, int take = 5, int repliesTake = 3)
         {
-            var client = this.CreateClient();
-            var url = "api/v1/products/" + productId + "/comments";
-            var dico = new Dictionary<string, string>(){
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = "api/v1/products/" + productId + "/comments";
+                var dico = new Dictionary<string, string>(){
                 { "skip", skip.ToString() },
                 { "take", take.ToString() },
                 { "repliesTake", repliesTake.ToString() }
             };
-            url = url + "?" + dico.ToQueryString();
-            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-            {
-                await this.AddErrorsAsync(response).ConfigureAwait(false);
-                return new ProductCommentsOutput(){ Count = -1, Comments = Enumerable.Empty<ProductCommentOutput>() };
+                url = url + "?" + dico.ToQueryString();
+                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return new ProductCommentsOutput() { Count = -1, Comments = Enumerable.Empty<ProductCommentOutput>() };
+                }
+                return await this.GetObjectAsync<ProductCommentsOutput>(response.Content).ConfigureAwait(false);
             }
-            return await this.GetObjectAsync<ProductCommentsOutput>(response.Content).ConfigureAwait(false);
         }
     }
 }

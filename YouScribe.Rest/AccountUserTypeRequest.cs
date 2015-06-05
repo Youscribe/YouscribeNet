@@ -10,30 +10,36 @@ namespace YouScribe.Rest
 {
     class AccountUserTypeRequest : YouScribeRequest, IAccountUsertTypeRequest
     {
-        public AccountUserTypeRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
+        public AccountUserTypeRequest(Func<DisposableClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         { }
 
         public async Task<IEnumerable<Models.Accounts.UserTypeModel>> ListAllUserTypesAsync()
         {
-            var client = this.CreateClient();
-            var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUserTypesUrl)).ConfigureAwait(false);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            using (var dclient = this.CreateClient())
             {
-                await this.AddErrorsAsync(response).ConfigureAwait(false);
-                return Enumerable.Empty<Models.Accounts.UserTypeModel>();
+                var client = dclient.Client;
+                var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUserTypesUrl)).ConfigureAwait(false);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return Enumerable.Empty<Models.Accounts.UserTypeModel>();
+                }
+                return await this.GetObjectAsync<IEnumerable<UserTypeModel>>(response.Content).ConfigureAwait(false);
             }
-            return await this.GetObjectAsync<IEnumerable<UserTypeModel>>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<bool> SetUserTypeAsync(Models.Accounts.UserTypeModel userType)
         {
-            var client = this.CreateClient();
-            var content = this.GetContent(userType);
-            var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUserTypesUrl), content).ConfigureAwait(false);
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var content = this.GetContent(userType);
+                var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUserTypesUrl), content).ConfigureAwait(false);
 
-            return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+            }
         }
     }
 }

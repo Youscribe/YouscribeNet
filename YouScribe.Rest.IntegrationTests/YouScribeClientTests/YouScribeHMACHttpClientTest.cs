@@ -26,7 +26,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 int applicationId = 1;
                 IHMAC hmac = new TestHMAC();
                 var client = new YouScribeClient(TestHelpers.BaseUrl, YousScribeHMACHttpClientDecorator.GetBaseClientFactory(secretKey, applicationId, hmac));
-                YousScribeHMACHttpClientDecorator httpClient = (YousScribeHMACHttpClientDecorator)client.clientFactory();
+                YousScribeHMACHttpClientDecorator httpClient = (YousScribeHMACHttpClientDecorator)((DisposableClient)client.clientFactory()).Client;
 
                 // Act
                 httpClient.GetAsync(TestHelpers.BaseUrl);

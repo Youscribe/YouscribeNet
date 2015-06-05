@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     class YouScribeRequest : IYouScribeRequest
     {
-        protected readonly Func<IYousScribeHttpClient> clientFactory;
+        protected readonly Func<DisposableClient> clientFactory;
         protected readonly string authorizeToken;
         protected readonly ISerializer serializer = new JSonSerializer();
         protected readonly IDictionary<string, IEnumerable<string>> headers = new Dictionary<string, IEnumerable<string>>();
@@ -22,7 +22,7 @@ namespace YouScribe.Rest
             set;
         }
 
-        public YouScribeRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
+        public YouScribeRequest(Func<DisposableClient> clientFactory, string authorizeToken)
         {
             this.BaseUrl = ApiUrls.BaseUrl;
             this.clientFactory = clientFactory;
@@ -30,15 +30,16 @@ namespace YouScribe.Rest
             this.Error = new RequestError(this);
         }
 
-        protected IYousScribeHttpClient CreateClient()
+        protected DisposableClient CreateClient()
         {
             this.Error = new RequestError(this);
-            var client = clientFactory();
+            var dclient = clientFactory();
+            var client = dclient.Client;
             if (string.IsNullOrEmpty(this.authorizeToken) == false)
                 client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, this.authorizeToken);
             foreach (var header in headers)
                 client.DefaultRequestHeaders.Add(header.Key, header.Value);
-            return client;
+            return dclient;
         }
 
         protected HttpContent GetContent<T>(T obj)

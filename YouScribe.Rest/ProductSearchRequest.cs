@@ -10,40 +10,46 @@ namespace YouScribe.Rest
 {
     class ProductSearchRequest : YouScribeRequest, IProductSearchRequest
     {
-        public ProductSearchRequest(Func<IYousScribeHttpClient> clientFactory, string token)
+        public ProductSearchRequest(Func<DisposableClient> clientFactory, string token)
             : base(clientFactory, token)
         { }
 
         public async Task<ProductSearchOutputModel> SearchProductsAsync(ProductSearchInputModel input)
         {
-            var client = this.CreateClient();
-            var url = ApiUrls.ProductSearchUrl;
-
-            var content = this.GetContent(input);
-            var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
+            using (var dclient = this.CreateClient())
             {
-                await this.AddErrorsAsync(response).ConfigureAwait(false);
-                return new ProductSearchOutputModel() { TotalResults = -1, Products = Enumerable.Empty<ProductSearchItemOutputModel>() };
+                var client = dclient.Client;
+                var url = ApiUrls.ProductSearchUrl;
+
+                var content = this.GetContent(input);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return new ProductSearchOutputModel() { TotalResults = -1, Products = Enumerable.Empty<ProductSearchItemOutputModel>() };
+                }
+                return await this.GetObjectAsync<ProductSearchOutputModel>(response.Content).ConfigureAwait(false);
             }
-            return await this.GetObjectAsync<ProductSearchOutputModel>(response.Content).ConfigureAwait(false);
         }
 
         public async Task<ProductSearchOutputModel> SearchProductsAsyncV2(ProductSearchInputModel input)
         {
-            var client = this.CreateClient();
-            var url = ApiUrls.ProductSearchUrlV2;
-
-            var content = this.GetContent(input);
-            var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
+            using (var dclient = this.CreateClient())
             {
-                await this.AddErrorsAsync(response).ConfigureAwait(false);
-                return new ProductSearchOutputModel() { TotalResults = -1, Products = Enumerable.Empty<ProductSearchItemOutputModel>() };
+                var client = dclient.Client;
+                var url = ApiUrls.ProductSearchUrlV2;
+
+                var content = this.GetContent(input);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return new ProductSearchOutputModel() { TotalResults = -1, Products = Enumerable.Empty<ProductSearchItemOutputModel>() };
+                }
+                return await this.GetObjectAsync<ProductSearchOutputModel>(response.Content).ConfigureAwait(false);
             }
-            return await this.GetObjectAsync<ProductSearchOutputModel>(response.Content).ConfigureAwait(false);
         }
     }
 }

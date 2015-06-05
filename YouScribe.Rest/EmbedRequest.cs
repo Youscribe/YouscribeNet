@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     class EmbedRequest : YouScribeRequest, IEmbedRequest
     {
-        public EmbedRequest(Func<IYousScribeHttpClient> clientFactory, string authorizeToken)
+        public EmbedRequest(Func<DisposableClient> clientFactory, string authorizeToken)
             : base(clientFactory, authorizeToken)
         { }
 
@@ -20,21 +20,24 @@ namespace YouScribe.Rest
 
         public async Task<string> GenerateIframeTagAsync(int id, Models.Products.EmbedGenerateModel features)
         {
-            var client = this.CreateClient();
-            var parameters = new Dictionary<string, string>();
-            this.generateParameters(parameters, features);
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var parameters = new Dictionary<string, string>();
+                this.generateParameters(parameters, features);
 
-            var queryString = parameters.ToQueryString();
-            var url = ApiUrls.EmbedUrl.Replace("{id}", id.ToString());
-            if (!string.IsNullOrEmpty(queryString))
-                url = url + "?" + queryString;
-            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
+                var queryString = parameters.ToQueryString();
+                var url = ApiUrls.EmbedUrl.Replace("{id}", id.ToString());
+                if (!string.IsNullOrEmpty(queryString))
+                    url = url + "?" + queryString;
+                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
+                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
 
-            if (response.IsSuccessStatusCode)
-                return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
-            return string.Empty;
+                if (response.IsSuccessStatusCode)
+                    return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
+                return string.Empty;
+            }
         }
 
 
@@ -45,22 +48,25 @@ namespace YouScribe.Rest
 
         public async Task<string> GeneratePrivateIframeTagAsync(int id, Models.Products.PrivateEmbedGenerateModel features)
         {
-            var client = this.CreateClient();
-            var parameters = new Dictionary<string, string>();
-            parameters.Add("id", id.ToString());
-            this.generateParameters(parameters, features);
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var parameters = new Dictionary<string, string>();
+                parameters.Add("id", id.ToString());
+                this.generateParameters(parameters, features);
 
-            var queryString = parameters.ToQueryString();
-            var url = ApiUrls.PrivateEmbedUrl;
-            if (!string.IsNullOrEmpty(queryString))
-                url = url + "?" + queryString;
-            var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
+                var queryString = parameters.ToQueryString();
+                var url = ApiUrls.PrivateEmbedUrl;
+                if (!string.IsNullOrEmpty(queryString))
+                    url = url + "?" + queryString;
+                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
-            await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
+                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
 
-            if (response.IsSuccessStatusCode)
-                return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
-            return string.Empty;
+                if (response.IsSuccessStatusCode)
+                    return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
+                return string.Empty;
+            }
         }
 
         private void generateParameters(IDictionary<string, string> parameters, Models.Products.EmbedGenerateModel features)
