@@ -26,11 +26,13 @@ namespace YouScribe.Rest
 
         public const string ProductUrl = "api/v1/products";
         public const string ProductUrlByIds = "api/v1/products/byids";
+        public const string ProductUrlByIdsV2 = "api/v2/products/byids";
         public const string ProductGetUrlsByIds = "api/v1/products/urls/byids";
         public const string ProductSearchUrl = "api/v1/products/search";
         public const string ProductSearchUrlV2 = "api/v2/products/search";
         public const string ProductUpdateUrl = "api/v1/products/{id}";
         public const string ProductGetUrl = "api/v1/products/{id}";
+        public const string ProductGetUrlV2 = "api/v2/products/{id}";
         public const string ProductEndUploadUrl = "api/v1/products/endupload?id={id}";
         public const string ProductEndUpdateUrl = "api/v1/products/endupdate?id={id}";
         public static string ProductDownloadByExtensionUrl = "api/v1/products/{id}/files/{extension}";

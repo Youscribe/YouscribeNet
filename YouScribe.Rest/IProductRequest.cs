@@ -19,11 +19,25 @@ namespace YouScribe.Rest
         Task<ProductGetModel> GetAsync(int id);
 
         /// <summary>
+        /// Get product info (v2 means new image format)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<ProductGetModel> GetAsyncV2(int id);
+
+        /// <summary>
         /// Get products info
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
         Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids);
+
+        /// <summary>
+        /// Get products info (v2 means new image format)
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        Task<IEnumerable<ProductGetModel>> GetAsyncV2(IEnumerable<int> ids);
 
         /// <summary>
         /// Publish a new document

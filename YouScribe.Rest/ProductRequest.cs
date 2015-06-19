@@ -20,12 +20,12 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public async Task<ProductGetModel> GetAsync(int id)
+        private async Task<ProductGetModel> GetAsync(string url, int id)
         {
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
-                var url = ApiUrls.ProductGetUrl.Replace("{id}", id.ToString());
+                url = url.Replace("{id}", id.ToString());
                 var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
@@ -37,12 +37,22 @@ namespace YouScribe.Rest
             }
         }
 
-        public async Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids)
+        public Task<ProductGetModel> GetAsync(int id)
+        {
+            return this.GetAsync(ApiUrls.ProductGetUrl, id);
+        }
+
+        public Task<ProductGetModel> GetAsyncV2(int id)
+        {
+            return this.GetAsync(ApiUrls.ProductGetUrlV2, id);
+        }
+
+
+        private async Task<IEnumerable<ProductGetModel>> GetAsync(string url, IEnumerable<int> ids)
         {
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
-                var url = ApiUrls.ProductUrlByIds;
                 var content = this.GetContent(ids);
                 var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
 
@@ -53,6 +63,16 @@ namespace YouScribe.Rest
                 }
                 return await this.GetObjectAsync<IEnumerable<ProductGetModel>>(response.Content).ConfigureAwait(false);
             }
+        }
+
+        public Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids)
+        {
+            return this.GetAsync(ApiUrls.ProductUrlByIds, ids);
+        }
+
+        public Task<IEnumerable<ProductGetModel>> GetAsyncV2(IEnumerable<int> ids)
+        {
+            return this.GetAsync(ApiUrls.ProductUrlByIdsV2, ids);
         }
 
         #region PublishDocument
