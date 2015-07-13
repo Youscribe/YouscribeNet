@@ -314,5 +314,11 @@ namespace YouScribe.Rest
             var request = new ProductSuggestRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
             return request;
         }
+
+        public IThemeRequest CreateThemeRequest()
+        {
+            var request = new ThemeRequest(this.clientFactory, _authorizeToken) { BaseUrl = this.BaseUrl };
+            return request;
+        }
     }
 }
