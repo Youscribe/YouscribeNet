@@ -80,6 +80,7 @@
     <Compile Include="IThemeRequest.cs" />
     <Compile Include="IYousScribeHttpClient.cs" />
     <Compile Include="ThemeRequest.cs" />
+    <Compile Include="TokenContext.cs" />
     <Compile Include="YousScribeHttpClient.cs" />
     <Compile Include="Cryptography\IHMAC.cs" />
     <Compile Include="DownloadBytesProgress.cs" />

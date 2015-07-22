@@ -10,9 +10,10 @@ namespace YouScribe.Rest
     class YouScribeRequest : IYouScribeRequest
     {
         protected readonly Func<DisposableClient> clientFactory;
-        protected readonly string authorizeToken;
         protected readonly ISerializer serializer = new JSonSerializer();
         protected readonly IDictionary<string, IEnumerable<string>> headers = new Dictionary<string, IEnumerable<string>>();
+
+        protected string authorizeToken;
 
         public RequestError Error { get; internal set; }
 
@@ -46,6 +47,16 @@ namespace YouScribe.Rest
         {
             var str = serializer.Serialize(obj);
             return new StringContent(str, Encoding.UTF8, "application/json");
+        }
+
+        public void SetToken(string authorizeToken)
+        {
+            this.authorizeToken = authorizeToken;
+        }
+
+        public string GetToken()
+        {
+            return this.authorizeToken;
         }
 
         public Uri GetUri(string relativeUri)

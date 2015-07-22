@@ -44,5 +44,9 @@ namespace YouScribe.Rest
         void AddHeader(string name, IEnumerable<string> values);
 
         void AddHeader(string name, string value);
+
+        void SetToken(string authorizeToken);
+
+        string GetToken();
     }
 }
