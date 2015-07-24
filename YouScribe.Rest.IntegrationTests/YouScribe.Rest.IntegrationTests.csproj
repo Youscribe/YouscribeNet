@@ -89,6 +89,7 @@
     <Compile Include="YouScribeClientTests\AccountUtilRequestTests.cs" />
     <Compile Include="YouScribeClientTests\Authorize.cs" />
     <Compile Include="YouScribeClientTests\EmbedRequestTests.cs" />
+    <Compile Include="YouScribeClientTests\HttpClientConfigurationTests.cs" />
     <Compile Include="YouScribeClientTests\LibraryRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductCommentRequestTests.cs" />
     <Compile Include="YouScribeClientTests\ProductRequestTests.cs" />
@@ -137,6 +138,9 @@
       <Project>{8789fc62-4f03-4327-a1f7-94553e463d65}</Project>
       <Name>YouScribe.Rest</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

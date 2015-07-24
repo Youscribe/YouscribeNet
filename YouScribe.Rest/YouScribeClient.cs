@@ -133,7 +133,10 @@ namespace YouScribe.Rest
             {
                 this.baseClientFactory = (c) =>
                 {
-                    return c == null ? new YousScribeHttpClient(new HttpClient()) : new YousScribeHttpClient(new HttpClient(c()));
+                    var client = c == null ? new HttpClient() : new HttpClient(c());
+                    client.Timeout = timeout;
+
+                    return new YousScribeHttpClient(client);
                 };
             }
             else
