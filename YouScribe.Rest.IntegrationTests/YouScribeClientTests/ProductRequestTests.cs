@@ -315,6 +315,100 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         }
 
         [Fact]
+        public void WhenDownloadProductExtractFromExtension_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.DownloadExtractAsync(43, "pdf").Result;
+
+                // Assert
+                Assert.NotNull(response);
+                using (var stream = new MemoryStream())
+                {
+                    response.CopyTo(stream);
+                    Assert.Equal(57210, stream.Length);
+                }
+            }
+        }
+
+        [Fact]
+        public void WhenDownloadProductExtractFromFormatTypeId_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.DownloadExtractAsync(43, 1).Result;
+
+                // Assert
+                Assert.NotNull(response);
+                using (var stream = new MemoryStream())
+                {
+                    response.CopyTo(stream);
+                    Assert.Equal(57210, stream.Length);
+                }
+            }
+        }
+
+        [Fact]
+        public void WhenDownloadProductExtractToStreamFromFormatTypeId_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act                
+                // Assert
+                using (var stream = new MemoryStream())
+                {
+                    request.DownloadExtractToStreamAsync(43, "pdf", stream, new Progress<DownloadBytesProgress>()).Wait();
+                    Assert.Equal(57210, stream.Length);
+                }
+            }
+        }
+
+        [Fact]
+        public void WhenDownloadProductExtractToStreamFromExtension_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act                
+                // Assert
+                using (var stream = new MemoryStream())
+                {
+                    request.DownloadExtractToStreamAsync(43, 1, stream, new Progress<DownloadBytesProgress>()).Wait();
+                    Assert.Equal(57210, stream.Length);
+                }
+            }
+        }
+
+        [Fact]
         public void WhenGettingProduct_ThenCheckResponse()
         {
             using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
@@ -382,6 +476,21 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                             context.Response.ContentLength64 = file.Length;
                             file.CopyTo(context.Response.OutputStream);                            
                         }                        
+                    }
+                    else
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+                case "/api/v1/products/43/extracts/1":
+                case "/api/v1/products/43/extracts/pdf":
+                    if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                    {
+                        context.Response.ContentType = "application/pdf";
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        using (var file = File.OpenRead("Responses/file.pdf"))
+                        {
+                            context.Response.ContentLength64 = file.Length;
+                            file.CopyTo(context.Response.OutputStream);
+                        }
                     }
                     else
                         context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;

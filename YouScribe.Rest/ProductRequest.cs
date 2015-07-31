@@ -443,5 +443,59 @@ namespace YouScribe.Rest
                 return await this.GetObjectAsync<IEnumerable<ProductUrlsModel>>(response.Content).ConfigureAwait(false);
             }
         }
+
+        public async Task<Stream> DownloadExtractAsync(int productId, string extension)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.ProductDownloadExtractByExtensionUrl
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{extension}", extension);
+                var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return null;
+                }
+                return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            }
+        }
+
+        public async Task<Stream> DownloadExtractAsync(int productId, int formatTypeId)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.ProductDownloadExtractByFormatTypeIdUrl
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{formatTypeId}", formatTypeId.ToString());
+                var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return null;
+                }
+                return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            }
+        }
+
+        public Task DownloadExtractToStreamAsync(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport)
+        {
+            var urlToDownload = ApiUrls.ProductDownloadExtractByExtensionUrl
+                .Replace("{id}", productId.ToString())
+                .Replace("{extension}", extension);
+            return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
+        }
+
+        public Task DownloadExtractToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport)
+        {
+            var urlToDownload = ApiUrls.ProductDownloadExtractByFormatTypeIdUrl
+                .Replace("{id}", productId.ToString())
+                .Replace("{formatTypeId}", formatTypeId.ToString());
+            return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
+        }
     }
 }

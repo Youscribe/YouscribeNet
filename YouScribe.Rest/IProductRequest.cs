@@ -151,6 +151,38 @@ namespace YouScribe.Rest
         Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport);
 
         /// <summary>
+        /// Download a specific file for product by extension
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task<Stream> DownloadExtractAsync(int productId, string extension);
+
+        /// <summary>
+        /// Download a specific file for product by format type id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task<Stream> DownloadExtractAsync(int productId, int formatTypeId);
+
+        /// <summary>
+        /// Download a specific file for product by extension
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task DownloadExtractToStreamAsync(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport);
+
+        /// <summary>
+        /// Download a specific file for product by format type id
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task DownloadExtractToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport);
+
+        /// <summary>
         /// Retunr products urls
         /// </summary>
         /// <param name="ids">products id</param>
