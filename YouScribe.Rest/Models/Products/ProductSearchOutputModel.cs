@@ -39,6 +39,8 @@ namespace YouScribe.Rest.Models.Products
 
         public IEnumerable<string> PublicFormatExtensions { get; set; }
 
+        public IEnumerable<string> ExtractPublicFormatExtensions { get; set; }
+
         public IEnumerable<ImageUrlOutput> ThumbnailUrls { get; set; }
 
         public ThemeModel Theme { get; set; }

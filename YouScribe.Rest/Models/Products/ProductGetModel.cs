@@ -184,5 +184,7 @@ namespace YouScribe.Rest.Models.Products
         DateTime? OnlineDate { get; set; }
 
         public ProductGetDocument Document { get; set; }
+
+        public ProductGetDocument ExtractDocument { get; set; }
     }
 }
