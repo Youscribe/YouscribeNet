@@ -115,5 +115,11 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         IAccountUtilRequest CreateAccountUtilRequest();
+
+        /// <summary>
+        /// Create theme request
+        /// </summary>
+        /// <returns></returns>
+        IThemeRequest CreateThemeRequest();
     }
 }
