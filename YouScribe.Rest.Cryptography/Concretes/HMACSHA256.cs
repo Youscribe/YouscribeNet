@@ -4,9 +4,9 @@ namespace Youscribe.Rest.Cryptography.Concretes
 {
     public class YSHMACSHA256 : IHMAC
     {
-        public byte[] ComputeHash(byte[] key, byte[] message)
+        public byte[] ComputeHash(byte[] message, byte[] secretKey)
         {
-            var hash = new HMACSHA256(key);
+            var hash = new HMACSHA256(secretKey);
             return hash.ComputeHash(message);
         }
     }
