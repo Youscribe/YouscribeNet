@@ -221,6 +221,27 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         }
 
         [Fact]
+        public void WhenCheckForProductsRight_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+
+                client.AuthorizeAsync("test", "password").Wait();
+
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.GetRightAsync(new[] { 42, 43 }).Result;
+
+                // Assert
+                Assert.Equal(110, response.First().Level);
+                Assert.Equal("[42,43]", requestContent);
+            }
+        }
+
+        [Fact]
         public void WhenDownloadProductFromExtension_ThenCheckResponse()
         {
             // Arrange
@@ -503,6 +524,20 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                             context.Response.ContentType = "application/json; charset=utf-8";
                             context.Response.StatusCode = (int)HttpStatusCode.OK;
                             context.Response.OutputStream.Write("110");
+                        }
+                        else
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    }
+                    break;
+                case "/api/v1/productrights":
+                    if (context.Request.HttpMethod == "POST")
+                    {
+                        if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
+                        {
+                            requestContent = context.Request.GetRequestAsString();
+                            context.Response.ContentType = "application/json; charset=utf-8";
+                            context.Response.StatusCode = (int)HttpStatusCode.OK;
+                            context.Response.OutputStream.Write("[{\"Id\":42,\"Level\":110}]");
                         }
                         else
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;

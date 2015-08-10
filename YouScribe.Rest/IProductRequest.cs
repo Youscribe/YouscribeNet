@@ -119,6 +119,19 @@ namespace YouScribe.Rest
         Task<int> GetRightAsync(int productId);
 
         /// <summary>
+        /// Get products right for current user
+        /// </summary>
+        /// <param name="productId"The product id></param>
+        /// <returns>
+        /// Right level :
+        /// 0 - Access denies
+        /// 100 - View metadata allowed
+        /// 110 - Streaming allowed
+        /// 120 - Download allowed
+        /// </returns>
+        Task<IEnumerable<RightModel>> GetRightAsync(IEnumerable<int> productId);
+
+        /// <summary>
         /// Download a specific file for product by extension
         /// </summary>
         /// <param name="productId"></param>

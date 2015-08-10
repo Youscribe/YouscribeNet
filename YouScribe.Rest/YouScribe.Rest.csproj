@@ -79,6 +79,7 @@
     <Compile Include="ApiUrls.cs" />
     <Compile Include="IThemeRequest.cs" />
     <Compile Include="IYousScribeHttpClient.cs" />
+    <Compile Include="Models\Products\RightModel.cs" />
     <Compile Include="ThemeRequest.cs" />
     <Compile Include="TokenContext.cs" />
     <Compile Include="YousScribeHttpClient.cs" />

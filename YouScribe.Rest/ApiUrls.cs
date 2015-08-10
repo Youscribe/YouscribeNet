@@ -42,6 +42,7 @@ namespace YouScribe.Rest
         public const string ProductDownloadExtractByFormatTypeIdUrl = "api/v1/products/{id}/extracts/{formatTypeId}";
 
         public const string ProductRightUrl = "api/v1/productrights/{id}";
+        public const string ProductRightUrlByIds = "api/v1/productrights";
 
         public const string LibraryUrl = "api/v1/libraries";
         public const string LibraryGetUrl = "api/v1/libraries/{id}";

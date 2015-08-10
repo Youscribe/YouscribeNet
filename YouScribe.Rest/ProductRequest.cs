@@ -334,6 +334,24 @@ namespace YouScribe.Rest
             }
         }
 
+        public async Task<IEnumerable<RightModel>> GetRightAsync(IEnumerable<int> productId)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.ProductRightUrlByIds;
+                var content = this.GetContent(productId);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                    return Enumerable.Empty<RightModel>();
+                }
+                return await this.GetObjectAsync<IEnumerable<RightModel>>(response.Content).ConfigureAwait(false);
+            }
+        }
+
         public async Task<Stream> DownloadFileAsync(int productId, string extension)
         {
             using (var dclient = this.CreateClient())
