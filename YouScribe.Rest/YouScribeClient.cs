@@ -168,7 +168,7 @@ namespace YouScribe.Rest
             };
         }
 
-        public DisposableClient ReserveClient(Func<HttpMessageHandler> handlerFactory)
+        internal DisposableClient ReserveClient(Func<HttpMessageHandler> handlerFactory)
         {
             for (var i = 0; i < clients.Count; i++)
             {
@@ -221,6 +221,11 @@ namespace YouScribe.Rest
             {
                 new ProductInfoHeaderValue(productName, version)
             };
+        }
+
+        public Func<DisposableClient> GetClientFactory()
+        {
+            return this.clientFactory;
         }
 
         public async Task<bool> AuthorizeAsync(string userNameOrEmail, string password, int? validityInHours = null)

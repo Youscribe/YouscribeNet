@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace YouScribe.Rest
 {
-    class YouScribeRequest : IYouScribeRequest
+    public class YouScribeRequest : IYouScribeRequest
     {
         protected readonly Func<DisposableClient> clientFactory;
         protected readonly ISerializer serializer = new JSonSerializer();
