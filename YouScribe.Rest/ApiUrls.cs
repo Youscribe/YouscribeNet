@@ -5,7 +5,7 @@ using System.Text;
 
 namespace YouScribe.Rest
 {
-    static class ApiUrls
+    public static class ApiUrls
     {
         public const string BaseUrl = "https://services.youscribe.com";
 
