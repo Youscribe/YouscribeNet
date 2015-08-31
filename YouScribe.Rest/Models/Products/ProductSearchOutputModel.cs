@@ -46,7 +46,9 @@ namespace YouScribe.Rest.Models.Products
         public ThemeModel Theme { get; set; }
 
         public int StateId { get; set; }
-        
+
+        public TimeSpan EstimatedReadTime { get; set; }
+
     }
 
     public class ProductSearchOutputModel

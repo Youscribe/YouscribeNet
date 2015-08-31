@@ -44,5 +44,7 @@ namespace YouScribe.Rest.Models.Products
 
         public int? ModelId { get; set; }
 
+        public TimeSpan EstimatedReadTime { get; set; }
+
     }
 }

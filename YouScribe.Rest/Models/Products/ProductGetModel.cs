@@ -186,5 +186,7 @@ namespace YouScribe.Rest.Models.Products
         public ProductGetDocument Document { get; set; }
 
         public ProductGetDocument ExtractDocument { get; set; }
+
+        public TimeSpan EstimatedReadTime { get; set; }
     }
 }
