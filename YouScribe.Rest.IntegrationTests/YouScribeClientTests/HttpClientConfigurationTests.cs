@@ -17,7 +17,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         {
 
             YouScribeClient.DefaultTimeout = TimeSpan.FromSeconds(123);
-            YouScribeClient.ClearClients();
+            ClientsPoolProvider.ClearDefaults();
 
             var client = new YouScribeClient().clientFactory();
 

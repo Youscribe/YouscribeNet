@@ -17,7 +17,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         [Fact]
         public void WhenRequest_ThenHeadersOk()
         {
-            YouScribeClient.ClearClients();
+            ClientsPoolProvider.ClearDefaults();
             // Arrange
             using (SimpleServer.Create(TestHelpers.BaseUrl, EventHandler))
             {

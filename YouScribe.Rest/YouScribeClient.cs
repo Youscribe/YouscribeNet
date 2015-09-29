@@ -10,7 +10,7 @@ using YouScribe.Rest.Models.Accounts;
 
 namespace YouScribe.Rest
 {
-    internal class ConcurentClient
+    public class ConcurentClient
     {
         public IYousScribeHttpClient Client;
 
@@ -38,10 +38,52 @@ namespace YouScribe.Rest
         }
     }
 
+    public class ClientsPoolProvider
+    {
+        public const int PoolMinSize = 10;
+        public const int PoolIncrement = 5;
+
+        public ClientsPoolProvider()
+        {
+            Clients = new List<ConcurentClient>();
+            if (Clients.Count == 0)
+            {
+                lock (Clients)
+                {
+                    if (Clients.Count == 0)
+                    {
+                        for (int i = 0; i < PoolMinSize; i++)
+                        {
+                            Clients.Add(new ConcurentClient() { Reserved = 0, Client = null });
+                        }
+                    }
+                }
+            }
+        }
+
+        public List<ConcurentClient> Clients { get; private set; }
+
+        static ClientsPoolProvider defaultPool = new ClientsPoolProvider();
+
+        public static ClientsPoolProvider Default
+        {
+            get
+            {
+                return defaultPool;
+            }
+        }
+
+        internal static void ClearDefaults()
+        {
+            defaultPool.Clients.Clear();
+        }
+
+    }
+
     public class YouScribeClient : IYouScribeClient
     {
+        readonly ClientsPoolProvider poolProvider;
 
-        static List<ConcurentClient> clients = new List<ConcurentClient>();
         const string defaultProductName = "YouScribe.Rest";
 
         internal readonly Func<DisposableClient> clientFactory;
@@ -49,9 +91,6 @@ namespace YouScribe.Rest
         Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory;
 
         private string _authorizeToken;
-
-        const int PoolMinSize = 10;
-        const int PoolIncrement = 5;
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
@@ -69,40 +108,22 @@ namespace YouScribe.Rest
             get;
             set;
         }
-
-        internal static void ClearClients()
-        {
-            clients.Clear();
-        }
-
+        
         static YouScribeClient()
         {
             DefaultTimeout = TimeSpan.FromMinutes(1);
-            if (clients.Count == 0)
-            {
-                lock (clients)
-                {
-                    if (clients.Count == 0)
-                    {
-                        for (int i = 0; i < PoolMinSize; i++)
-                        {
-                            clients.Add(new ConcurentClient() { Reserved = 0, Client = null });
-                        }
-                    }
-                }
-            }
         }
 
         public YouScribeClient(string baseUrl)
             : this(null, baseUrl)
         {
         }
-        public YouScribeClient(string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
-            : this(null, baseUrl, baseClientFactory)
+        public YouScribeClient(string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, ClientsPoolProvider poolProvider = null)
+            : this(null, baseUrl, baseClientFactory, poolProvider)
         {
         }
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
-            : this(handlerFactory, baseUrl, baseClientFactory, TimeSpan.FromMinutes(15))
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, ClientsPoolProvider poolProvider = null)
+            : this(handlerFactory, baseUrl, baseClientFactory, TimeSpan.FromMinutes(15), poolProvider)
         {
         }
 
@@ -110,25 +131,27 @@ namespace YouScribe.Rest
             : this(ApiUrls.BaseUrl)
         { }
 
-        public YouScribeClient(Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
-            : this(ApiUrls.BaseUrl, baseClientFactory)
+        public YouScribeClient(Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, ClientsPoolProvider poolProvider = null)
+            : this(ApiUrls.BaseUrl, baseClientFactory, poolProvider)
         { }
 
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory)
-            : this(handlerFactory, ApiUrls.BaseUrl)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, ClientsPoolProvider poolProvider = null)
+            : this(handlerFactory, ApiUrls.BaseUrl, poolProvider)
         { }
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory)
-            : this(handlerFactory, ApiUrls.BaseUrl, baseClientFactory)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, ClientsPoolProvider poolProvider = null)
+            : this(handlerFactory, ApiUrls.BaseUrl, baseClientFactory, poolProvider)
         { }
 
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl)
-            : this(handlerFactory, baseUrl, null, DefaultTimeout)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, ClientsPoolProvider poolProvider = null)
+            : this(handlerFactory, baseUrl, null, DefaultTimeout, poolProvider)
         {
         }
 
-        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, TimeSpan timeout)
+        public YouScribeClient(Func<HttpMessageHandler> handlerFactory, string baseUrl, 
+            Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory, TimeSpan timeout, ClientsPoolProvider poolProvider = null)
         {
             this.BaseUrl = baseUrl;
+            this.poolProvider = poolProvider ?? ClientsPoolProvider.Default;
             if (baseClientFactory == null)
             {
                 this.baseClientFactory = (c) =>
@@ -148,19 +171,19 @@ namespace YouScribe.Rest
                 var client = this.ReserveClient(handlerFactory);
                 if (client == null)
                 {
-                    var count = clients.Count;
-                    lock (clients)
+                    var count = this.poolProvider.Clients.Count;
+                    lock (this.poolProvider.Clients)
                     {
-                        if (clients.Count != count)
+                        if (this.poolProvider.Clients.Count != count)
                             client = this.ReserveClient(handlerFactory);
                         if (client != null)
                             return client;
-                        for (var i = 0; i < PoolIncrement - 1; i++)
+                        for (var i = 0; i < ClientsPoolProvider.PoolIncrement - 1; i++)
                         {
-                            clients.Add(new ConcurentClient() { Reserved = 0, Client = null });
+                            this.poolProvider.Clients.Add(new ConcurentClient() { Reserved = 0, Client = null });
                         }
                         var item = new ConcurentClient() { Reserved = 1, Client = this.baseClientFactory(handlerFactory) };
-                        clients.Add(item);
+                        this.poolProvider.Clients.Add(item);
                         return new DisposableClient(item);
                     }
                 }
@@ -170,9 +193,9 @@ namespace YouScribe.Rest
 
         internal DisposableClient ReserveClient(Func<HttpMessageHandler> handlerFactory)
         {
-            for (var i = 0; i < clients.Count; i++)
+            for (var i = 0; i < poolProvider.Clients.Count; i++)
             {
-                var item = clients[i];
+                var item = poolProvider.Clients[i];
                 if (item.Reserved == 0)
                 {
                     if (Interlocked.Increment(ref item.Reserved) == 1)
