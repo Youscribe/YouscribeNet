@@ -13,6 +13,7 @@ namespace YouScribe.Rest.Models.Products
             this.OfferTypes = Enumerable.Empty<string>();
             this.Authors = Enumerable.Empty<string>();
             this.PublicFormatExtensions = Enumerable.Empty<string>();
+            this.ExtractPublicFormatExtensions = Enumerable.Empty<string>();
             this.LanguagesIsoCode = Enumerable.Empty<string>();
         }
 
@@ -31,6 +32,8 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<string> OfferTypes { get; set; }
 
         public IEnumerable<string> PublicFormatExtensions { get; set; }
+
+        public IEnumerable<string> ExtractPublicFormatExtensions { get; set; }
 
         public IEnumerable<ImageUrlOutput> ThumbnailUrls { get; set; }
 
