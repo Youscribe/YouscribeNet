@@ -13,6 +13,7 @@ namespace YouScribe.Rest.Models.Products
             this.OfferTypes = Enumerable.Empty<string>();
             this.Authors = Enumerable.Empty<string>();
             this.PublicFormatExtensions = Enumerable.Empty<string>();
+            this.ExtractPublicFormatExtensions = Enumerable.Empty<string>();
         }
 
         public int Id { get; set; }

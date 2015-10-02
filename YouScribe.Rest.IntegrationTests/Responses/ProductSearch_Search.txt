@@ -14,6 +14,14 @@
             "AvgScore": 4,
             "NbVotes": 1,
             "PertinenceWeight": 2.8922054767608643,
+			"PublicFormatExtensions": [
+				"epub",
+				"pdf"
+			  ],
+			  "ExtractPublicFormatExtensions": [
+				"epub",
+				"pdf"
+			  ],
             "ThumbnailUrls": [
                 {
                     "Url": "http://img.societe-publica.net/pth/64596ac1ea7f8a7c4cac2bcdd438d1161e34da46.png",

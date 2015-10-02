@@ -39,6 +39,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 Assert.Equal(1, results.TotalResults);
                 Assert.NotEmpty(results.Products);
                 Assert.Equal("bouh", results.Products.First().Title);
+                Assert.Equal(2, results.Products.First().ExtractPublicFormatExtensions.Count());
+                Assert.Equal(2, results.Products.First().PublicFormatExtensions.Count());
                 var theme = results.Products.First().Theme;
                 Assert.NotNull(theme);
                 Assert.Equal(138, theme.Id);
