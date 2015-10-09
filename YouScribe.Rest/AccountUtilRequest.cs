@@ -70,6 +70,16 @@ namespace YouScribe.Rest
             }
         }
 
+        public async Task<bool> ChangeEmailAsync(Models.Accounts.AccountModel account)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var content = this.GetContent(account);
+                var response = await client.PutAsync(this.GetUri("api/v1/accounts/change-email"), content).ConfigureAwait(false);
 
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+            }
+        }
     }
 }

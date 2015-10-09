@@ -13,5 +13,7 @@ namespace YouScribe.Rest
         Task<string> GetUserNameFromEmailAsync(string email);
 
         Task<bool> ForgotPasswordAsync(string userNameOrEmail);
+
+        Task<bool> ChangeEmailAsync(Models.Accounts.AccountModel account);
     }
 }
