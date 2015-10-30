@@ -9,6 +9,8 @@ namespace YouScribe.Rest.Models.Accounts
     public class FacebookAccountGetModel : AccountGetModel
     {
         public bool IsNewUser { get; set; }
+
+        public string YsAuthToken { get; set; }
     }
 
     public class AccountGetModel : AccountModel
