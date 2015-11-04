@@ -50,7 +50,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 // Assert
                 Assert.NotNull(account);
                 Assert.Equal("test", account.UserName);
-                Assert.Equal("{\"Id\":0,\"UserName\":\"test\",\"Password\":\"password\",\"Email\":null,\"FirstName\":null,\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null,\"TrackingId\":\"00000000-0000-0000-0000-000000000000\"}", 
+                Assert.Equal("CAAGp95NMpY8BAOtOD7F4gxpkrMnmUZCpPBWHyZAOcX723Pfez7VEQvrjZAtrDZCXPRC0wPZCxrC", account.YsAuthToken);
+                Assert.Equal("{\"Id\":0,\"UserName\":\"test\",\"Password\":\"password\",\"Email\":null,\"FirstName\":null,\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null,\"TrackingId\":\"00000000-0000-0000-0000-000000000000\",\"YsAuthToken\":null}", 
                     requestContent);
             }
         }
@@ -72,7 +73,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
 
                 // Assert
                 Assert.True(ok);
-                Assert.Equal("{\"Id\":42,\"UserName\":null,\"Password\":null,\"Email\":null,\"FirstName\":\"kikou\",\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null,\"TrackingId\":\"00000000-0000-0000-0000-000000000000\"}", 
+                Assert.Equal("{\"Id\":42,\"UserName\":null,\"Password\":null,\"Email\":null,\"FirstName\":\"kikou\",\"LastName\":null,\"Gender\":null,\"Civility\":null,\"BirthDate\":null,\"CountryCode\":null,\"BlogUrl\":null,\"WebSiteUrl\":null,\"FacebookPage\":null,\"TwitterPage\":null,\"City\":null,\"Biography\":null,\"PhoneNumber\":null,\"EmailIsPublic\":false,\"DomainLanguageIsoCode\":null,\"TrackingId\":\"00000000-0000-0000-0000-000000000000\",\"YsAuthToken\":null}", 
                     requestContent);
             }
         }
@@ -260,6 +261,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                     {
                         context.Response.ContentType = "application/json; charset=utf-8";
                         context.Response.StatusCode = (int)HttpStatusCode.Created;
+                        context.Response.Headers.Add("YS-AUTH", "CAAGp95NMpY8BAOtOD7F4gxpkrMnmUZCpPBWHyZAOcX723Pfez7VEQvrjZAtrDZCXPRC0wPZCxrC");
                         context.Response.OutputStream.Write(expectedAccountResponse);
                     }
                     else if (context.Request.HttpMethod == "PUT")
