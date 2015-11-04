@@ -32,20 +32,27 @@ namespace YouScribe.Rest
             }
         }
 
-        public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account)
+        public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account, int? validityInHours = null)
         {
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
                 var content = this.GetContent(account);
-                var response = await client.PostAsync(this.GetUri(ApiUrls.AccountUrl), content).ConfigureAwait(false);
+                var url = ApiUrls.AccountUrl;
+                if (validityInHours.HasValue)
+                    url = ApiUrls.AccountUrl + "?validityInHours=" + validityInHours;
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
 
                 if (response.StatusCode != System.Net.HttpStatusCode.Created)
                 {
                     await this.AddErrorsAsync(response).ConfigureAwait(false);
                     return null;
-                }
-                return await this.GetObjectAsync<AccountModel>(response.Content).ConfigureAwait(false);
+                }  
+
+                var model = await this.GetObjectAsync<AccountModel>(response.Content).ConfigureAwait(false);
+                var tokenValue = response.Headers.GetValues("YS-AUTH");
+                model.YsAuthToken = tokenValue.FirstOrDefault();
+                return model;
             }
         }
 

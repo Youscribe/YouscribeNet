@@ -31,7 +31,7 @@ namespace YouScribe.Rest
         /// </summary>
         /// <param name="account">The account information</param>
         /// <returns>Returns the account created</returns>
-        Task<AccountModel> CreateAsync(AccountModel account);
+        Task<AccountModel> CreateAsync(AccountModel account, int? validityInHours = null);
 
         /// <summary>
         /// Update your account

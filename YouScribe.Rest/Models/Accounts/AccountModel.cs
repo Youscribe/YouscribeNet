@@ -8,9 +8,7 @@ namespace YouScribe.Rest.Models.Accounts
 {
     public class FacebookAccountGetModel : AccountGetModel
     {
-        public bool IsNewUser { get; set; }
-
-        public string YsAuthToken { get; set; }
+        public bool IsNewUser { get; set; }        
     }
 
     public class AccountGetModel : AccountModel
@@ -58,6 +56,8 @@ namespace YouScribe.Rest.Models.Accounts
         public string DomainLanguageIsoCode { get; set; }
 
         public Guid TrackingId { get; set; }
+
+        public string YsAuthToken { get; set; }
     }
 
     public enum Gender
