@@ -142,7 +142,7 @@ namespace YouScribe.Rest.Models.Products
 
         public string OwnerUserName { get; set; }
 
-        public string OwnerDisplayableUserName
+        public string OwnerDisplayableUserName { get; set; }
 
         public int? ThemeId { get; set; }
 
