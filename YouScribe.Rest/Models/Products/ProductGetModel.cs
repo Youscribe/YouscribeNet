@@ -142,6 +142,8 @@ namespace YouScribe.Rest.Models.Products
 
         public string OwnerUserName { get; set; }
 
+        public string OwnerDisplayableUserName
+
         public int? ThemeId { get; set; }
 
         public int? CategoryId { get; set; }
