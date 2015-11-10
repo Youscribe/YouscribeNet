@@ -81,5 +81,15 @@ namespace YouScribe.Rest
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
             }
         }
+
+        public async Task<bool> DeleteAccountAsync()
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var response = await client.PutAsync(this.GetUri("api/v1/accounts/delete-account"), null).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+            }
+        }
     }
 }

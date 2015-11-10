@@ -15,5 +15,7 @@ namespace YouScribe.Rest
         Task<bool> ForgotPasswordAsync(string userNameOrEmail);
 
         Task<bool> ChangeEmailAsync(Models.Accounts.AccountModel account);
+
+        Task<bool> DeleteAccountAsync();
     }
 }
