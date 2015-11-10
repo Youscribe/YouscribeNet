@@ -87,7 +87,7 @@ namespace YouScribe.Rest
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
-                var response = await client.PutAsync(this.GetUri("api/v1/accounts/delete-account"), null).ConfigureAwait(false);
+                var response = await client.DeleteAsync(this.GetUri("api/v1/accounts/delete-account")).ConfigureAwait(false);
                 return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
             }
         }
