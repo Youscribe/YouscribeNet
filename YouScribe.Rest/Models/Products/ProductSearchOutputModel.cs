@@ -26,6 +26,8 @@ namespace YouScribe.Rest.Models.Products
 
         public string OwnerUserName { get; set; }
 
+        public string OwnerDisplayableUserName { get; set; }
+
         public int NbPages { get; set; }
 
         public int NbReads { get; set; }
