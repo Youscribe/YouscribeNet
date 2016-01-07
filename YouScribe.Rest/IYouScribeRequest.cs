@@ -45,6 +45,8 @@ namespace YouScribe.Rest
 
         void AddHeader(string name, string value);
 
+        void SetHeader(string name, string value);
+
         void SetToken(string authorizeToken);
 
         string GetToken();

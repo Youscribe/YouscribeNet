@@ -124,5 +124,10 @@ namespace YouScribe.Rest
         {
             this.headers.Add(name, new []{ value });
         }
+
+        public void SetHeader(string name, string value)
+        {
+            this.headers[name] = new[] { value };
+        }
     }
 }
