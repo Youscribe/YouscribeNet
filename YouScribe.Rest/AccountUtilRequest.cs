@@ -14,42 +14,24 @@ namespace YouScribe.Rest
         {
         }
 
-        public async Task<string> GeneratePasswordAsync(int minLength, int maxLength)
+        public Task<string> GeneratePasswordAsync(int minLength, int maxLength)
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var url = "api/v1/accounts/generated-passwords";
-                var dico = new Dictionary<string, string>()
+            var url = "api/v1/accounts/generated-passwords";
+            var dico = new Dictionary<string, string>()
             {
                 { "minLength", minLength.ToString() },
                 { "maxLength", maxLength.ToString() },
             };
-                url = url + "?" + dico.ToQueryString();
-                var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
+            url = url + "?" + dico.ToQueryString();
 
-                if (!response.IsSuccessStatusCode)
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                return await this.GetObjectAsync<string>(response.Content).ConfigureAwait(false);
-            }
+            return this.PostWithResult<string>(url, null);
         }
 
-        public async Task<string> GetUserNameFromEmailAsync(string email)
+        public Task<string> GetUserNameFromEmailAsync(string email)
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var url = "api/v1/accounts/unique-usernames";
-                url = url + "?email=" + System.Uri.EscapeDataString(email);
-                var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return null;
-                }
-                return await this.GetObjectAsync<string>(response.Content).ConfigureAwait(false);
-            }
+            var url = "api/v1/accounts/unique-usernames";
+            url = url + "?email=" + System.Uri.EscapeDataString(email);
+            return this.PostWithResult<string>(url, null);
         }
 
         public async Task<bool> ForgotPasswordAsync(string userNameOrEmail)
@@ -78,7 +60,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(account);
                 var response = await client.PutAsync(this.GetUri("api/v1/accounts/change-email"), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -88,7 +70,7 @@ namespace YouScribe.Rest
             {
                 var client = dclient.Client;
                 var response = await client.DeleteAsync(this.GetUri("api/v1/accounts/delete-account")).ConfigureAwait(false);
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
     }

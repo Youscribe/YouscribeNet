@@ -98,7 +98,7 @@ namespace YouScribe.Rest
             this.Error.RawOutput = error;
         }
 
-        protected async Task<bool> HandleResponseAsync(HttpResponseMessage response, System.Net.HttpStatusCode expectedStatusCode)
+        protected async Task<bool> HandleResponseAsync(HttpResponseMessage response)
         {
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized 
                 || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
@@ -107,7 +107,7 @@ namespace YouScribe.Rest
                 this.Error.StatusCode = (int)response.StatusCode;
                 return false;
             }
-            else if (response.StatusCode != expectedStatusCode)
+            else if (!response.IsSuccessStatusCode)
             {
                 await this.AddErrorsAsync(response).ConfigureAwait(false);
                 return false;
@@ -128,6 +128,77 @@ namespace YouScribe.Rest
         public void SetHeader(string name, string value)
         {
             this.headers[name] = new[] { value };
+        }
+
+        public async Task<T> GetAsync<T>(string url)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
+
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
+                    return default(T);
+                var result = await this.GetObjectAsync<T>(response.Content).ConfigureAwait(false);
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<T>> GetEnumerableAsync<T>(string url)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
+
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
+                    return Enumerable.Empty<T>();
+                var result = await this.GetObjectAsync<IEnumerable<T>>(response.Content).ConfigureAwait(false);
+                return result;
+            }
+        }
+
+        public async Task Post(string url, object input)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var content = this.GetContent(input);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
+
+        public async Task<T> PostWithResult<T>(string url, object input)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var content = this.GetContent(input);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
+                    return default(T);
+                return await this.GetObjectAsync<T>(response.Content).ConfigureAwait(false);
+            }
+        }
+
+        public async Task<IEnumerable<T>> PostWithEnumerableResult<T>(string url, object input)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var content = this.GetContent(input);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
+                    return Enumerable.Empty<T>();
+                return await this.GetObjectAsync<IEnumerable<T>>(response.Content).ConfigureAwait(false);
+            }
         }
     }
 }

@@ -20,24 +20,17 @@ namespace YouScribe.Rest
 
         public async Task<string> GenerateIframeTagAsync(int id, Models.Products.EmbedGenerateModel features)
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var parameters = new Dictionary<string, string>();
-                this.generateParameters(parameters, features);
+            var parameters = new Dictionary<string, string>();
+            this.generateParameters(parameters, features);
 
-                var queryString = parameters.ToQueryString();
-                var url = ApiUrls.EmbedUrl.Replace("{id}", id.ToString());
-                if (!string.IsNullOrEmpty(queryString))
-                    url = url + "?" + queryString;
-                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
-
-                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
-
-                if (response.IsSuccessStatusCode)
-                    return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
+            var queryString = parameters.ToQueryString();
+            var url = ApiUrls.EmbedUrl.Replace("{id}", id.ToString());
+            if (!string.IsNullOrEmpty(queryString))
+                url = url + "?" + queryString;
+            var model = await this.GetAsync<Models.Products.EmbedResponse>(url);
+            if (model == null)
                 return string.Empty;
-            }
+            return model.Content;
         }
 
 
@@ -48,25 +41,18 @@ namespace YouScribe.Rest
 
         public async Task<string> GeneratePrivateIframeTagAsync(int id, Models.Products.PrivateEmbedGenerateModel features)
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var parameters = new Dictionary<string, string>();
-                parameters.Add("id", id.ToString());
-                this.generateParameters(parameters, features);
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("id", id.ToString());
+            this.generateParameters(parameters, features);
 
-                var queryString = parameters.ToQueryString();
-                var url = ApiUrls.PrivateEmbedUrl;
-                if (!string.IsNullOrEmpty(queryString))
-                    url = url + "?" + queryString;
-                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
-
-                await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
-
-                if (response.IsSuccessStatusCode)
-                    return (await this.GetObjectAsync<YouScribe.Rest.Models.Products.EmbedResponse>(response.Content).ConfigureAwait(false)).Content;
+            var queryString = parameters.ToQueryString();
+            var url = ApiUrls.PrivateEmbedUrl;
+            if (!string.IsNullOrEmpty(queryString))
+                url = url + "?" + queryString;
+            var model = await this.GetAsync<Models.Products.EmbedResponse>(url);
+            if (model == null)
                 return string.Empty;
-            }
+            return model.Content;
         }
 
         private void generateParameters(IDictionary<string, string> parameters, Models.Products.EmbedGenerateModel features)

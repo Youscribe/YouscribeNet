@@ -14,20 +14,9 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public async Task<IEnumerable<Models.Accounts.UserTypeModel>> ListAllUserTypesAsync()
+        public Task<IEnumerable<Models.Accounts.UserTypeModel>> ListAllUserTypesAsync()
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUserTypesUrl)).ConfigureAwait(false);
-
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return Enumerable.Empty<Models.Accounts.UserTypeModel>();
-                }
-                return await this.GetObjectAsync<IEnumerable<UserTypeModel>>(response.Content).ConfigureAwait(false);
-            }
+            return this.GetEnumerableAsync<Models.Accounts.UserTypeModel>(ApiUrls.AccountUserTypesUrl);
         }
 
         public async Task<bool> SetUserTypeAsync(Models.Accounts.UserTypeModel userType)
@@ -38,7 +27,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(userType);
                 var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUserTypesUrl), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
     }

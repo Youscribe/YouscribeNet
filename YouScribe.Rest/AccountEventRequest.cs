@@ -14,20 +14,9 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public async Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()
+        public Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var response = await client.GetAsync(this.GetUri(ApiUrls.AccountEventUrl)).ConfigureAwait(false);
-
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return Enumerable.Empty<Models.Accounts.AccountEventModel>();
-                }
-                return await this.GetObjectAsync<IEnumerable<Models.Accounts.AccountEventModel>>(response.Content).ConfigureAwait(false);
-            }
+            return this.GetEnumerableAsync<Models.Accounts.AccountEventModel>(ApiUrls.AccountEventUrl);
         }
 
         public async Task<bool> SubscribeToEventAsync(string name)
@@ -39,7 +28,7 @@ namespace YouScribe.Rest
                 url = url.Replace("{name}", name);
                 var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -51,7 +40,7 @@ namespace YouScribe.Rest
                 var url = ApiUrls.AccountUnSubscribeEventUrl.Replace("{id}", @event.Id.ToString());
                 var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -63,7 +52,7 @@ namespace YouScribe.Rest
                 var url = ApiUrls.AccountEventFrequencyUrl.Replace("{frequency}", frequency.ToString());
                 var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
     }

@@ -14,57 +14,21 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-		public async Task<IEnumerable<SimpleLibraryModel>> GetAsync()
+		public Task<IEnumerable<SimpleLibraryModel>> GetAsync()
 		{
-            IEnumerable<SimpleLibraryModel> model;
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var response = await client.GetAsync(this.GetUri(ApiUrls.LibraryUrl)).ConfigureAwait(false);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return null;
-                }
-                model = await this.GetObjectAsync<IEnumerable<SimpleLibraryModel>>(response.Content).ConfigureAwait(false);
-                return model;
-            }
+            return this.GetEnumerableAsync<SimpleLibraryModel>(ApiUrls.LibraryUrl);
 		}
 
-		public async Task<Models.Libraries.LibraryModel> GetAsync(int id)
+		public Task<Models.Libraries.LibraryModel> GetAsync(int id)
 		{
-            LibraryModel model;
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString());
-                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return null;
-                }
-                model = await this.GetObjectAsync<LibraryModel>(response.Content).ConfigureAwait(false);
-                return model;
-            }
+            var url = ApiUrls.LibraryGetUrl.Replace("{id}", id.ToString());
+            return this.GetAsync<Models.Libraries.LibraryModel>(url);
 		}
 
-        public async Task<Models.Libraries.LibraryModel> GetAsync(string typeName)
+        public Task<Models.Libraries.LibraryModel> GetAsync(string typeName)
         {
-            LibraryModel model = null;
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString());
-                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
-                if (!response.IsSuccessStatusCode)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return null;
-                }
-                model = await this.GetObjectAsync<LibraryModel>(response.Content).ConfigureAwait(false);
-                return model;
-            }
+            var url = ApiUrls.LibraryGetByTypeNameUrl.Replace("{typeName}", typeName.ToString());
+            return this.GetAsync<Models.Libraries.LibraryModel>(url);
         }
 
         public async Task<bool> AddProductAsync(int id, int productId, bool isPublic)
@@ -77,7 +41,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(isPublic);
                 var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -91,7 +55,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(isPublic);
                 var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -104,7 +68,7 @@ namespace YouScribe.Rest
                     .Replace("{productId}", productId.ToString());
                 var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -117,25 +81,14 @@ namespace YouScribe.Rest
                     .Replace("{productId}", productId.ToString());
                 var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
-        public async Task<IEnumerable<int>> GetByProductIdAsync(int productId)
+        public Task<IEnumerable<int>> GetByProductIdAsync(int productId)
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
-                var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
-
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return null;
-                }
-                return await this.GetObjectAsync<IEnumerable<int>>(response.Content).ConfigureAwait(false);
-            }
+            var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
+            return this.GetEnumerableAsync<int>(url);
         }
     }
 }

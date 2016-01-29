@@ -21,7 +21,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(paypalPublisher);
                 var response = await client.PutAsync(this.GetUri(ApiUrls.AccountPaypalPublisherUrl), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -33,7 +33,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(transferPublisher);
                 var response = await client.PutAsync(this.GetUri(ApiUrls.AccountTransferPublisherUrl), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
     }

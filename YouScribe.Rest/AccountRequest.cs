@@ -16,20 +16,9 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeToken)
         { }
 
-        public async Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
+        public Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var response = await client.GetAsync(this.GetUri(ApiUrls.AccountUrl)).ConfigureAwait(false);
-
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
-                    return null;
-                }
-                return await this.GetObjectAsync<AccountGetModel>(response.Content).ConfigureAwait(false);
-            }
+            return this.GetAsync<Models.Accounts.AccountGetModel>(ApiUrls.AccountUrl);
         }
 
         public async Task<Models.Accounts.AccountModel> CreateAsync(Models.Accounts.AccountModel account, int? validityInHours = null)
@@ -64,7 +53,7 @@ namespace YouScribe.Rest
                 var content = this.GetContent(account);
                 var response = await client.PutAsync(this.GetUri(ApiUrls.AccountUrl), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -78,7 +67,7 @@ namespace YouScribe.Rest
                 );
                 var response = await client.PutAsync(this.GetUri(ApiUrls.AccountLanguagesUrl), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -97,7 +86,7 @@ namespace YouScribe.Rest
                 var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -113,7 +102,7 @@ namespace YouScribe.Rest
                 content.Add(new StreamContent(image.Content), "file", image.FileName);
                 var response = await client.PostAsync(this.GetUri(ApiUrls.PictureUrl), content).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.OK).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
 
@@ -124,7 +113,7 @@ namespace YouScribe.Rest
                 var client = dclient.Client;
                 var response = await client.DeleteAsync(this.GetUri(ApiUrls.PictureUrl)).ConfigureAwait(false);
 
-                return await this.HandleResponseAsync(response, System.Net.HttpStatusCode.NoContent).ConfigureAwait(false);
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
     }
