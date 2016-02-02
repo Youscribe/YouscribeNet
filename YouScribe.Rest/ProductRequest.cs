@@ -39,7 +39,7 @@ namespace YouScribe.Rest
 
         private Task<IEnumerable<ProductGetModel>> GetAsync(string url, IEnumerable<int> ids)
         {
-            return this.PostWithEnumerableResult<ProductGetModel>(url, ids);
+            return this.PostWithEnumerableResultAsync<ProductGetModel>(url, ids);
         }
 
         public Task<IEnumerable<ProductGetModel>> GetAsync(IEnumerable<int> ids)
@@ -315,7 +315,7 @@ namespace YouScribe.Rest
         public Task<IEnumerable<RightModel>> GetRightAsync(IEnumerable<int> productId)
         {
             var url = ApiUrls.ProductRightUrlByIds;
-            return this.PostWithEnumerableResult<RightModel>(url, productId);
+            return this.PostWithEnumerableResultAsync<RightModel>(url, productId);
         }
 
         public async Task<Stream> DownloadFileAsync(int productId, string extension)
@@ -413,7 +413,7 @@ namespace YouScribe.Rest
         public Task<IEnumerable<ProductUrlsModel>> GetProductUrlsAsync(IEnumerable<int> ids)
         {
             var url = ApiUrls.ProductGetUrlsByIds;
-            return this.PostWithEnumerableResult<ProductUrlsModel>(url, ids);
+            return this.PostWithEnumerableResultAsync<ProductUrlsModel>(url, ids);
         }
 
         public async Task<Stream> DownloadExtractAsync(int productId, string extension)

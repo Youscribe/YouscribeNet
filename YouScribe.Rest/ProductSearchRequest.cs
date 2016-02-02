@@ -16,7 +16,7 @@ namespace YouScribe.Rest
 
         public async Task<ProductSearchOutputModel> SearchProductsAsync(ProductSearchInputModel input)
         {
-            var model = await this.PostWithResult<ProductSearchOutputModel>(ApiUrls.ProductSearchUrl, input);
+            var model = await this.PostWithResultAsync<ProductSearchOutputModel>(ApiUrls.ProductSearchUrl, input);
             if (model == null)
                 return new ProductSearchOutputModel() { TotalResults = -1, Products = Enumerable.Empty<ProductSearchItemOutputModel>() };
             return model;

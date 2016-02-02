@@ -24,14 +24,14 @@ namespace YouScribe.Rest
             };
             url = url + "?" + dico.ToQueryString();
 
-            return this.PostWithResult<string>(url, null);
+            return this.PostWithResultAsync<string>(url, null);
         }
 
         public Task<string> GetUserNameFromEmailAsync(string email)
         {
             var url = "api/v1/accounts/unique-usernames";
             url = url + "?email=" + System.Uri.EscapeDataString(email);
-            return this.PostWithResult<string>(url, null);
+            return this.PostWithResultAsync<string>(url, null);
         }
 
         public async Task<bool> ForgotPasswordAsync(string userNameOrEmail)

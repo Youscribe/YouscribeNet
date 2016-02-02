@@ -158,7 +158,7 @@ namespace YouScribe.Rest
             }
         }
 
-        public async Task Post(string url, object input)
+        public async Task PostAsync(string url, object input)
         {
             using (var dclient = this.CreateClient())
             {
@@ -171,7 +171,7 @@ namespace YouScribe.Rest
             }
         }
 
-        public async Task<T> PostWithResult<T>(string url, object input)
+        public async Task<T> PostWithResultAsync<T>(string url, object input)
         {
             using (var dclient = this.CreateClient())
             {
@@ -186,7 +186,7 @@ namespace YouScribe.Rest
             }
         }
 
-        public async Task<IEnumerable<T>> PostWithEnumerableResult<T>(string url, object input)
+        public async Task<IEnumerable<T>> PostWithEnumerableResultAsync<T>(string url, object input)
         {
             using (var dclient = this.CreateClient())
             {
