@@ -1,4 +1,4 @@
-﻿namespace Youscribe.Rest.Cryptography
+﻿namespace YouScribe.Rest.Cryptography
 {
     public interface IHMAC
     {

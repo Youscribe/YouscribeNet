@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Youscribe.Rest.Cryptography.Concretes
+namespace YouScribe.Rest.Cryptography.Concretes
 {
     public class YSHMACSHA256 : IHMAC
     {

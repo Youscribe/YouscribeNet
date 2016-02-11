@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using Youscribe.Rest.Cryptography;
+using YouScribe.Rest.Cryptography;
 using System.Threading.Tasks;
 using System.Threading;
 

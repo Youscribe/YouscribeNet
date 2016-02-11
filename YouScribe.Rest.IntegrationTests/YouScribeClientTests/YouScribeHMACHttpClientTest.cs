@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Xunit;
-using Youscribe.Rest.Cryptography;
+using YouScribe.Rest.Cryptography;
 using YouScribe.Rest.IntegrationTests.Helpers;
 
 namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
