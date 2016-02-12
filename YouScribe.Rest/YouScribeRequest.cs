@@ -103,7 +103,7 @@ namespace YouScribe.Rest
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized 
                 || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
-                this.Error.Messages = new List<string>(){ "Not connected/authorized" };
+                this.Error.Messages = new List<string>(){ "Not connected" };
                 this.Error.StatusCode = (int)response.StatusCode;
                 return false;
             }
