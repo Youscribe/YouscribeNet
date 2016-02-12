@@ -51,6 +51,6 @@ namespace YouScribe.Rest
 
         string GetToken();
 
-        void AssertNoError();
+        void AssertNoError(string context);
     }
 }
