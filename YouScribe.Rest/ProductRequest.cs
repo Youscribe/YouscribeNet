@@ -303,11 +303,9 @@ namespace YouScribe.Rest
                 
                 var response = await client.GetAsync(this.GetUri(url)).ConfigureAwait(false);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return -1;
-                }
+
                 return await this.GetObjectAsync<int>(response.Content).ConfigureAwait(false);
             }
         }
@@ -328,11 +326,8 @@ namespace YouScribe.Rest
                     .Replace("{extension}", extension);
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return null;
-                }
                 return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
         }
@@ -347,11 +342,9 @@ namespace YouScribe.Rest
                     .Replace("{formatTypeId}", formatTypeId.ToString());
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return null;
-                }
+
                 return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
         }
@@ -367,11 +360,8 @@ namespace YouScribe.Rest
                 var client = dclient.Client;
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return;
-                }
                 var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
                 byte[] buffer = new byte[4096];
@@ -426,11 +416,8 @@ namespace YouScribe.Rest
                     .Replace("{extension}", extension);
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return null;
-                }
                 return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
         }
@@ -445,11 +432,8 @@ namespace YouScribe.Rest
                     .Replace("{formatTypeId}", formatTypeId.ToString());
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    await this.AddErrorsAsync(response).ConfigureAwait(false);
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return null;
-                }
                 return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
         }

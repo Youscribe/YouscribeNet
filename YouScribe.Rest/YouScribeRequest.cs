@@ -103,7 +103,7 @@ namespace YouScribe.Rest
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized 
                 || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
-                this.Error.Messages = new List<string>(){ "Not connected" };
+                this.Error.Messages = new List<string>(){ "Not connected/authorized" };
                 this.Error.StatusCode = (int)response.StatusCode;
                 return false;
             }
@@ -199,6 +199,12 @@ namespace YouScribe.Rest
                     return Enumerable.Empty<T>();
                 return await this.GetObjectAsync<IEnumerable<T>>(response.Content).ConfigureAwait(false);
             }
+        }
+
+        public void AssertNoError()
+        {
+            if (this.Error.Messages.Any())
+                throw new Exception(string.Join(Environment.NewLine, this.Error.Messages));
         }
     }
 }

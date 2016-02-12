@@ -50,5 +50,7 @@ namespace YouScribe.Rest
         void SetToken(string authorizeToken);
 
         string GetToken();
+
+        void AssertNoError();
     }
 }
