@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
+using YouScribe.Rest.Exceptions;
 
 namespace YouScribe.Rest
 {
@@ -204,7 +205,7 @@ namespace YouScribe.Rest
         public void AssertNoError()
         {
             if (this.Error.Messages.Any())
-                throw new Exception(string.Join(Environment.NewLine, this.Error.Messages));
+                throw new RequestException(string.Join(Environment.NewLine, this.Error.Messages), this.Error.StatusCode);
         }
     }
 }
