@@ -202,10 +202,10 @@ namespace YouScribe.Rest
             }
         }
 
-        public void AssertNoError()
+        public void AssertNoError(string context)
         {
             if (this.Error.Messages.Any())
-                throw new RequestException(string.Join(Environment.NewLine, this.Error.Messages), this.Error.StatusCode);
+                throw new RequestException(context + " : " + string.Join(Environment.NewLine, this.Error.Messages), this.Error.StatusCode);
         }
     }
 }
