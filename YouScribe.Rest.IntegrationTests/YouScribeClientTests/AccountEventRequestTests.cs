@@ -69,7 +69,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 // Assert
                 Assert.False(ok);
                 Assert.NotEmpty(request.Error.Messages);
-                Assert.Equal("Not connected", request.Error.Messages.First());
+                Assert.Contains("Not connected", request.Error.Messages.First());
             }
         }
 
@@ -108,7 +108,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 // Assert
                 Assert.False(ok);
                 Assert.NotEmpty(request.Error.Messages);
-                Assert.Equal("Not connected", request.Error.Messages.First());
+                Assert.Contains("Not connected", request.Error.Messages.First());
             }
         }
 
@@ -147,7 +147,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 // Assert
                 Assert.False(ok);
                 Assert.NotEmpty(request.Error.Messages);
-                Assert.Equal("Not connected", request.Error.Messages.First());
+                Assert.Contains("Not connected", request.Error.Messages.First());
             }
         }
 

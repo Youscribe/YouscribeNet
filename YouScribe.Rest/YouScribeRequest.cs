@@ -104,7 +104,7 @@ namespace YouScribe.Rest
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized 
                 || response.StatusCode == System.Net.HttpStatusCode.Forbidden)
             {
-                this.Error.Messages = new List<string>(){ "Not connected" };
+                this.Error.Messages = new List<string>(){ "Not connected : " + response.ReasonPhrase };
                 this.Error.StatusCode = (int)response.StatusCode;
                 return false;
             }
