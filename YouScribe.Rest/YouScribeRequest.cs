@@ -202,10 +202,53 @@ namespace YouScribe.Rest
             }
         }
 
+        public async Task PutAsync(string url, object input)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var content = this.GetContent(input);
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
+
+        public async Task<T> PutWithResultAsync<T>(string url, object input)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var content = this.GetContent(input);
+                var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
+                    return default(T);
+                return await this.GetObjectAsync<T>(response.Content).ConfigureAwait(false);
+            }
+        }
+
+        public async Task<IEnumerable<T>> PutWithEnumerableResultAsync<T>(string url, object input)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var content = this.GetContent(input);
+                var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
+                    return Enumerable.Empty<T>();
+                return await this.GetObjectAsync<IEnumerable<T>>(response.Content).ConfigureAwait(false);
+            }
+        }
+
         public void AssertNoError(string context)
         {
             if (this.Error.Messages.Any())
-                throw new RequestException(context + " : " + string.Join(Environment.NewLine, this.Error.Messages), this.Error.StatusCode);
+                throw new RequestException(context + " : " + string.Join(Environment.NewLine, this.Error.Messages), this.Error.StatusCode, this.BaseUrl);
         }
     }
 }

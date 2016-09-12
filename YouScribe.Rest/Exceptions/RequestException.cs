@@ -10,8 +10,10 @@ namespace YouScribe.Rest.Exceptions
     {
         public int StatusCode { get; set; }
 
+        public string BaseUrl { get; set; }
+
         public RequestException() { }
-        public RequestException(string message, int statusCode) : base(message) { this.StatusCode = statusCode; }
+        public RequestException(string message, int statusCode, string baseUrl) : base(message) { this.StatusCode = statusCode; this.BaseUrl = baseUrl }
         public RequestException(string message, Exception inner) : base(message, inner) { }
     }
 }
