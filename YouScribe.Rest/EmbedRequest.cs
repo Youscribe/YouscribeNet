@@ -9,7 +9,7 @@ namespace YouScribe.Rest
 {
     class EmbedRequest : YouScribeRequest, IEmbedRequest
     {
-        public EmbedRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+        public EmbedRequest(Func<DisposableClient> clientFactory, ITokenProvider authorizeTokenProvider)
             : base(clientFactory, authorizeTokenProvider)
         { }
 

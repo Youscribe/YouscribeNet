@@ -10,7 +10,7 @@ namespace YouScribe.Rest
 {
     class LibraryRequest : YouScribeRequest, ILibraryRequest
     {
-        public LibraryRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+        public LibraryRequest(Func<DisposableClient> clientFactory, ITokenProvider authorizeTokenProvider)
             : base(clientFactory, authorizeTokenProvider)
         { }
 

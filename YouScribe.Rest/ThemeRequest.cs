@@ -8,7 +8,7 @@ namespace YouScribe.Rest
 {
     class ThemeRequest : YouScribeRequest, IThemeRequest
     {
-        public ThemeRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+        public ThemeRequest(Func<DisposableClient> clientFactory, ITokenProvider authorizeTokenProvider)
             : base(clientFactory, authorizeTokenProvider)
         { }
 
