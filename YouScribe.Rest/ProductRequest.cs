@@ -16,7 +16,7 @@ namespace YouScribe.Rest
     {
         const int nbFilesByDocument = 3;
 
-        public ProductRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+        public ProductRequest(Func<DisposableClient> clientFactory, ITokenProvider authorizeTokenProvider)
             : base(clientFactory, authorizeTokenProvider)
         { }
 

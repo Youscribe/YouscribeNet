@@ -90,7 +90,7 @@ namespace YouScribe.Rest
         internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
         Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory;
 
-        private Func<string> _authorizeTokenProvider = () => null;
+        private ITokenProvider _authorizeTokenProvider = new DefaultTokenProvider();
 
         private List<ProductInfoHeaderValue> userAgents = new List<ProductInfoHeaderValue>()
         {
@@ -221,17 +221,17 @@ namespace YouScribe.Rest
 
         public void SetToken(string token)
         {
-            _authorizeTokenProvider = () => token;
+            _authorizeTokenProvider.SetToken(token);
         }
 
-        public void SetTokenProvider(Func<string> tokenProvider)
+        public void SetTokenProvider(ITokenProvider tokenProvider)
         {
             _authorizeTokenProvider = tokenProvider;
         }
 
         public string GetToken()
         {
-            return _authorizeTokenProvider();
+            return _authorizeTokenProvider.GetToken();
         }
 
         public void AddUserAgent(string productName, string version)
@@ -279,7 +279,7 @@ namespace YouScribe.Rest
                 .Value.First()
                 .ToString()
                 ;
-                _authorizeTokenProvider = () => token;
+                this.SetToken(token);
 
                 return true;
             }

@@ -77,8 +77,10 @@
     <Compile Include="AccountUserTypeRequest.cs" />
     <Compile Include="AccountUtilRequest.cs" />
     <Compile Include="ApiUrls.cs" />
+    <Compile Include="DefaultTokenProvider.cs" />
     <Compile Include="Exceptions\RequestException.cs" />
     <Compile Include="IThemeRequest.cs" />
+    <Compile Include="ITokenProvider.cs" />
     <Compile Include="IYousScribeHttpClient.cs" />
     <Compile Include="Models\Products\RightModel.cs" />
     <Compile Include="ThemeRequest.cs" />

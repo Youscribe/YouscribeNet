@@ -14,7 +14,7 @@ namespace YouScribe.Rest
         protected readonly ISerializer serializer = new JSonSerializer();
         protected readonly IDictionary<string, IEnumerable<string>> headers = new Dictionary<string, IEnumerable<string>>();
 
-        protected Func<string> authorizeTokenProvider;
+        protected ITokenProvider authorizeTokenProvider;
 
         public RequestError Error { get; internal set; }
 
@@ -25,11 +25,11 @@ namespace YouScribe.Rest
         }
 
         public YouScribeRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : this(clientFactory, () => authorizeToken)
+            : this(clientFactory, new DefaultTokenProvider(authorizeToken))
         {
         }
 
-        public YouScribeRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+        public YouScribeRequest(Func<DisposableClient> clientFactory, ITokenProvider authorizeTokenProvider)
         {
             this.BaseUrl = ApiUrls.BaseUrl;
             this.clientFactory = clientFactory;
@@ -42,7 +42,7 @@ namespace YouScribe.Rest
             this.Error = new RequestError(this);
             var dclient = clientFactory();
             var client = dclient.Client;
-            var token = this.authorizeTokenProvider();
+            var token = this.authorizeTokenProvider.GetToken();
             if (string.IsNullOrEmpty(token) == false)
                 client.DefaultRequestHeaders.Add(ApiUrls.AuthorizeTokenHeaderName, token);
             foreach (var header in headers)
@@ -58,17 +58,12 @@ namespace YouScribe.Rest
 
         public void SetToken(string authorizeToken)
         {
-            this.authorizeTokenProvider = () => authorizeToken;
-        }
-
-        public void SetTokenProvider(Func<string> authorizeTokenProvider)
-        {
-            this.authorizeTokenProvider = authorizeTokenProvider;
+            this.authorizeTokenProvider.SetToken(authorizeToken);
         }
 
         public string GetToken()
         {
-            return this.authorizeTokenProvider();
+            return this.authorizeTokenProvider.GetToken();
         }
 
         public Uri GetUri(string relativeUri)
