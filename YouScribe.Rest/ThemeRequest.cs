@@ -8,8 +8,8 @@ namespace YouScribe.Rest
 {
     class ThemeRequest : YouScribeRequest, IThemeRequest
     {
-        public ThemeRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public ThemeRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public async System.Threading.Tasks.Task<IEnumerable<Models.Products.ThemeModel>> GetAsync()

@@ -10,8 +10,8 @@ namespace YouScribe.Rest
 {
     class ProductSearchRequest : YouScribeRequest, IProductSearchRequest
     {
-        public ProductSearchRequest(Func<DisposableClient> clientFactory, string token)
-            : base(clientFactory, token)
+        public ProductSearchRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public async Task<ProductSearchOutputModel> SearchProductsAsync(ProductSearchInputModel input)

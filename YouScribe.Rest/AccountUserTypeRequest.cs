@@ -10,8 +10,8 @@ namespace YouScribe.Rest
 {
     class AccountUserTypeRequest : YouScribeRequest, IAccountUsertTypeRequest
     {
-        public AccountUserTypeRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public AccountUserTypeRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public Task<IEnumerable<Models.Accounts.UserTypeModel>> ListAllUserTypesAsync()

@@ -10,8 +10,8 @@ namespace YouScribe.Rest
 {
     class LibraryRequest : YouScribeRequest, ILibraryRequest
     {
-        public LibraryRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public LibraryRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
 		public Task<IEnumerable<SimpleLibraryModel>> GetAsync()

@@ -9,8 +9,8 @@ namespace YouScribe.Rest
 {
     class ProductSuggestRequest : YouScribeRequest, IProductSuggestRequest
     {
-        public ProductSuggestRequest(Func<DisposableClient> clientFactory, string authorizeToken) : 
-            base(clientFactory, authorizeToken)
+        public ProductSuggestRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider) : 
+            base(clientFactory, authorizeTokenProvider)
         {
 
         }

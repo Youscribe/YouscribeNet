@@ -12,8 +12,8 @@ namespace YouScribe.Rest
 {
     class AccountRequest : YouScribeRequest, IAccountRequest
     {
-        public AccountRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public AccountRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()

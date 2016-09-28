@@ -16,8 +16,8 @@ namespace YouScribe.Rest
     {
         const int nbFilesByDocument = 3;
 
-        public ProductRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public ProductRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         private Task<ProductGetModel> GetAsync(string url, int id)

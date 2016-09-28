@@ -9,8 +9,8 @@ namespace YouScribe.Rest
 {
     class AccountPublisherRequest : YouScribeRequest, IAccountPublisherRequest
     {
-        public AccountPublisherRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public AccountPublisherRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public async Task<bool> SetAsPaypalPublisherAsync(Models.Accounts.AccountPublisherPaypalModel paypalPublisher)

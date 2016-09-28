@@ -9,8 +9,8 @@ namespace YouScribe.Rest
 {
     class EmbedRequest : YouScribeRequest, IEmbedRequest
     {
-        public EmbedRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public EmbedRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public Task<string> GenerateIframeTagAsync(int id)

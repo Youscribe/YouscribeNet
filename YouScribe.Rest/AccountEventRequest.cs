@@ -10,8 +10,8 @@ namespace YouScribe.Rest
 {
     class AccountEventRequest : YouScribeRequest, IAccountEventRequest
     {
-        public AccountEventRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public AccountEventRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         { }
 
         public Task<IEnumerable<Models.Accounts.AccountEventModel>> ListAllEventsAsync()

@@ -9,8 +9,8 @@ namespace YouScribe.Rest
 {
     class AccountUtilRequest : YouScribeRequest, IAccountUtilRequest
     {
-        public AccountUtilRequest(Func<DisposableClient> clientFactory, string authorizeToken)
-            : base(clientFactory, authorizeToken)
+        public AccountUtilRequest(Func<DisposableClient> clientFactory, Func<string> authorizeTokenProvider)
+            : base(clientFactory, authorizeTokenProvider)
         {
         }
 
