@@ -41,7 +41,7 @@ namespace YouScribe.Rest
                 var client = dclient.Client;
                 var url = "api/v1/accounts/forgot-passwords";
                 url = url + "?userNameOrEmail=" + System.Uri.EscapeDataString(userNameOrEmail);
-                var response = await client.PutAsync(this.GetUri(url), null).ConfigureAwait(false);
+                var response = await client.PutAsync(this.GetUri(url), new StringContent(string.Empty, Encoding.UTF8, "application/json")).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
                 {
