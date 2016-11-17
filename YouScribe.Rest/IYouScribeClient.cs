@@ -39,6 +39,12 @@ namespace YouScribe.Rest
         string GetToken();
 
         /// <summary>
+        /// Get current token provider
+        /// </summary>
+        /// <returns></returns>
+        ITokenProvider GetTokenProvider();
+
+        /// <summary>
         /// Set user agent used for every requests
         /// </summary>
         /// <param name="productName"></param>

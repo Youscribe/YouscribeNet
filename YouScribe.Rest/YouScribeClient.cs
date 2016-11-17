@@ -236,6 +236,11 @@ namespace YouScribe.Rest
             return _authorizeTokenProvider.GetToken();
         }
 
+        public ITokenProvider GetTokenProvider()
+        {
+            return _authorizeTokenProvider;
+        }
+
         public void AddUserAgent(string productName, string version)
         {
             var idx = 0;
