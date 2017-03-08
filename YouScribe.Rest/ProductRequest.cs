@@ -267,8 +267,10 @@ namespace YouScribe.Rest
                 var client = dclient.Client;
                 var url = ApiUrls.ThumbnailDataUrl.Replace("{id}", productId.ToString());
                 var dico = new Dictionary<string, string>(){
-                {"url", page.ToString()}
-            };
+                    {"page", page.ToString()}
+                };
+
+                url = url + "?" + dico.ToQueryString();
                 var response = await client.PostAsync(this.GetUri(url), null).ConfigureAwait(false);
 
                 return await this.HandleResponseAsync(response).ConfigureAwait(false);
