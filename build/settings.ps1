@@ -15,6 +15,7 @@ properties {
 	$build = @{}
 	$build.version = "3.0"
 	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}" -f $build.version, $env:BUILD_NUMBER }
+	if ($Env:BUILD_BUILDNUMBER) { $build.version = "{0}.{1}" -f $build.version, $Env:BUILD_BUILDNUMBER }
 	$build.configuration = "Release"
 	
 	$nuget = @{}
