@@ -215,7 +215,7 @@ namespace YouScribe.Rest
                 var client = dclient.Client;
 
                 var content = this.GetContent(input);
-                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+                var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
 
                 await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
