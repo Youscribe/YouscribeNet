@@ -87,6 +87,7 @@ namespace YouScribe.Rest
         const string defaultProductName = "YouScribe.Rest";
 
         internal readonly Func<DisposableClient> clientFactory;
+        internal readonly Func<IYousScribeHttpClient> simpleClientFactory;
         internal readonly Func<HttpMessageHandler> httpMessageHandlerFactory;
         Func<Func<HttpMessageHandler>, IYousScribeHttpClient> baseClientFactory;
 
@@ -166,6 +167,7 @@ namespace YouScribe.Rest
             {
                 this.baseClientFactory = baseClientFactory;
             }
+            this.simpleClientFactory = () => this.baseClientFactory(handlerFactory);
             this.clientFactory = () =>
             {
                 var client = this.ReserveClient(handlerFactory);
@@ -182,7 +184,7 @@ namespace YouScribe.Rest
                         {
                             this.poolProvider.Clients.Add(new ConcurentClient() { Reserved = 0, Client = null });
                         }
-                        var item = new ConcurentClient() { Reserved = 1, Client = this.baseClientFactory(handlerFactory) };
+                        var item = new ConcurentClient() { Reserved = 1, Client = this.simpleClientFactory() };
                         this.poolProvider.Clients.Add(item);
                         return new DisposableClient(item);
                     }
@@ -232,6 +234,11 @@ namespace YouScribe.Rest
         public string GetToken()
         {
             return _authorizeTokenProvider.GetToken();
+        }
+
+        public ITokenProvider GetTokenProvider()
+        {
+            return _authorizeTokenProvider;
         }
 
         public void AddUserAgent(string productName, string version)

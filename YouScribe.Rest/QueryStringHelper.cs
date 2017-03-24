@@ -6,7 +6,7 @@ using System.Text;
 
 namespace YouScribe.Rest
 {
-    internal static class QueryStringHelper
+    public static class QueryStringHelper
     {
         public static string ToQueryString(this IDictionary<string, string> dico)
         {
