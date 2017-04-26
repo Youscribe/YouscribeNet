@@ -15,6 +15,7 @@ namespace YouScribe.Rest
     class ProductRequest : YouScribeRequest, IProductRequest
     {
         const int nbFilesByDocument = 3;
+        
 
         public ProductRequest(Func<DisposableClient> clientFactory, ITokenProvider authorizeTokenProvider)
             : base(clientFactory, authorizeTokenProvider)
@@ -317,6 +318,35 @@ namespace YouScribe.Rest
             var url = ApiUrls.ProductRightUrlByIds;
             return this.PostWithEnumerableResultAsync<RightModel>(url, productId);
         }
+
+        public Task<byte[]> GetEncryptedKeyByExtension(int productId, string extension, string userPublicKey)
+        {
+            using (var dclient = CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.GetEncryptedKeyByExtensionUrl
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{extension}", extension)
+                    .Replace("{userPublicKey}", userPublicKey);
+
+                return GetAsync<byte[]>(url);
+            }
+        }
+
+        public Task<byte[]> GetEncryptedKeyByFormatTypeId(int productId, int formatTypeId, string userPublicKey)
+        {
+            using (var dclient = CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.GetEncryptedKeyByFormatTypeIdUrl
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{formatTypeId}", formatTypeId.ToString())
+                    .Replace("{userPublicKey}", userPublicKey);
+
+                return GetAsync<byte[]>(url);
+            }
+        }
+
 
         public async Task<Stream> DownloadFileAsync(int productId, string extension)
         {

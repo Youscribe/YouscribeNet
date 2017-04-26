@@ -202,5 +202,22 @@ namespace YouScribe.Rest
         /// <returns></returns>
         Task<IEnumerable<ProductUrlsModel>> GetProductUrlsAsync(IEnumerable<int> ids);
 
+        /// <summary>
+        /// Return encrypted key for product
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <param name="userPublicKey"></param>
+        /// <returns></returns>
+        Task<byte[]> GetEncryptedKeyByExtension(int productId, string extension, string userPublicKey);
+
+        /// <summary>
+        /// Return encrypted key for product
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="formatTypeId"></param>
+        /// <param name="userPublicKey"></param>
+        /// <returns></returns>
+        Task<byte[]> GetEncryptedKeyByFormatTypeId(int productId, int formatTypeId, string userPublicKey);
     }
 }
