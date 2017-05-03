@@ -209,7 +209,7 @@ namespace YouScribe.Rest
         /// <param name="extension"></param>
         /// <param name="userPublicKey"></param>
         /// <returns></returns>
-        Task<byte[]> GetEncryptedKeyByExtension(int productId, string extension, string userPublicKey);
+        Task<string> PostEncryptedKeyByExtension(int productId, string extension, string userPublicKey);
 
         /// <summary>
         /// Return encrypted key for product
@@ -218,6 +218,6 @@ namespace YouScribe.Rest
         /// <param name="formatTypeId"></param>
         /// <param name="userPublicKey"></param>
         /// <returns></returns>
-        Task<byte[]> GetEncryptedKeyByFormatTypeId(int productId, int formatTypeId, string userPublicKey);
+        Task<string> PostEncryptedKeyByFormatTypeId(int productId, int formatTypeId, string userPublicKey);
     }
 }

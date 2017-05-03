@@ -319,31 +319,24 @@ namespace YouScribe.Rest
             return this.PostWithEnumerableResultAsync<RightModel>(url, productId);
         }
 
-        public Task<byte[]> GetEncryptedKeyByExtension(int productId, string extension, string userPublicKey)
+        public Task<string> PostEncryptedKeyByExtension(int productId, string extension, string userPublicKey)
         {
             using (var dclient = CreateClient())
             {
                 var client = dclient.Client;
-                var url = ApiUrls.GetEncryptedKeyByExtensionUrl
-                    .Replace("{id}", productId.ToString())
-                    .Replace("{extension}", extension)
-                    .Replace("{userPublicKey}", userPublicKey);
-
-                return GetAsync<byte[]>(url);
+                return PostWithResultAsync<string>(ApiUrls.PostEncryptedKeyByExtensionUrl,
+                    new ProductUserPublicKeyModel { ProductId = productId, UserPublicKey = userPublicKey, Extension = extension });
             }
         }
 
-        public Task<byte[]> GetEncryptedKeyByFormatTypeId(int productId, int formatTypeId, string userPublicKey)
+        public Task<string> PostEncryptedKeyByFormatTypeId(int productId, int formatTypeId, string userPublicKey)
         {
             using (var dclient = CreateClient())
             {
-                var client = dclient.Client;
-                var url = ApiUrls.GetEncryptedKeyByFormatTypeIdUrl
-                    .Replace("{id}", productId.ToString())
-                    .Replace("{formatTypeId}", formatTypeId.ToString())
-                    .Replace("{userPublicKey}", userPublicKey);
+                var client = dclient.Client;               
 
-                return GetAsync<byte[]>(url);
+                return PostWithResultAsync<string>(ApiUrls.PostEncryptedKeyByFormatTypeIdUrl, 
+                    new ProductUserPublicKeyModel { ProductId = productId, UserPublicKey = userPublicKey, ExtensionFormatTypeId = formatTypeId });
             }
         }
 
