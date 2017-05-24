@@ -324,7 +324,7 @@ namespace YouScribe.Rest
             using (var dclient = CreateClient())
             {
                 var client = dclient.Client;
-                return PostWithResultAsync<string>(ApiUrls.PostEncryptedKeyByExtensionUrl,
+                return PostWithResultAsync<string>(ApiUrls.PostEncryptedKeyByExtensionUrlV2,
                     new ProductUserPublicKeyModel { ProductId = productId, UserPublicKey = userPublicKey, Extension = extension });
             }
         }
@@ -335,7 +335,7 @@ namespace YouScribe.Rest
             {
                 var client = dclient.Client;               
 
-                return PostWithResultAsync<string>(ApiUrls.PostEncryptedKeyByFormatTypeIdUrl, 
+                return PostWithResultAsync<string>(ApiUrls.PostEncryptedKeyByFormatTypeIdUrlV2, 
                     new ProductUserPublicKeyModel { ProductId = productId, UserPublicKey = userPublicKey, ExtensionFormatTypeId = formatTypeId });
             }
         }
@@ -346,7 +346,7 @@ namespace YouScribe.Rest
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
-                var url = ApiUrls.ProductDownloadByExtensionUrl
+                var url = ApiUrls.ProductDownloadByExtensionUrlV2
                     .Replace("{id}", productId.ToString())
                     .Replace("{extension}", extension);
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
@@ -362,7 +362,7 @@ namespace YouScribe.Rest
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
-                var url = ApiUrls.ProductDownloadByFormatTypeIdUrl
+                var url = ApiUrls.ProductDownloadByFormatTypeIdUrlV2
                     .Replace("{id}", productId.ToString())
                     .Replace("{formatTypeId}", formatTypeId.ToString());
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
@@ -411,7 +411,7 @@ namespace YouScribe.Rest
 
         public Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
-            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
+            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrlV2
                 .Replace("{id}", productId.ToString())
                 .Replace("{formatTypeId}", formatTypeId.ToString());
             return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
@@ -419,7 +419,7 @@ namespace YouScribe.Rest
 
         public Task DownloadFileToStreamAsync(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
-			var urlToDownload = ApiUrls.ProductDownloadByExtensionUrl
+			var urlToDownload = ApiUrls.ProductDownloadByExtensionUrlV2
                 .Replace("{id}", productId.ToString())
                 .Replace("{extension}", extension);
             return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);

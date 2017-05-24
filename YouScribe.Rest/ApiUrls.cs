@@ -22,8 +22,8 @@ namespace YouScribe.Rest
         public const string AccountLanguagesUrl = "api/v1/accounts/languages";
         public const string AccountUserTypesUrl = "api/v1/accounts/usertypes";
 
-        public const string PostEncryptedKeyByExtensionUrl = "api/v1/products/files/key/extension";
-        public const string PostEncryptedKeyByFormatTypeIdUrl = "api/v1/products/files/key/formatTypeId";
+        public const string PostEncryptedKeyByExtensionUrlV2 = "api/v2/products/files/key/extension";
+        public const string PostEncryptedKeyByFormatTypeIdUrlV2 = "api/v2/products/files/key/formatTypeId";
 
         public const string PictureUrl = "api/v1/pictures";
 
@@ -38,8 +38,14 @@ namespace YouScribe.Rest
         public const string ProductGetUrlV2 = "api/v2/products/{id}";
         public const string ProductEndUploadUrl = "api/v1/products/endupload?id={id}";
         public const string ProductEndUpdateUrl = "api/v1/products/endupdate?id={id}";
+
+        [Obsolete]
         public const string ProductDownloadByExtensionUrl = "api/v1/products/{id}/files/{extension}";
+        [Obsolete]
         public const string ProductDownloadByFormatTypeIdUrl = "api/v1/products/{id}/files/{formatTypeId}";
+
+        public const string ProductDownloadByExtensionUrlV2 = "api/v2/products/{id}/files/{extension}";
+        public const string ProductDownloadByFormatTypeIdUrlV2 = "api/v2/products/{id}/files/{formatTypeId}";
 
         public const string ProductDownloadExtractByExtensionUrl = "api/v1/products/{id}/extracts/{extension}";
         public const string ProductDownloadExtractByFormatTypeIdUrl = "api/v1/products/{id}/extracts/{formatTypeId}";
