@@ -482,12 +482,29 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
             }
         }
 
+        [Fact(Skip ="true")]
+        public void WhenDownloadProductFromExtension2_ThenCheckResponse()
+        {
+            // Arrange
+            using (SimpleServer.Create(TestHelpers.BaseUrl, ProductRequestHandler))
+            {
+                var client = new YouScribeClient(TestHelpers.BaseUrl);
+                var request = client.CreateProductRequest();
+
+                // Act
+                var response = request.PostEncryptedKeyByExtension(1, "pdf", "toto").Result;
+
+                // Assert
+                Assert.NotNull(response);
+            }
+        }
+
         private static void ProductRequestHandler(HttpListenerContext context)
         {
             switch (context.Request.RawUrl)
             {
-                case "/api/v1/products/42/files/1":
-                case "/api/v1/products/42/files/pdf":
+                case "/api/v2/products/42/files/1":
+                case "/api/v2/products/42/files/pdf":
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
                     {
                         context.Response.ContentType = "application/pdf";
@@ -629,6 +646,11 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 case "/api/authorize":
                     context.Response.Headers.Add(ApiUrls.AuthorizeTokenHeaderName, "OK");
                     break;
+                //case "/api/v2/products/files/key/extension":
+                //    context.Response.ContentType = "application/json; charset=utf-8";
+                //    context.Response.StatusCode = (int)HttpStatusCode.OK;
+                //    context.Response.OutputStream.Write("key");
+                //    break;
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     break;
