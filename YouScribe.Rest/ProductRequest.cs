@@ -339,41 +339,52 @@ namespace YouScribe.Rest
                     new ProductUserPublicKeyModel { ProductId = productId, UserPublicKey = userPublicKey, ExtensionFormatTypeId = formatTypeId });
             }
         }
-
-
+        
         public async Task<Stream> DownloadFileAsync(int productId, string extension)
         {
-            using (var dclient = this.CreateClient())
-            {
-                var client = dclient.Client;
-                var url = ApiUrls.ProductDownloadByExtensionUrlV2
+            var url = ApiUrls.ProductDownloadByExtensionUrl
                     .Replace("{id}", productId.ToString())
                     .Replace("{extension}", extension);
-                var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
-                if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
-                    return null;
-                return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            }
+            return await DownloadFileAsyncWithURL(url);
         }
 
         public async Task<Stream> DownloadFileAsync(int productId, int formatTypeId)
         {
+            var url = ApiUrls.ProductDownloadByFormatTypeIdUrl
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{formatTypeId}", formatTypeId.ToString());
+            return await DownloadFileAsyncWithURL(url);
+        }
+
+        public async Task<Stream> DownloadFileV2Async(int productId, string extension)
+        {
+            var url = ApiUrls.ProductDownloadByExtensionUrlV2
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{extension}", extension);
+            return await DownloadFileAsyncWithURL(url);
+        }
+
+        public async Task<Stream> DownloadFileV2Async(int productId, int formatTypeId)
+        {
+            var url = ApiUrls.ProductDownloadByFormatTypeIdUrlV2
+                    .Replace("{id}", productId.ToString())
+                    .Replace("{formatTypeId}", formatTypeId.ToString());
+            return await DownloadFileAsyncWithURL(url);
+        }
+
+        private async Task<Stream> DownloadFileAsyncWithURL(string url)
+        {
             using (var dclient = this.CreateClient())
             {
                 var client = dclient.Client;
-                var url = ApiUrls.ProductDownloadByFormatTypeIdUrlV2
-                    .Replace("{id}", productId.ToString())
-                    .Replace("{formatTypeId}", formatTypeId.ToString());
                 var response = await client.GetAsync(this.GetUri(url), HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
                 if (!(await this.HandleResponseAsync(response).ConfigureAwait(false)))
                     return null;
-
                 return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
         }
-
 
         protected async Task DownloadFileToStreamAsync(string url, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
@@ -411,7 +422,7 @@ namespace YouScribe.Rest
 
         public Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
-            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrlV2
+            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrl
                 .Replace("{id}", productId.ToString())
                 .Replace("{formatTypeId}", formatTypeId.ToString());
             return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
@@ -419,7 +430,23 @@ namespace YouScribe.Rest
 
         public Task DownloadFileToStreamAsync(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport)
         {
-			var urlToDownload = ApiUrls.ProductDownloadByExtensionUrlV2
+			var urlToDownload = ApiUrls.ProductDownloadByExtensionUrl
+                .Replace("{id}", productId.ToString())
+                .Replace("{extension}", extension);
+            return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
+        }
+
+        public Task DownloadFileToStreamV2Async(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport)
+        {
+            var urlToDownload = ApiUrls.ProductDownloadByFormatTypeIdUrlV2
+                .Replace("{id}", productId.ToString())
+                .Replace("{formatTypeId}", formatTypeId.ToString());
+            return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);
+        }
+
+        public Task DownloadFileToStreamV2Async(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport)
+        {
+            var urlToDownload = ApiUrls.ProductDownloadByExtensionUrlV2
                 .Replace("{id}", productId.ToString())
                 .Replace("{extension}", extension);
             return this.DownloadFileToStreamAsync(urlToDownload, writer, progressReport);

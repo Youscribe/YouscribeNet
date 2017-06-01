@@ -148,6 +148,23 @@ namespace YouScribe.Rest
         Task<Stream> DownloadFileAsync(int productId, int formatTypeId);
 
         /// <summary>
+        /// Download a specific file for product by extension (version 2)
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task<Stream> DownloadFileV2Async(int productId, string extension);
+
+        /// <summary>
+        /// Download a specific file for product by format type id (version 2)
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task<Stream> DownloadFileV2Async(int productId, int formatTypeId);
+
+
+        /// <summary>
         /// Download a specific file for product by extension
         /// </summary>
         /// <param name="productId"></param>
@@ -162,6 +179,22 @@ namespace YouScribe.Rest
         /// <param name="extension"></param>
         /// <returns></returns>
         Task DownloadFileToStreamAsync(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport);
+
+        /// <summary>
+        /// Download a specific file for product by extension (version 2)
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task DownloadFileToStreamV2Async(int productId, string extension, Stream writer, IProgress<DownloadBytesProgress> progressReport);
+
+        /// <summary>
+        /// Download a specific file for product by format type id (version 2)
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        Task DownloadFileToStreamV2Async(int productId, int formatTypeId, Stream writer, IProgress<DownloadBytesProgress> progressReport);
 
         /// <summary>
         /// Download a specific file for product by extension
