@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany(`"YouScribe`")]
 [assembly: AssemblyProduct(`"YouScribe`")]
-[assembly: AssemblyCopyright(`"Copyright © YouScribe 2012`")]
+[assembly: AssemblyCopyright(`"Copyright © YouScribe 2014`")]
 [assembly: AssemblyTrademark(`"`")]
 [assembly: AssemblyCulture(`"`")]
 [assembly: AssemblyVersion(`"$($build.version)`")]
