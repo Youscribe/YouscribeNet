@@ -503,6 +503,8 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
         {
             switch (context.Request.RawUrl)
             {
+                case "/api/v1/products/42/files/1":
+                case "/api/v1/products/42/files/pdf":
                 case "/api/v2/products/42/files/1":
                 case "/api/v2/products/42/files/pdf":
                     if (context.Request.Headers.AllKeys.Any(c => c == ApiUrls.AuthorizeTokenHeaderName))
