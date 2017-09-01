@@ -48,16 +48,24 @@ namespace YouScribe.Rest.Models.Products
 
         public ThemeModel Theme { get; set; }
 
+        public CategoryModel Category { get; set; }
+
         public int StateId { get; set; }
 
         public TimeSpan EstimatedReadTime { get; set; }
 
+        public double Price { get; set; }
+        public string Language { get; set;  }
+        public bool IsAdultContent { get; set; }
+        public IEnumerable<int> AccessTypes { get; set; }
     }
 
     public class ProductSearchOutputModel
     {
         public int TotalResults { get; set; }
-
         public IEnumerable<ProductSearchItemOutputModel> Products { get; set; }
+        public IEnumerable<ProductSearchFacetOutputModel> Themes { get; set; }
+        public IEnumerable<ProductSearchFacetOutputModel> Categories { get; set; }
+        public IEnumerable<ProductSearchFacetOutputModel> Languages { get; set; }
     }
 }

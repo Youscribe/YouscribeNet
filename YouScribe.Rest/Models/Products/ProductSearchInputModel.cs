@@ -13,6 +13,7 @@ namespace YouScribe.Rest.Models.Products
             this.offer_type = Enumerable.Empty<string>();
             this.sort = Enumerable.Empty<string>();
             this.id = Enumerable.Empty<int>();
+            this.requested_facet = Enumerable.Empty<string>();
             this.excluded_theme_id = Enumerable.Empty<int>();
         }
 
@@ -27,6 +28,10 @@ namespace YouScribe.Rest.Models.Products
         public string author { get; set; }
 
         public IEnumerable<string> offer_type { get; set; }
+
+        public IEnumerable<string> excluded_offer_type { get; set; }
+
+        public IEnumerable<string> public_format_extension { get; set; }
 
         public string title { get; set; }
 
@@ -47,5 +52,10 @@ namespace YouScribe.Rest.Models.Products
         public int? access_type { get; set; }
 
         public IEnumerable<int> excluded_theme_id { get; set; }
+        public IEnumerable<string> requested_facet { get; set; }
+
+        public int? nb_pages_min { get; set; }
+        public int? nb_pages_max { get; set; }
+        public int? tag_id { get; set; }
     }
 }
