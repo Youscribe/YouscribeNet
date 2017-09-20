@@ -13,7 +13,7 @@ properties {
 	$source.solution = @(Get-ChildItem $source.dir -Filter *.sln)[0].Name # "xxx.sln"
 
 	$build = @{}
-	$build.version = "3.0.728"
+	$build.version = "3.0"
 	if ($env:BUILD_NUMBER) { $build.version = "{0}.{1}" -f $build.version, $env:BUILD_NUMBER }
 	if ($Env:BUILD_BUILDNUMBER) { $build.version = "{0}.{1}" -f $build.version, $Env:BUILD_BUILDNUMBER }
 	$build.configuration = "Release"
