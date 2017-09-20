@@ -44,7 +44,7 @@ namespace YouScribe.Rest.IntegrationTests.YouScribeClientTests
                 var theme = results.Products.First().Theme;
                 Assert.NotNull(theme);
                 Assert.Equal(138, theme.Id);
-                Assert.Equal("{\"id\":[5,9,18],\"theme_id\":null,\"category_id\":null,\"quicksearch\":\"pouet$&\",\"author\":null,\"offer_type\":[],\"title\":null,\"domain_language\":\"fr\",\"is_adult_content\":null,\"skip\":0,\"take\":10,\"sort\":[],\"language_id\":null,\"price_group\":null,\"access_type\":null,\"excluded_theme_id\":[]}", postData);
+                Assert.Equal("{\"id\":[5,9,18],\"theme_id\":null,\"category_id\":null,\"quicksearch\":\"pouet$&\",\"author\":null,\"offer_type\":[],\"excluded_offer_type\":null,\"public_format_extension\":null,\"title\":null,\"domain_language\":\"fr\",\"is_adult_content\":null,\"skip\":0,\"take\":10,\"sort\":[],\"language_id\":null,\"price_group\":null,\"access_type\":null,\"excluded_theme_id\":[],\"requested_facet\":[],\"nb_pages_min\":null,\"nb_pages_max\":null,\"tag_id\":null}", postData);
             }
         }
         
