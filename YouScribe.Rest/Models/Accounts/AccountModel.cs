@@ -49,6 +49,7 @@ namespace YouScribe.Rest.Models.Accounts
         public string Biography { get; set; }
         public string PhoneNumber { get; set; }
         public bool EmailIsPublic { get; set; }
+        public EmailStatus? EmailStatus { get; set; }
 
         /// <summary>
         /// The user domain language iso code alpha 2 in lower (ex: "fr", "en", "es")
@@ -79,5 +80,11 @@ namespace YouScribe.Rest.Models.Accounts
         ByDay,
         ByWeek,
         Never
+    }
+
+    public enum EmailStatus
+    {
+        Valid,
+        Invalid 
     }
 }
