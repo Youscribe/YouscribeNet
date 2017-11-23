@@ -79,12 +79,16 @@
     <Compile Include="ApiUrls.cs" />
     <Compile Include="DefaultTokenProvider.cs" />
     <Compile Include="Exceptions\RequestException.cs" />
+    <Compile Include="IPropertyRequest.cs" />
     <Compile Include="IThemeRequest.cs" />
     <Compile Include="ITokenProvider.cs" />
     <Compile Include="IYousScribeHttpClient.cs" />
     <Compile Include="Models\Products\ProductSearchFacetOutputModel.cs" />
     <Compile Include="Models\Products\ProductUserPublicKeyModel.cs" />
+    <Compile Include="Models\Products\PropertyTypeModel.cs" />
     <Compile Include="Models\Products\RightModel.cs" />
+    <Compile Include="Models\Products\PropertyModel.cs" />
+    <Compile Include="PropertyRequest.cs" />
     <Compile Include="ThemeRequest.cs" />
     <Compile Include="TokenContext.cs" />
     <Compile Include="YousScribeHttpClient.cs" />

@@ -56,6 +56,9 @@ namespace YouScribe.Rest.Models.Products
 
         public int? nb_pages_min { get; set; }
         public int? nb_pages_max { get; set; }
-        public IEnumerable<int> tags_id { get; set; }
+
+        public IEnumerable<int> sensibility_id { get; set; }
+        public IEnumerable<int> rubric_id { get; set; }
+        public IEnumerable<int> in_owner_id { get; set; }
     }
 }

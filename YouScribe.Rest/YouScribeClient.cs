@@ -363,5 +363,11 @@ namespace YouScribe.Rest
             var request = new ThemeRequest(this.clientFactory, _authorizeTokenProvider) { BaseUrl = this.BaseUrl };
             return request;
         }
+
+        public IPropertyRequest CreatePropertyRequest()
+        {
+            var request = new PropertyRequest(this.clientFactory, _authorizeTokenProvider) { BaseUrl = this.BaseUrl };
+            return request;
+        }
     }
 }

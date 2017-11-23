@@ -127,5 +127,11 @@ namespace YouScribe.Rest
         /// </summary>
         /// <returns></returns>
         IThemeRequest CreateThemeRequest();
+
+        /// <summary>
+        /// Create property request
+        /// </summary>
+        /// <returns></returns>
+        IPropertyRequest CreatePropertyRequest();
     }
 }
