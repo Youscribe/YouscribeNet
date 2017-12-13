@@ -5,6 +5,13 @@ using System.Text;
 
 namespace YouScribe.Rest.Models.Products
 {
+    public class ProductGetProperties
+    {
+        public int Id { get; set; }
+        public string Label { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+    }
     public class ProductGetDocumentFormat
     {
         public int Id { get; set; }
@@ -190,5 +197,7 @@ namespace YouScribe.Rest.Models.Products
         public ProductGetDocument ExtractDocument { get; set; }
 
         public TimeSpan EstimatedReadTime { get; set; }
+
+        public IEnumerable<ProductGetProperties> Properties;
     }
 }
