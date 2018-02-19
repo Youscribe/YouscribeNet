@@ -45,6 +45,8 @@ namespace YouScribe.Rest.Models.Products
 
         public int StateId { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public IEnumerable<string> LanguagesIsoCode { get; set; }
 
         public int? ModelId { get; set; }
