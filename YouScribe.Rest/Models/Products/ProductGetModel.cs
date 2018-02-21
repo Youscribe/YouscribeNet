@@ -12,6 +12,14 @@ namespace YouScribe.Rest.Models.Products
         public string Name { get; set; }
         public string Type { get; set; }
     }
+
+    public class ProductGetDocumentFormatProperty
+    {
+        public int Id { get; set; }
+
+        public TimeSpan Duration { get; set; }
+    }
+
     public class ProductGetDocumentFormat
     {
         public int Id { get; set; }
@@ -25,6 +33,9 @@ namespace YouScribe.Rest.Models.Products
         public string EAN13 { get; set; }
 
         public long Size { get; set; }
+
+
+        public IEnumerable<ProductGetDocumentFormatProperty> Properties;
     }
 
     public class ProductGetDocument
@@ -195,6 +206,8 @@ namespace YouScribe.Rest.Models.Products
         public ProductGetDocument Document { get; set; }
 
         public ProductGetDocument ExtractDocument { get; set; }
+
+        public IEnumerable<ProductGetDocument> AudioDocuments { get; set; }
 
         public TimeSpan EstimatedReadTime { get; set; }
 
