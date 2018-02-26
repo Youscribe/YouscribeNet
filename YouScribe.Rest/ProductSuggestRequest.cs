@@ -15,6 +15,22 @@ namespace YouScribe.Rest
 
         }
 
+        public Task<IEnumerable<Models.Products.ProductSuggestItemOutputModel>> GetSuggestSameOwnerAsync(int id, string offerType = null, string domainLanguage = "fr", int take = 3)
+        {
+            var parameters = new Dictionary<string, string>();
+            var dico = new Dictionary<string, string>(){
+                { "domainLanguage", domainLanguage },
+                { "take", take.ToString() },
+                { "offerType", offerType }
+            };
+
+            var queryString = dico.ToQueryString();
+            var url = "api/v1/products/{id}/suggests/sameowner".Replace("{id}", id.ToString());
+            if (!string.IsNullOrEmpty(queryString))
+                url = url + "?" + queryString;
+            return this.GetEnumerableAsync<Models.Products.ProductSuggestItemOutputModel>(url);
+        }
+
         public Task<IEnumerable<Models.Products.ProductSuggestItemOutputModel>> GetSuggestAsync(int id, string offerType = null, string domainLanguage = "fr", int take = 3)
         {
             var parameters = new Dictionary<string, string>();
