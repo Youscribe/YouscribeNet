@@ -212,5 +212,16 @@ namespace YouScribe.Rest.Models.Products
         public TimeSpan EstimatedReadTime { get; set; }
 
         public IEnumerable<ProductGetProperties> Properties;
+
+        public IEnumerable<ProductGetPeople> People { get; set; }
+    }
+
+    public class ProductGetPeople
+    {
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Function { get; set; }
     }
 }
