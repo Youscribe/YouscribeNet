@@ -52,6 +52,7 @@ namespace YouScribe.Rest.Models.Products
         public int? access_type { get; set; }
 
         public IEnumerable<int> excluded_theme_id { get; set; }
+        public IEnumerable<int> excluded_category_id { get; set; }
         public IEnumerable<string> requested_facet { get; set; }
 
         public int? nb_pages_min { get; set; }
