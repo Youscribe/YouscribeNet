@@ -63,5 +63,11 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<int> in_owner_id { get; set; }
         public int? tag_id { get; set; }
         public IEnumerable<int> tags_id { get; set; }
+
+        public int? OwnerId { get; set; }
+        public bool? IsSearchable { get; set; }
+        public bool? IsPublic { get; set; }
+        public IEnumerable<int> StateId { get; set; }
+        public IList<int> ExcludedLanguageId { get; set; }
     }
 }
