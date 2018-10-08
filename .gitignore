@@ -30,3 +30,4 @@ obj/
 Dist/*
 TestOut/*
 *.ncrunchsolution
+/.vs/YouScribe.Rest/v15/Server/sqlite3

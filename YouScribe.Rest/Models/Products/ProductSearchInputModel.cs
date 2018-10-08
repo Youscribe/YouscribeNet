@@ -64,10 +64,11 @@ namespace YouScribe.Rest.Models.Products
         public int? tag_id { get; set; }
         public IEnumerable<int> tags_id { get; set; }
 
-        public int? OwnerId { get; set; }
-        public bool? IsSearchable { get; set; }
-        public bool? IsPublic { get; set; }
-        public IEnumerable<int> StateId { get; set; }
-        public IList<int> ExcludedLanguageId { get; set; }
+        public int? owner_Id { get; set; }
+        public bool? is_searchable { get; set; }
+        public bool? is_public { get; set; }
+        public IEnumerable<int> state_id { get; set; }
+        public IList<int> excluded_language_id { get; set; }
+        public bool? is_free { get; set; }
     }
 }

@@ -58,6 +58,8 @@ namespace YouScribe.Rest.Models.Products
         public string Language { get; set;  }
         public bool IsAdultContent { get; set; }
         public IEnumerable<int> AccessTypes { get; set; }
+        public bool IsPublic { get; set; }
+        public DateTime OnlineDate { get; set; }
     }
 
     public class ProductSearchOutputModel
