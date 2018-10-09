@@ -70,5 +70,6 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<int> state_id { get; set; }
         public IList<int> excluded_language_id { get; set; }
         public bool? is_free { get; set; }
+        public IList<int> excluded_product_id { get; set; }
     }
 }
