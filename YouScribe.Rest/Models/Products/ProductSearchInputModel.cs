@@ -65,11 +65,23 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<int> tags_id { get; set; }
 
         public int? owner_Id { get; set; }
-        public bool? is_searchable { get; set; }
-        public bool? is_public { get; set; }
+        public SearchableFlag? is_searchable { get; set; }
+        public VisibilityFlag? is_public { get; set; }
         public IEnumerable<int> state_id { get; set; }
         public IList<int> excluded_language_id { get; set; }
         public bool? is_free { get; set; }
         public IList<int> excluded_product_id { get; set; }
+    }
+    public enum VisibilityFlag
+    {
+        Public,
+        Private,
+        All
+    }
+    public enum SearchableFlag
+    {
+        Searchable,
+        NotSearchable,
+        All
     }
 }
