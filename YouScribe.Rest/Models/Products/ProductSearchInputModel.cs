@@ -71,6 +71,7 @@ namespace YouScribe.Rest.Models.Products
         public IList<int> excluded_language_id { get; set; }
         public bool? is_free { get; set; }
         public IList<int> excluded_product_id { get; set; }
+        public IEnumerable<int> product_id { get; set; }
     }
     public enum VisibilityFlag
     {
