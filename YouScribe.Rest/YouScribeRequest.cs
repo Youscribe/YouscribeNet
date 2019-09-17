@@ -165,6 +165,18 @@ namespace YouScribe.Rest
             }
         }
 
+        public async Task DeleteAsync(string url)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+
+                var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
+
+                await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
+
         public async Task PostAsync(string url, object input)
         {
             using (var dclient = this.CreateClient())
