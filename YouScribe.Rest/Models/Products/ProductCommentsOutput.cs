@@ -5,6 +5,17 @@ using System.Text;
 
 namespace YouScribe.Rest.Models.Products
 {
+    public enum ImageType
+    {
+        Default,
+        S,
+        M,
+        L,
+        S_WebP,
+        M_WebP,
+        L_WebP
+    }
+
     public class ImageUrlOutput
     {
         public string Url { get; set; }
@@ -12,6 +23,8 @@ namespace YouScribe.Rest.Models.Products
         public int? Width { get; set; }
 
         public int? Height { get; set; }
+
+        public ImageType Type { get; set; }
     }
 
     public class ProductCommentWriterOutput

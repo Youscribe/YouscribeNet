@@ -5,6 +5,17 @@ using System.Text;
 
 namespace YouScribe.Rest.Models.Products
 {
+    public enum ThumbnailImageType
+    {
+        Default,
+        S,
+        M,
+        L,
+        S_WebP,
+        M_WebP,
+        L_WebP
+    }
+
     public class ProductGetProperties
     {
         public int Id { get; set; }
@@ -67,6 +78,8 @@ namespace YouScribe.Rest.Models.Products
         public int? Height { get; set; }
 
         public string Url { get; set; }
+
+        public ThumbnailImageType Type { get; set; }
     }
 
     public class ProductGetDistributionInfo
