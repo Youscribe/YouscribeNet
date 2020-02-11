@@ -62,6 +62,7 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<int> rubric_id { get; set; }
         public IEnumerable<int> in_owner_id { get; set; }
         public int? tag_id { get; set; }
+        public IEnumerable<int> in_tags_id { get; set; }
         public IEnumerable<int> tags_id { get; set; }
 
         public int? owner_Id { get; set; }
