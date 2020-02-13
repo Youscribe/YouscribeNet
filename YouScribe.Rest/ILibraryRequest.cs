@@ -47,6 +47,15 @@ namespace YouScribe.Rest
 
 
         /// <summary>
+        /// Add product to custom library
+        /// </summary>
+        /// <param name="libraryLabel"></param>
+        /// <param name="productId"></param>
+        /// <param name="isPublic"></param>
+        /// <returns></returns>
+        Task<bool> AddProductInCustomLibraryAsync(string libraryLabel, int productId, bool isPublic);
+
+        /// <summary>
         /// Delete product from library
         /// </summary>
         /// <param name="id"></param>

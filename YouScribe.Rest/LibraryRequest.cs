@@ -58,6 +58,18 @@ namespace YouScribe.Rest
                 return await this.HandleResponseAsync(response).ConfigureAwait(false);
             }
         }
+        public async Task<bool> AddProductInCustomLibraryAsync(string libraryLabel, int productId, bool isPublic)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.LibraryAddInCustomProductUrl.Replace("{productId}", productId.ToString());
+                var content = this.GetContent(new { Label = libraryLabel, IsPublic = isPublic });
+                var response = await client.PostAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
 
         public async Task<bool> DeleteProductAsync(int id, int productId)
         {
