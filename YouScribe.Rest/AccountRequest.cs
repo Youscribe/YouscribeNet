@@ -16,6 +16,15 @@ namespace YouScribe.Rest
             : base(clientFactory, authorizeTokenProvider)
         { }
 
+
+        public Task<Models.Accounts.AccountGetModel> GetAccountByIdAsync(int id)
+        {
+            var url = "api/v1/accounts/by-id/{id}";
+            url = url.Replace("{id}", id.ToString());
+            return this.GetAsync<Models.Accounts.AccountGetModel>(url);
+        }
+
+
         public Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
         {
             return this.GetAsync<Models.Accounts.AccountGetModel>(ApiUrls.AccountUrl);

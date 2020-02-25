@@ -26,6 +26,14 @@ namespace YouScribe.Rest
         Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync();
 
         /// <summary>
+        /// Get account from a specific id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Models.Accounts.AccountGetModel> GetAccountByIdAsync(int id);
+
+
+        /// <summary>
         /// Register a new account
         /// The UserName, Email and Password fields are required
         /// </summary>
