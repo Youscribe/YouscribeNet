@@ -186,6 +186,10 @@ namespace YouScribe.Rest.Models.Products
 
         public string EAN13 { get; set; }
 
+        public string Source { get; set; }
+
+        public string ExternalLink { get; set; }
+
         /// <summary>
         /// Default access right
         /// </summary>
