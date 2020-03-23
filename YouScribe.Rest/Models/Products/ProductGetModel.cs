@@ -24,6 +24,13 @@ namespace YouScribe.Rest.Models.Products
         public string Type { get; set; }
     }
 
+    public class ProductGetDocumentProperties
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
+        public string Type { get; set; }
+    }
+
     public class ProductGetDocumentFormatProperty
     {
         public int Id { get; set; }
@@ -61,6 +68,7 @@ namespace YouScribe.Rest.Models.Products
 
         public int PageHeightPoints { get; set; }
 
+        public List<ProductGetDocumentProperties> Properties { get; set; }
         public List<ProductGetDocumentFormat> Formats { get; set; }
     }
 
