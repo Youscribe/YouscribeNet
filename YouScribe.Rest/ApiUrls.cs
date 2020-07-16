@@ -36,6 +36,7 @@ namespace YouScribe.Rest
         public const string ProductUpdateUrl = "api/v1/products/{id}";
         public const string ProductGetUrl = "api/v1/products/{id}";
         public const string ProductGetUrlV2 = "api/v2/products/{id}";
+        public const string ProductGetDownloadLinkUrl = "api/v1/product/downloadlink/{id}";
         public const string ProductEndUploadUrl = "api/v1/products/endupload?id={id}";
         public const string ProductEndUpdateUrl = "api/v1/products/endupdate?id={id}";
 

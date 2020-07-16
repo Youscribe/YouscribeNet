@@ -236,6 +236,13 @@ namespace YouScribe.Rest
         Task<IEnumerable<ProductUrlsModel>> GetProductUrlsAsync(IEnumerable<int> ids);
 
         /// <summary>
+        /// Get a direct download link for a product
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        Task<ProductDownloadLinkOutputModel> GetProductDownloadLinkAsync(int productId);
+
+        /// <summary>
         /// Return encrypted key for product
         /// </summary>
         /// <param name="productId"></param>

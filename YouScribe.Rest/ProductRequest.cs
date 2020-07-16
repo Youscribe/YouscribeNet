@@ -458,6 +458,13 @@ namespace YouScribe.Rest
             return this.PostWithEnumerableResultAsync<ProductUrlsModel>(url, ids);
         }
 
+        public Task<ProductDownloadLinkOutputModel> GetProductDownloadLinkAsync(int productId)
+        {
+            var url = ApiUrls.ProductGetDownloadLinkUrl.Replace("{id}", productId.ToString());
+            return this.GetAsync<ProductDownloadLinkOutputModel>(url);
+        }
+        
+
         public async Task<Stream> DownloadExtractAsync(int productId, string extension)
         {
             using (var dclient = this.CreateClient())
