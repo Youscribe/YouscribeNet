@@ -57,6 +57,8 @@ namespace YouScribe.Rest
         public const string LibraryUrl = "api/v1/libraries";
         public const string LibraryGetUrl = "api/v1/libraries/{id}";
         public const string LibraryGetByTypeNameUrl = "api/v1/libraries/{typeName}";
+        public const string LibraryDeleteUrl = LibraryGetUrl;
+        public const string LibraryUpdateUrl = LibraryGetUrl;
         public const string LibraryAddProductUrl = "api/v1/libraries/{id}/product/{productId}";
         public const string LibraryDeleteProductUrl = LibraryAddProductUrl;
         public const string LibraryAddInCustomProductUrl = "api/v1/libraries/custom/product/{productId}";

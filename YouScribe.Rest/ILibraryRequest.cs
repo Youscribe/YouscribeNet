@@ -67,6 +67,13 @@ namespace YouScribe.Rest
         /// Delete product from library
         /// </summary>
         /// <param name="id"></param>
+        /// <returns></returns>
+        Task<bool> DeleteLibraryAsync(int id);
+
+        /// <summary>
+        /// Delete product from library
+        /// </summary>
+        /// <param name="id"></param>
         /// <param name="productId"></param>
         /// <returns></returns>
         Task<bool> DeleteProductAsync(string typeName, int productId);
@@ -77,5 +84,14 @@ namespace YouScribe.Rest
         /// <param name="productId"></param>
         /// <returns></returns>
         Task<IEnumerable<int>> GetByProductIdAsync(int productId);
+
+        /// <summary>
+        /// Update library
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="label"></param>
+        /// <param name="isPublic"></param>
+        /// <returns></returns>
+        Task<bool> UpdateLibraryAsync(int id, string label, bool isPublic);
     }
 }

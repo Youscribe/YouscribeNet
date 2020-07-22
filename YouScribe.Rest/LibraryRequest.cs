@@ -102,5 +102,34 @@ namespace YouScribe.Rest
             var url = ApiUrls.LibraryGetByProductIdUrl.Replace("{productId}", productId.ToString());
             return this.GetEnumerableAsync<int>(url);
         }
+
+        public async Task<bool> DeleteLibraryAsync(int id)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.LibraryDeleteUrl.Replace("{id}", id.ToString());
+                var response = await client.DeleteAsync(this.GetUri(url)).ConfigureAwait(false);
+
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
+
+        public async Task<bool> UpdateLibraryAsync(int id, string label, bool isPublic)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.LibraryUpdateUrl.Replace("{id}", id.ToString());
+                var content = this.GetContent(new
+                {
+                    Label = label,
+                    IsPublic = isPublic
+                });
+                var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
     }
 }
