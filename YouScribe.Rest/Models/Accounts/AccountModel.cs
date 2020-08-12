@@ -11,6 +11,13 @@ namespace YouScribe.Rest.Models.Accounts
         public bool IsNewUser { get; set; }        
     }
 
+    public class AccountGetProperties
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
+        public string Type { get; set; }
+    }
+
     public class AccountGetModel : AccountModel
     {
         public AccountGetModel()
@@ -19,6 +26,7 @@ namespace YouScribe.Rest.Models.Accounts
         }
 
         public IEnumerable<ImageUrlOutput> AvatarUrls { get; set; }
+        public IEnumerable<AccountGetProperties> Properties { get; set; }
     }
 
     public class AccountModel
