@@ -24,6 +24,11 @@ namespace YouScribe.Rest
             return this.GetAsync<Models.Accounts.AccountGetModel>(url);
         }
 
+        public Task<IEnumerable<Models.Accounts.AccountGetModel>> GetAccountByIdAsync(IEnumerable<int> ids)
+        {
+            var url = "api/v1/accounts/by-id";
+            return this.PostWithEnumerableResultAsync<Models.Accounts.AccountGetModel>(url, ids);
+        }
 
         public Task<Models.Accounts.AccountGetModel> GetCurrentAccountAsync()
         {

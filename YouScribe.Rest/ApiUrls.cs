@@ -40,6 +40,8 @@ namespace YouScribe.Rest
         public const string ProductEndUploadUrl = "api/v1/products/endupload?id={id}";
         public const string ProductEndUpdateUrl = "api/v1/products/endupdate?id={id}";
 
+        public const string ProductUpdateMetaUrl = "api/v1/products/update-meta/{id}";
+
         [Obsolete]
         public const string ProductDownloadByExtensionUrl = "api/v1/products/{id}/files/{extension}";
         [Obsolete]

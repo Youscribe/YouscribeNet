@@ -31,6 +31,8 @@ namespace YouScribe.Rest.Models.Products
 
         public List<string> Tags { get; set; }
 
+        public List<int> TagsId { get; set; }
+
         public int? CategoryId { get; set; }
 
         public int? ThemeId { get; set; }

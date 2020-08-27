@@ -238,6 +238,22 @@ namespace YouScribe.Rest
             }
         }
 
+
+
+        public async Task<bool> UpdateMetaAsync(int productId, ProductUpdateModel productInformation)
+        {
+            //update the product
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var url = ApiUrls.ProductUpdateMetaUrl.Replace("{id}", productId.ToString());
+                var content = this.GetContent(productInformation);
+                var response = await client.PutAsync(this.GetUri(url), content).ConfigureAwait(false);
+
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
+
         #endregion
 
         #region Thumbnail

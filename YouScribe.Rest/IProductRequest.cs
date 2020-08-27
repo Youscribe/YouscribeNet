@@ -105,6 +105,9 @@ namespace YouScribe.Rest
         /// <returns>True if success</returns>
         Task<bool> UpdateDocumentThumbnailAsync(int productId, FileModel image);
 
+
+        Task<bool> UpdateMetaAsync(int productId, ProductUpdateModel productInformation);
+
         /// <summary>
         /// Get product right for current user
         /// </summary>

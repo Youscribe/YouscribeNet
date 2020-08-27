@@ -31,6 +31,7 @@ namespace YouScribe.Rest
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Models.Accounts.AccountGetModel> GetAccountByIdAsync(int id);
+        Task<IEnumerable<Models.Accounts.AccountGetModel>> GetAccountByIdAsync(IEnumerable<int> ids);
 
 
         /// <summary>
