@@ -20,6 +20,7 @@ namespace YouScribe.Rest
         public const string AccountPaypalPublisherUrl = "api/v1/accounts/paypalpublisher";
         public const string AccountTransferPublisherUrl = "api/v1/accounts/transferpublisher";
         public const string AccountLanguagesUrl = "api/v1/accounts/languages";
+        public const string AccountPropertiesUrl = "api/v1/accounts/properties";
         public const string AccountUserTypesUrl = "api/v1/accounts/usertypes";
 
         public const string PostEncryptedKeyByExtensionUrlV2 = "api/v2/products/files/key/extension";

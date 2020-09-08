@@ -85,6 +85,18 @@ namespace YouScribe.Rest
             }
         }
 
+        public async Task<bool> UpsertPropertiesAsync(AccountPropertiesInputModel model)
+        {
+            using (var dclient = this.CreateClient())
+            {
+                var client = dclient.Client;
+                var content = this.GetContent(model);
+                var response = await client.PutAsync(this.GetUri(ApiUrls.AccountPropertiesUrl), content).ConfigureAwait(false);
+
+                return await this.HandleResponseAsync(response).ConfigureAwait(false);
+            }
+        }
+
         public async Task<bool> UploadPictureAsync(Uri uri)
         {
             if (uri.IsValid() == false)

@@ -83,6 +83,7 @@
     <Compile Include="IThemeRequest.cs" />
     <Compile Include="ITokenProvider.cs" />
     <Compile Include="IYousScribeHttpClient.cs" />
+    <Compile Include="Models\Accounts\AccountPropertyInputModel.cs" />
     <Compile Include="Models\Products\ProductDownloadLinkOutputModel.cs" />
     <Compile Include="Models\Products\ProductSearchFacetOutputModel.cs" />
     <Compile Include="Models\Products\ProductUserPublicKeyModel.cs" />

@@ -56,6 +56,13 @@ namespace YouScribe.Rest
         /// <returns>True if success</returns>
         Task<bool> SetSpokenLanguagesAsync(IEnumerable<string> languages);
 
+
+        /// <summary>
+        /// Add or replace a property on account
+        /// </summary>
+        /// <returns>True if success</returns>
+        Task<bool> UpsertPropertiesAsync(AccountPropertiesInputModel model);
+
         /// <summary>
         /// Update account picture
         /// </summary>
