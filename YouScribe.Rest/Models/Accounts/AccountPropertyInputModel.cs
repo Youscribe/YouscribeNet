@@ -7,7 +7,7 @@ namespace YouScribe.Rest.Models.Accounts
 {
     public class AccountPropertiesInputModel
     {
-        IEnumerable<AccountPropertyInputModel> Properties { get; set; }
+        public IEnumerable<AccountPropertyInputModel> Properties { get; set; }
     }
     public class AccountPropertyInputModel
     {
