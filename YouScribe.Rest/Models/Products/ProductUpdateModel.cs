@@ -60,5 +60,7 @@ namespace YouScribe.Rest.Models.Products
         public List<string> BrandNames { get; set; }
 
         public string LicenceName { get; set; }
+
+        public string Source { get; set; }
     }
 }

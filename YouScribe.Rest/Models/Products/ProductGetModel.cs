@@ -239,6 +239,8 @@ namespace YouScribe.Rest.Models.Products
         public IEnumerable<ProductGetProperties> Properties;
 
         public IEnumerable<ProductGetPeople> People { get; set; }
+
+        public string LicenceName { get; set; }
     }
 
     public class ProductGetPeople
